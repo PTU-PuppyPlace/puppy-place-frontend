@@ -1,4 +1,5 @@
 const theme = {
+  // Color
   primary: {
     p100: '#6274F4',
     p80: '#8190F6',
@@ -31,6 +32,22 @@ const theme = {
 
   extraWhite: '#fff',
   extraBlack: '#000',
+  
+  // Typography
+  // Weights
+  bold: 700,
+  medium: 400,
+  regular: 200,
+
+  // Sizes
+  title24: '24px',
+  title19: '19px',
+  body17: '17px',
+  body16: '16px',
+  body14: '14px',
+  caption13: '13px',
+  caption12: '12px',
+  caption10: '10px',
   
 }
 
