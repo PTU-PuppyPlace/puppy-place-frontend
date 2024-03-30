@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useServerInsertedHTML } from "next/navigation";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
-import { ThemeProvider } from "styled-components";
-import theme from '../styles/theme'
 
 export default function StyledComponentsRegistry({
   children,
@@ -24,11 +22,8 @@ export default function StyledComponentsRegistry({
   if (typeof window !== "undefined") return <>{children}</>;
 
   return (
-    
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      <ThemeProvider theme={theme}>
       {children}
-      </ThemeProvider>
     </StyleSheetManager>
   );
 }
