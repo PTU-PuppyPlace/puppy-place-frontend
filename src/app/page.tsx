@@ -2,10 +2,51 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
+import BoxButton from "@/components/common/BoxButton";
 
 export default function Home() {
   return (
     <main className={styles.main}>
+      <BoxButton
+        buttonType={"primary"}
+        buttonHeight={"32"}
+        icon="/black.svg"
+        contentPosition=""
+      />
+
+      <BoxButton
+        buttonType={"default"}
+        buttonHeight={"32"}
+        buttonText="asdasdf"
+        icon="/black.svg"
+        contentPosition=""
+      />
+
+      <BoxButton
+        buttonType={"outline"}
+        buttonHeight={"40"}
+        buttonText="asdasdf"
+        contentPosition="before"
+        icon="/black.svg"
+      />
+
+      <BoxButton
+        borderType={"circle"}
+        buttonType={"dangerPrimary"}
+        buttonHeight={"52"}
+        contentPosition="after"
+        icon="/white.svg"
+      />
+
+      <BoxButton
+        borderType={"circle"}
+        buttonType={"dangerSecondary"}
+        buttonHeight={"52"}
+        buttonText="asdasdf"
+        contentPosition="after"
+        icon="/red.svg"
+      />
+
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
