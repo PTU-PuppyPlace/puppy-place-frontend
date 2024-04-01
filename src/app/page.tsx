@@ -11,7 +11,7 @@ export default function Home() {
         buttonType={"primary"}
         buttonHeight={"32"}
         icon="/black.svg"
-        contentPosition=""
+        iconPosition=""
       />
 
       <BoxButton
@@ -19,14 +19,14 @@ export default function Home() {
         buttonHeight={"32"}
         buttonText="asdasdf"
         icon="/black.svg"
-        contentPosition=""
+        iconPosition=""
       />
 
       <BoxButton
         buttonType={"outline"}
         buttonHeight={"40"}
         buttonText="asdasdf"
-        contentPosition="before"
+        iconPosition="before"
         icon="/black.svg"
       />
 
@@ -34,7 +34,7 @@ export default function Home() {
         borderType={"circle"}
         buttonType={"dangerPrimary"}
         buttonHeight={"52"}
-        contentPosition="after"
+        iconPosition="after"
         icon="/white.svg"
       />
 
@@ -43,7 +43,7 @@ export default function Home() {
         buttonType={"dangerSecondary"}
         buttonHeight={"52"}
         buttonText="asdasdf"
-        contentPosition="after"
+        iconPosition="after"
         icon="/red.svg"
       />
 

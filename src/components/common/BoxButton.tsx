@@ -14,7 +14,7 @@ interface IBoxButton {
   buttonHeight?: "32" | "40" | "52" | "";
   buttonWidth?: string;
   borderType?: "circle" | "default" | "";
-  contentPosition?: "only" | "after" | "before" | "default" | "";
+  iconPosition?: "only" | "after" | "before" | "default" | "";
   buttonText?: string;
   icon?: string;
   clickFn?: () => void;
@@ -55,7 +55,7 @@ function BoxButton({
   buttonWidth,
   buttonText,
   borderType,
-  contentPosition,
+  iconPosition,
   icon,
   clickFn,
 }: IBoxButton) {
@@ -68,10 +68,7 @@ function BoxButton({
       buttonText={buttonText}
       onClick={clickFn && clickFn}
     >
-      <ContentContainer
-        contentPosition={contentPosition}
-        buttonHeight={buttonHeight}
-      >
+      <ContentContainer iconPosition={iconPosition} buttonHeight={buttonHeight}>
         {buttonText && <span>{buttonText}</span>}
         {icon && <img src={icon} />}
       </ContentContainer>
@@ -112,14 +109,14 @@ const Button = styled.button<{
 `;
 
 const ContentContainer = styled.div<{
-  contentPosition?: string;
+  iconPosition?: string;
   buttonHeight?: string;
 }>`
   display: flex;
   align-items: center;
   gap: 7px;
-  flex-direction: ${({ contentPosition }) => {
-    switch (contentPosition) {
+  flex-direction: ${({ iconPosition }) => {
+    switch (iconPosition) {
       case "before":
         return "row-reverse";
       case "only":
