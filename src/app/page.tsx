@@ -7,45 +7,100 @@ import BoxButton from "@/components/common/BoxButton";
 export default function Home() {
   return (
     <main className={styles.main}>
-      <BoxButton
-        buttonType={"primary"}
-        buttonHeight={"32"}
-        icon="/black.svg"
-        iconPosition=""
-      />
+      <div style={{ display: "flex" }}>
+        <div>
+          <BoxButton
+            buttonType={"primary"}
+            buttonHeight={"32"}
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"able"}
+          />
 
-      <BoxButton
-        buttonType={"default"}
-        buttonHeight={"32"}
-        buttonText="asdasdf"
-        icon="/black.svg"
-        iconPosition=""
-      />
+          <BoxButton
+            buttonType={"default"}
+            buttonHeight={"32"}
+            buttonText="default"
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"able"}
+          />
 
-      <BoxButton
-        buttonType={"outline"}
-        buttonHeight={"40"}
-        buttonText="asdasdf"
-        iconPosition="before"
-        icon="/black.svg"
-      />
+          <BoxButton
+            buttonType={"outline"}
+            buttonHeight={"40"}
+            buttonText="outline"
+            contentPosition="before"
+            icon="/black.svg"
+            disabled={"able"}
+          />
 
-      <BoxButton
-        borderType={"circle"}
-        buttonType={"dangerPrimary"}
-        buttonHeight={"52"}
-        iconPosition="after"
-        icon="/white.svg"
-      />
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerPrimary"}
+            buttonHeight={"52"}
+            contentPosition="after"
+            icon="/white.svg"
+            disabled={"able"}
+          />
 
-      <BoxButton
-        borderType={"circle"}
-        buttonType={"dangerSecondary"}
-        buttonHeight={"52"}
-        buttonText="asdasdf"
-        iconPosition="after"
-        icon="/red.svg"
-      />
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerSecondary"}
+            buttonHeight={"52"}
+            buttonText="dangerSecondary"
+            contentPosition="after"
+            icon="/red.svg"
+            disabled={"able"}
+          />
+        </div>{" "}
+        <div>
+          <BoxButton
+            buttonType={"primary"}
+            buttonHeight={"32"}
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            buttonType={"default"}
+            buttonHeight={"32"}
+            buttonText="default"
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            buttonType={"outline"}
+            buttonHeight={"40"}
+            buttonText="outline"
+            contentPosition="before"
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerPrimary"}
+            buttonHeight={"52"}
+            contentPosition="after"
+            icon="/white.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerSecondary"}
+            buttonHeight={"52"}
+            buttonText="dangerSecondary"
+            contentPosition="after"
+            icon="/red.svg"
+            disabled={"disable"}
+          />
+        </div>
+      </div>
 
       <div className={styles.description}>
         <p>
