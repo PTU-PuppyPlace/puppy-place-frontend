@@ -2,10 +2,106 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
+import BoxButton from "@/components/common/BoxButton";
 
 export default function Home() {
   return (
     <main className={styles.main}>
+      <div style={{ display: "flex" }}>
+        <div>
+          <BoxButton
+            buttonType={"primary"}
+            buttonHeight={"32"}
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"able"}
+          />
+
+          <BoxButton
+            buttonType={"default"}
+            buttonHeight={"32"}
+            buttonText="default"
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"able"}
+          />
+
+          <BoxButton
+            buttonType={"outline"}
+            buttonHeight={"40"}
+            buttonText="outline"
+            contentPosition="before"
+            icon="/black.svg"
+            disabled={"able"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerPrimary"}
+            buttonHeight={"52"}
+            contentPosition="after"
+            icon="/white.svg"
+            disabled={"able"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerSecondary"}
+            buttonHeight={"52"}
+            buttonText="dangerSecondary"
+            contentPosition="after"
+            icon="/red.svg"
+            disabled={"able"}
+          />
+        </div>{" "}
+        <div>
+          <BoxButton
+            buttonType={"primary"}
+            buttonHeight={"32"}
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            buttonType={"default"}
+            buttonHeight={"32"}
+            buttonText="default"
+            contentPosition=""
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            buttonType={"outline"}
+            buttonHeight={"40"}
+            buttonText="outline"
+            contentPosition="before"
+            icon="/black.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerPrimary"}
+            buttonHeight={"52"}
+            contentPosition="after"
+            icon="/white.svg"
+            disabled={"disable"}
+          />
+
+          <BoxButton
+            borderType={"circle"}
+            buttonType={"dangerSecondary"}
+            buttonHeight={"52"}
+            buttonText="dangerSecondary"
+            contentPosition="after"
+            icon="/red.svg"
+            disabled={"disable"}
+          />
+        </div>
+      </div>
+
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
