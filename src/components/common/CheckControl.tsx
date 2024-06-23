@@ -11,26 +11,8 @@ interface CheckControlProps {
   children?: React.ReactNode;
 }
 
-export const Checkbox: React.FC<CheckControlProps> = ({
-  checked,
-  onChange,
-  disabled,
-  children,
-}) => (
-  <Label disabled={disabled}>
-    <HiddenControlbox
-      type='checkbox'
-      checked={checked}
-      onChange={onChange}
-      disabled={disabled}
-    />
-    <ControlBox checked={checked} disabled={disabled} type='checkbox' />
-    {children}
-  </Label>
-);
-
-// 라디오 버튼 컴포넌트
-export const RadioButton: React.FC<CheckControlProps> = ({
+// 체크 마크 컴포넌트
+export const CheckMark: React.FC<CheckControlProps> = ({
   checked,
   onChange,
   disabled,
@@ -39,30 +21,65 @@ export const RadioButton: React.FC<CheckControlProps> = ({
   children,
 }) => (
   <Label disabled={disabled}>
-    <HiddenControlbox
-      type='radio'
+    <HiddenCheck
+      type='checkbox'
       name={name}
       value={value}
       checked={checked}
       onChange={onChange}
       disabled={disabled}
     />
-    <ControlBox checked={checked} disabled={disabled} type='radio' />
+    <CheckMarkWrapper checked={checked} disabled={disabled} type='mark' />
     {children}
   </Label>
 );
 
-const CheckIcon: React.FC<{ checked: boolean; disabled: boolean }> = ({
+// 체크 박스 컴포넌트
+export const Checkbox: React.FC<CheckControlProps> = ({
   checked,
+  onChange,
   disabled,
-}) => {
-  const fillColor = disabled
-    ? checked
-      ? `${theme.primary.p20}`
-      : `${theme.defaultButton}`
-    : checked
-    ? `${theme.primary.p100}`
-    : `${theme.gray.g20}`;
+  name,
+  value,
+  children,
+}) => (
+  <Label disabled={disabled}>
+    <HiddenCheck
+      type='checkbox'
+      name={name}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+      disabled={disabled}
+    />
+    <BoxWrapper checked={checked} disabled={disabled}>
+      <CheckMarkWrapper checked={checked} disabled={disabled} type='box' />
+    </BoxWrapper>
+    {children}
+  </Label>
+);
+
+// 공통 아이콘
+const CheckIcon: React.FC<{
+  checked: boolean;
+  disabled: boolean;
+  type: string;
+}> = ({ checked, disabled, type }) => {
+  let fillColor = `${theme.primary.p20}`;
+
+  if (type === 'mark') {
+    fillColor = disabled
+      ? checked
+        ? `${theme.primary.p20}`
+        : `${theme.defaultButton}`
+      : checked
+      ? `${theme.primary.p100}`
+      : `${theme.gray.g20}`;
+  }
+
+  if (type === 'box') {
+    fillColor = '#fff';
+  }
 
   return (
     <svg
@@ -90,7 +107,7 @@ const Label = styled.label<{ disabled?: boolean }>`
   ${({ disabled }) => disabled && 'opacity: 0.4;'}
 `;
 
-const HiddenControlbox = styled.input.attrs({ type: 'checkbox' })`
+const HiddenCheck = styled.input.attrs({ type: 'checkbox' })`
   border: 0;
   clip: rect(0 0 0 0);
   clippath: inset(50%);
@@ -103,34 +120,47 @@ const HiddenControlbox = styled.input.attrs({ type: 'checkbox' })`
   width: 1px;
 `;
 
-const ControlBox = styled(CheckIcon)<{
+const CheckMarkWrapper = styled(CheckIcon)<{
   checked: boolean;
   disabled?: boolean;
   type: string;
 }>`
   width: 24px;
   height: 24px;
-  border: 1px solid #d1d5db; // 그레이 색상 테두리
-  border-radius: ${({ type }) =>
-    type === 'checkbox'
-      ? '4px'
-      : '50%'}; // 이미지에 표시된 대로 약간의 둥근 모서리를 적용합니다.
-  background: ${({ checked }) =>
-    checked
-      ? '#4F46E5'
-      : 'transparent'}; // 체크 여부에 따라 배경색을 적용합니다.
-  color: #fff; // 체크박스 내 체크 표시 색상
+  border: 1px solid #d1d5db;
+  background: ${({ checked }) => (checked ? '#4F46E5' : 'transparent')};
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  ${({ disabled }) =>
-    disabled &&
-    `opacity: 0.4; pointer-events: none;`}; // 비활성화 상태 스타일링
-  // 체크박스의 체크 표시를 위해 '::after' 의사 요소를 사용합니다.
+  ${({ disabled }) => disabled && `opacity: 0.4; pointer-events: none;`};
   &::after {
-    content: '${({ checked }) =>
-      checked ? '✓' : ''}'; // 체크가 되면 체크 표시를 보여줍니다.
+    content: '${({ checked }) => (checked ? '✓' : '')}';
     font-size: 16px;
   }
+`;
+
+const BoxWrapper = styled.div<{ disabled?: boolean; checked: boolean }>`
+  display: inline-block;
+  border-radius: 2px;
+  padding: 2px 1px 1px;
+  width: fit-content;
+  border: 1px solid
+    ${({ disabled, checked }) =>
+      disabled
+        ? checked
+          ? `${theme.primary.p30}`
+          : `${theme.defaultButton}`
+        : checked
+        ? `${theme.primary.p100}`
+        : `${theme.gray.g20}`};
+  background-color: ${({ disabled, checked }) =>
+    disabled
+      ? checked
+        ? `${theme.primary.p30}`
+        : `${theme.defaultButton}`
+      : checked
+      ? `${theme.primary.p100}`
+      : `${theme.gray.g20}`};
 `;
