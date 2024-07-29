@@ -16,41 +16,49 @@ interface AlertProps {
 }
 
 // Alert 컴포넌트
-export const Alert: React.FC<AlertProps> = ({
-  type = "default",
-  children,
-  isOpen,
-  title,
+export const Alert: React.FC<AlertProps> = (props) => {
+  const { children, isOpen, title } = props;
+  if (!isOpen) return null;
+  return (
+    <AlertContainer>
+      {title && <Title>{title}</Title>}
+      {children && <Content>{children}</Content>}
+      <ButtonGroup {...props} />
+    </AlertContainer>
+  );
+};
+
+const ButtonGroup: React.FC<AlertProps> = ({
+  type,
   actionLabel = "확인",
   cancelLabel = "아니요",
   onAction,
   onCancel,
 }) => {
-  if (!isOpen) return null;
-  return (
-    <AlertContainer alertType={type}>
-      {title && <Title>{title}</Title>}
-      {children && <Content>{children}</Content>}
-      {type === "default" ? (
-        <ButtonSpace>
-          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
-        </ButtonSpace>
-      ) : type === "confirm" ? (
+  switch (type) {
+    case "confirm":
+      return (
         <ButtonSpace>
           <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
           <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
         </ButtonSpace>
-      ) : (
+      );
+    case "destructive":
+      return (
         <ButtonSpace>
           <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
           <NegativeButton onClick={onAction}>{actionLabel}</NegativeButton>
         </ButtonSpace>
-      )}
-    </AlertContainer>
-  );
+      );
+    default:
+      return (
+        <ButtonSpace>
+          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
+        </ButtonSpace>
+      );
+  }
 };
-
-const AlertContainer = styled.div<{ alertType: AlertType }>`
+const AlertContainer = styled.div`
   display: flex;
   width: 320px;
   height: 122px;
