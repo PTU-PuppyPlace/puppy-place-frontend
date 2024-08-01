@@ -71,6 +71,8 @@ const AlertContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 24px;
+  gap: 4px;
+  flex-direction: column;
 `;
 
 const ButtonSpace = styled.div`
@@ -82,13 +84,15 @@ const ButtonSpace = styled.div`
 `;
 const Title = styled.span`
   font-weight: ${theme.bold};
-  font-size: ${theme.body17};
+  font-size: ${theme.body17};'
+  line-height: 25.5px;
 `;
 
 const Content = styled.span`
   font-size: ${theme.body16};
   color: ${theme.gray.g100};
   font-weight: ${theme.medium};
+  line-height: 24px;
 `;
 
 const Button = styled.button`
