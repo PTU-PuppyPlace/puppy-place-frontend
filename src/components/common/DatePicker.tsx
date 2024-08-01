@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme";
+import CalendarIcon from "@/components/icons/calendar.svg";
 
 interface DatePickerProps {
   value: string;
@@ -29,7 +30,7 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
 
   return (
     <DatePickerWrapper>
-      <Wrapper>
+      <DateInputSection>
         <Input
           {...rest}
           type="text"
@@ -37,18 +38,15 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
           onClick={openCalendar}
           $isError={!!errorText}
         />
-        {/* TODO: icon 디자인 시스템 머지되면 캘린더 아이콘으로 변경하기 */}
-        <Button id="calendar-button" disabled={props.disabled}>
-          📅
-        </Button>
+        <CalendarBtn disabled={props.disabled} onClick={openCalendar} />
         <CalendarInput ref={ref} type="date" onChange={handleChange} />
-      </Wrapper>
+      </DateInputSection>
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </DatePickerWrapper>
   );
 };
 
-const Wrapper = styled.div`
+const DateInputSection = styled.div`
   position: relative;
   display: inline-block;
 `;
@@ -62,7 +60,6 @@ const Input = styled.input<{ $isError?: boolean }>`
     ${({ $isError }) => ($isError ? theme.danger.d100 : theme.gray.g20)};
   cursor: pointer;
   color: ${theme.gray.g100};
-  position: relative;
   &::placeholder {
     color: ${theme.gray.g60};
   }
@@ -73,7 +70,7 @@ const Input = styled.input<{ $isError?: boolean }>`
   }
 `;
 
-const Button = styled.button`
+const CalendarBtn = styled(CalendarIcon)`
   position: absolute;
   right: 16px;
   top: 50%;
