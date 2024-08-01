@@ -6,7 +6,7 @@ type AlertType = "default" | "confirm" | "destructive";
 
 interface AlertProps {
   type?: AlertType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title?: string;
   cancelLabel?: string;
   actionLabel?: string;
