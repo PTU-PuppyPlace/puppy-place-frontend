@@ -3,11 +3,11 @@ import styled from "styled-components";
 import theme from "@/styles/theme";
 
 type TextAreaProps = {
-  value?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   disabled?: boolean;
   placeholder?: string;
   errorText?: string;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 const TextArea = (props: TextAreaProps) => {
