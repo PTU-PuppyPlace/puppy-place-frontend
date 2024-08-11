@@ -26,6 +26,7 @@ const theme = {
     g20: '#D6D6D6',
     g10: '#EBEBEB',
     g4: '#F6F6F6',
+    g03: '#DEE1E6',
   },
 
   defaultButton: '#EBEBEB',
@@ -34,7 +35,7 @@ const theme = {
 
   extraWhite: '#fff',
   extraBlack: '#000',
-  
+
   // Typography
   // Weights
   bold: 700,
@@ -51,8 +52,7 @@ const theme = {
   caption13: '13px',
   caption12: '12px',
   caption10: '10px',
-  
-}
+};
 
 export default theme;
 export type ThemeType = typeof theme;
