@@ -165,7 +165,7 @@ const Option = styled.li`
   }
 `;
 
-const ErrorMessage = styled.span`
+const ErrorMessage = styled.div`
   color: ${theme.danger.d100};
   font-size: ${theme.caption12};
   margin-top: 8px;
