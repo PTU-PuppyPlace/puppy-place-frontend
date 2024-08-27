@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.001 15.752h5.002m-5.002-3.502h5.002m-2.001-3.501h2.001"/>
-  <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.999 12.25v0a2.626 2.626 0 0 1 2.626 2.626v0a.875.875 0 0 1-.876.876H6.248a.875.875 0 0 1-.875-.876v0a2.626 2.626 0 0 1 2.626-2.626v0Z" clip-rule="evenodd"/>
-  <rect width="20.008" height="16.007" x="1.996" y="3.997" stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" rx="2"/>
-  <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 9.99a.241.241 0 1 1-.483 0 .241.241 0 0 1 .483 0m-2.76-1a.242.242 0 1 1-.483 0 .242.242 0 0 1 .483 0m-2.76 1a.241.241 0 1 1-.482 0 .241.241 0 0 1 .482 0"/>
+<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24">
+  <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.001 15.752h5.002m-5.002-3.502h5.002m-2.001-3.501h2.001"/>
+  <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.999 12.25v0a2.626 2.626 0 0 1 2.626 2.626v0a.875.875 0 0 1-.876.876H6.248a.875.875 0 0 1-.875-.876v0a2.626 2.626 0 0 1 2.626-2.626v0Z" clip-rule="evenodd"/>
+  <rect width="20.008" height="16.007" x="1.996" y="3.997"  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" rx="2"/>
+  <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 9.99a.241.241 0 1 1-.483 0 .241.241 0 0 1 .483 0m-2.76-1a.242.242 0 1 1-.483 0 .242.242 0 0 1 .483 0m-2.76 1a.241.241 0 1 1-.482 0 .241.241 0 0 1 .482 0"/>
 </svg>
