@@ -46,4 +46,5 @@ const Main = styled.main`
   min-height: 100vh;
   justify-content: space-between;
   padding: 6rem;
+  position: relative;
 `;
