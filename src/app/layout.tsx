@@ -2,10 +2,10 @@
 
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../styles/globals.css";
 import "../styles/reset.css";
 import StyledComponentsRegistry from "./registry";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,9 +24,15 @@ export default function RootLayout({
     <html lang="en">
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
-          <body className={inter.className}>{children}</body>
+          <Layout className={inter.className}>{children}</Layout>
         </ThemeProvider>
       </StyledComponentsRegistry>
     </html>
   );
 }
+
+const Layout = styled.body`
+  max-width: ${theme.maxWidth};
+  background-color: ${theme.background};
+  margin: auto;
+`;

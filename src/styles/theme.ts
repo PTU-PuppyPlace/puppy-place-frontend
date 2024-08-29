@@ -52,6 +52,9 @@ const theme = {
   caption13: '13px',
   caption12: '12px',
   caption10: '10px',
+
+  // Spacing
+  maxWidth: '375px'
 };
 
 export default theme;
