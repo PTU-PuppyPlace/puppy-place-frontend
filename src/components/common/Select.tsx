@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme";
-import NavigationDown from "@/components/icons/navigation-left.svg";
+import NavigationDown from "@/components/icons/navigation-down.svg";
 
 interface Option {
   value: string;
