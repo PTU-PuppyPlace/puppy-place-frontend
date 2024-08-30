@@ -1,6 +1,10 @@
 "use client";
 
 import Header from "@/components/layout/Header";
+import Image from "next/image";
+import styled from "styled-components";
+import Spacer from "@/components/common/Spacer";
+import loginLogo from "./login-logo.png";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +16,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         이메일로 시작하기
       </Header>
-      {children}
+      <Section>
+        <Image src={loginLogo} alt="login logo" />
+        <Spacer height={"60px"} />
+        {children}
+      </Section>
     </>
   );
 }
+
+const Section = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;

@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import loginLogo from "./login-logo.png";
 import kakaoButton from "./kakao-button.png";
 import appleButton from "./apple-button.png";
 import googleButton from "./google-button.png";
@@ -12,9 +11,7 @@ import Link from "next/link";
 
 const Login = () => {
   return (
-    <Section>
-      <Image src={loginLogo} alt="login logo" />
-      <Spacer height={"60px"} />
+    <>
       <ButtonSection>
         <Image src={kakaoButton} alt="kakao login button" />
         <Image src={appleButton} alt="apple login button" />
@@ -22,18 +19,11 @@ const Login = () => {
       </ButtonSection>
       <Spacer height={"24px"} />
       <StyledLink href="/login/email">이메일로 시작하기</StyledLink>
-    </Section>
+    </>
   );
 };
 
 export default Login;
-
-const Section = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
 
 const ButtonSection = styled.div`
   display: flex;
