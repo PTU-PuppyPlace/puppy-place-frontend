@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import NavigationLeft from "@/components/icons/navigation-left.svg";
+import NavigationClose from "@/components/icons/navigation-close.svg";
+import theme from "@/styles/theme";
 
 export default function Header({
   children,
@@ -14,11 +16,28 @@ export default function Header({
     <StyledHeader>
       <LeftSection>
         {onGoBack && (
-          <NavigationLeft onClick={onGoBack}>뒤로가기</NavigationLeft>
+          <NavigationLeft
+            onClick={onGoBack}
+            strokeWidth={2}
+            stroke={theme.gray.g100}
+            width={24}
+            height={24}
+          >
+            뒤로가기
+          </NavigationLeft>
         )}
         {children}
       </LeftSection>
-      {onExit && <button onClick={onExit}>나가기</button>}
+      {onExit && (
+        <NavigationClose
+          stroke={theme.gray.g100}
+          width={24}
+          height={24}
+          onClick={onExit}
+        >
+          나가기
+        </NavigationClose>
+      )}
     </StyledHeader>
   );
 }
@@ -31,6 +50,12 @@ const StyledHeader = styled.header`
   width: 100%;
   position: absolute;
   top: 0;
+  color: ${theme.gray.g100};
+  font-size: ${theme.title19};
+  font-weight: ${theme.bold};
+  & svg {
+    cursor: pointer;
+  }
 `;
 
 const LeftSection = styled.div`
