@@ -24,9 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
-          <Layout className={inter.className}>
-            <Main>{children}</Main>
-          </Layout>
+          <Layout className={inter.className}>{children}</Layout>
         </ThemeProvider>
       </StyledComponentsRegistry>
     </html>
@@ -35,16 +33,13 @@ export default function RootLayout({
 
 const Layout = styled.body`
   max-width: ${theme.maxWidth};
-  background-color: ${theme.background};
+  height: 100vh;
+  padding: 6rem;
   margin: auto;
-`;
-
-const Main = styled.main`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   justify-content: space-between;
-  padding: 6rem;
-  position: relative;
+  background-color: ${theme.extraWhite};
 `;
