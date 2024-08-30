@@ -6,13 +6,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header
-        onGoBack={() => {
-          console.log("고 백");
+        onExit={() => {
+          console.log("나가기");
         }}
       >
-        헤더
+        이메일로 시작하기
       </Header>
-      <div>{children}</div>
+      {children}
     </>
   );
 }
