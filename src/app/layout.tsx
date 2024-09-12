@@ -40,6 +40,5 @@ const Layout = styled.body`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   background-color: ${theme.extraWhite};
 `;
