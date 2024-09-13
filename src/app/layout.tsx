@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 // import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../styles/globals.css";
-import "../styles/reset.css";
-import StyledComponentsRegistry from "./registry";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../styles/theme";
+import { Inter } from 'next/font/google';
+import '../styles/globals.css';
+import '../styles/reset.css';
+import StyledComponentsRegistry from './registry';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../styles/theme';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 // const metadata: Metadata = {
 //   title: "Create Next App",
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
           <Layout className={inter.className}>{children}</Layout>
@@ -32,13 +32,13 @@ export default function RootLayout({
 }
 
 const Layout = styled.body`
-  max-width: ${theme.maxWidth};
+  width: 100%;
   height: 100vh;
-  padding: 6rem;
+  padding: 20px;
   margin: auto;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: ${theme.extraWhite};
+  max-width: ${theme.maxWidth};
 `;
