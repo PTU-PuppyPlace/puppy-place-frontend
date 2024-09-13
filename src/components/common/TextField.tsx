@@ -1,28 +1,33 @@
-import styled from "styled-components";
-import theme from "@/styles/theme";
+import styled from 'styled-components';
+import theme from '@/styles/theme';
 
 interface TextFieldProps {
   placeholder?: string;
   errorText?: string;
   disabled?: boolean;
+  width?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  children?: React.ReactNode;
 }
 
 const TextField = (props: TextFieldProps) => {
-  const { errorText, ...rest } = props;
+  const { errorText, children, width, ...rest } = props;
   return (
-    <TextFieldWrapper>
-      <StyledTextField {...rest} $isError={!!errorText} />
+    <TextFieldSection>
+      <TextFieldWrapper>
+        <StyledTextField {...rest} $width={width} $isError={!!errorText} />
+        {children}
+      </TextFieldWrapper>
       {errorText && <ErrorText>{errorText}</ErrorText>}
-    </TextFieldWrapper>
+    </TextFieldSection>
   );
 };
 
 export default TextField;
 
-const StyledTextField = styled.input<{ $isError?: boolean }>`
-  width: 335px;
+const StyledTextField = styled.input<{ $isError?: boolean; $width?: string }>`
+  width: ${({ $width }) => $width || '100%'};
   height: 40px;
   border: none;
   outline: none;
@@ -52,6 +57,14 @@ const ErrorText = styled.div`
 
 const TextFieldWrapper = styled.div`
   display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+`;
+
+const TextFieldSection = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 `;
