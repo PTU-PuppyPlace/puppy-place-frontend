@@ -26,7 +26,7 @@ const Login = () => {
         </Button>
       </Section>
       <Links>
-        <Link href='/login/signup'>회원가입</Link>
+        <Link href='/signup'>회원가입</Link>
         <Link href='/login/find-password'>비밀번호 재설정</Link>
       </Links>
     </>
@@ -40,6 +40,7 @@ const Section = styled.form`
   justify-content: center;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 `;
 
 const Links = styled.div`
