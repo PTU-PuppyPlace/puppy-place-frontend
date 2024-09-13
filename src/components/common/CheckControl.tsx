@@ -101,10 +101,12 @@ const CheckIcon: React.FC<{
 
 const Label = styled.label<{ disabled?: boolean }>`
   position: relative;
-  padding-left: 24px;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   user-select: none;
   ${({ disabled }) => disabled && 'opacity: 0.4;'}
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 const HiddenCheck = styled.input.attrs({ type: 'checkbox' })`
