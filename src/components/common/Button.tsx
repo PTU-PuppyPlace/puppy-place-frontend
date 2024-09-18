@@ -1,17 +1,17 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import theme from "@/styles/theme";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import theme from '@/styles/theme';
 
 // Button variants
 export type ButtonVariant =
-  | "primary"
-  | "default"
-  | "outline"
-  | "danger-primary"
-  | "danger-secondary";
+  | 'primary'
+  | 'default'
+  | 'outline'
+  | 'danger-primary'
+  | 'danger-secondary';
 
 // Button sizes
-export type ButtonSize = "32" | "40" | "52";
+export type ButtonSize = '32' | '40' | '52';
 
 // Button props
 interface ButtonProps {
@@ -26,8 +26,8 @@ interface ButtonProps {
 
 // Button component
 export const Button: React.FC<ButtonProps> = ({
-  variant = "default",
-  size = "32",
+  variant = 'default',
+  size = '32',
   children,
   onClick,
   disabled = false,
@@ -54,6 +54,7 @@ const StyledButton = styled.button<ButtonProps>`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   gap: 8px;
+  word-break: keep-all;
   &:hover {
     filter: brightness(0.9); /* 10% 더 어둡게 */
   }
@@ -65,7 +66,7 @@ const StyledButton = styled.button<ButtonProps>`
   /* Size styles */
   ${({ size, isSameSize }) => {
     switch (size) {
-      case "32":
+      case '32':
         return css`
           height: 32px;
           font-size: ${theme.caption13};
@@ -76,7 +77,7 @@ const StyledButton = styled.button<ButtonProps>`
             height: 16px;
           }
         `;
-      case "40":
+      case '40':
         return css`
           height: 40px;
           font-size: ${theme.body15};
@@ -87,7 +88,7 @@ const StyledButton = styled.button<ButtonProps>`
             height: 20px;
           }
         `;
-      case "52":
+      case '52':
         return css`
           height: 52px;
           font-size: ${theme.body17};
@@ -104,7 +105,7 @@ const StyledButton = styled.button<ButtonProps>`
   /* Variant styles */
   ${({ variant }) => {
     switch (variant) {
-      case "primary":
+      case 'primary':
         return css`
           background-color: ${theme.primary.p100};
           color: ${theme.extraWhite};
@@ -116,7 +117,7 @@ const StyledButton = styled.button<ButtonProps>`
             background-color: ${theme.primary.p50};
           }
         `;
-      case "default":
+      case 'default':
         return css`
           background-color: ${theme.gray.g10};
           color: ${theme.gray.g100};
@@ -132,7 +133,7 @@ const StyledButton = styled.button<ButtonProps>`
             }
           }
         `;
-      case "outline":
+      case 'outline':
         return css`
           background-color: ${theme.extraWhite};
           color: ${theme.gray.g100};
@@ -148,7 +149,7 @@ const StyledButton = styled.button<ButtonProps>`
             }
           }
         `;
-      case "danger-primary":
+      case 'danger-primary':
         return css`
           background-color: ${theme.danger.d100};
           color: ${theme.extraWhite};
@@ -160,7 +161,7 @@ const StyledButton = styled.button<ButtonProps>`
             background-color: ${theme.danger.d40};
           }
         `;
-      case "danger-secondary":
+      case 'danger-secondary':
         return css`
           background-color: ${theme.extraWhite};
           color: ${theme.danger.d100};
