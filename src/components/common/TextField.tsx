@@ -15,8 +15,8 @@ const TextField = (props: TextFieldProps) => {
   const { errorText, children, width, ...rest } = props;
   return (
     <TextFieldSection>
-      <TextFieldWrapper>
-        <StyledTextField {...rest} $width={width} $isError={!!errorText} />
+      <TextFieldWrapper $width={width}>
+        <StyledTextField {...rest} $isError={!!errorText} />
         {children}
       </TextFieldWrapper>
       {errorText && <ErrorText>{errorText}</ErrorText>}
@@ -26,8 +26,7 @@ const TextField = (props: TextFieldProps) => {
 
 export default TextField;
 
-const StyledTextField = styled.input<{ $isError?: boolean; $width?: string }>`
-  width: ${({ $width }) => $width || '100%'};
+const StyledTextField = styled.input<{ $isError?: boolean }>`
   height: 40px;
   border: none;
   outline: none;
@@ -35,6 +34,7 @@ const StyledTextField = styled.input<{ $isError?: boolean; $width?: string }>`
     ${({ $isError }) =>
       $isError ? `${theme.danger.d100}` : `${theme.gray.g20}`};
   color: ${theme.gray.g100};
+  flex: 1;
   &::placeholder {
     color: ${theme.gray.g40};
   }
@@ -55,11 +55,13 @@ const ErrorText = styled.div`
   font-size: ${theme.caption12};
 `;
 
-const TextFieldWrapper = styled.div`
+const TextFieldWrapper = styled.div<{ $width?: string }>`
+  width: ${({ $width }) => $width || '100%'};
   display: flex;
   flex-direction: row;
   gap: 8px;
   width: 100%;
+  align-items: center;
 `;
 
 const TextFieldSection = styled.div`

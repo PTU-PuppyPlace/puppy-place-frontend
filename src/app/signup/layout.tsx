@@ -26,5 +26,4 @@ const Section = styled.div`
   flex-direction: column;
   gap: 32px;
   width: 100%;
-  border: 1px solid blue;
 `;
