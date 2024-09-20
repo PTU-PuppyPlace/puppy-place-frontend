@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 
 const Section = styled.div`
-  margin-top: 66px;
+  margin-top: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
