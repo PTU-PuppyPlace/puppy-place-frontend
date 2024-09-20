@@ -83,11 +83,10 @@ const CheckIcon: React.FC<{
 
   return (
     <svg
-      width='15'
-      height='12'
       viewBox='0 0 15 12'
       fill={fillColor}
       xmlns='http://www.w3.org/2000/svg'
+      style={{ width: '15px', height: '12px', stroke: 'none' }}
     >
       <path
         fill-rule='evenodd'
@@ -127,8 +126,6 @@ const CheckMarkWrapper = styled(CheckIcon)<{
   disabled?: boolean;
   type: string;
 }>`
-  width: 24px;
-  height: 24px;
   border: 1px solid #d1d5db;
   background: ${({ checked }) => (checked ? '#4F46E5' : 'transparent')};
   color: #fff;
@@ -147,7 +144,8 @@ const BoxWrapper = styled.div<{ disabled?: boolean; checked: boolean }>`
   display: inline-block;
   border-radius: 2px;
   padding: 2px 1px 1px;
-  width: fit-content;
+  width: 20px;
+  height: 20px;
   border: 1px solid
     ${({ disabled, checked }) =>
       disabled
