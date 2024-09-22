@@ -9,6 +9,9 @@ import React from 'react';
 import Link from 'next/link';
 
 export default function Page() {
+  const [isEmailSent, setIsEmailSent] = React.useState(false);
+  const [isVerificated, setIsVerificated] = React.useState(false);
+
   return (
     <StyledForm>
       <StyledField>
@@ -17,11 +20,34 @@ export default function Page() {
           placeholder='예) pupply@place.com'
           onChange={() => {}}
           value=''
+          disabled={isVerificated}
         >
-          <Button onClick={() => {}} variant='default' size='32'>
-            인증 요청
+          <Button
+            onClick={() => {
+              setIsEmailSent(true);
+            }}
+            variant='default'
+            size='32'
+            disabled={isVerificated}
+            type='button'
+          >
+            {isEmailSent ? '재요청' : '인증 요청'}
           </Button>
         </TextField>
+        {isEmailSent && (
+          <TextField onChange={() => {}} value='' disabled={isVerificated}>
+            <Button
+              onClick={() => {
+                setIsVerificated(true);
+              }}
+              variant='default'
+              size='32'
+              disabled={isVerificated}
+            >
+              인증 확인
+            </Button>
+          </TextField>
+        )}
       </StyledField>
       <StyledField>
         <Label>비밀번호</Label>
