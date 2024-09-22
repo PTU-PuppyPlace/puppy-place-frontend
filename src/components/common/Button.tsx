@@ -14,7 +14,7 @@ export type ButtonVariant =
 export type ButtonSize = '32' | '40' | '52';
 
 // Button props
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   children: React.ReactNode;
@@ -33,6 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   isCircular = false,
   isSameSize = false,
+  ...props
 }) => (
   <StyledButton
     variant={variant}
@@ -41,6 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
     disabled={disabled}
     isCircular={isCircular}
     isSameSize={isSameSize}
+    {...props}
   >
     {children}
   </StyledButton>
