@@ -7,6 +7,7 @@ import Button from '@/components/common/Button';
 import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import React from 'react';
 import Link from 'next/link';
+import CTABottom from '@/components/layout/CTABottom';
 
 export default function Page() {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
@@ -79,6 +80,17 @@ export default function Page() {
         <SmallCheckControl text='[필수] 개인정보 수집 및 이용' link='' />
         <SmallCheckControl text='[선택] 마케팅 및 광고 활용' link='' />
       </StyledField>
+      <CTABottom>
+        <Button
+          onClick={() => {
+            console.log('회원가입');
+          }}
+          variant='primary'
+          size='52'
+        >
+          회원가입
+        </Button>
+      </CTABottom>
     </StyledForm>
   );
 }
