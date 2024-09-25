@@ -21,7 +21,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
   disabled?: boolean;
   isCircular?: boolean;
-  isSameSize?: boolean;
+  isIconOnly?: boolean;
 }
 
 // Button component
@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   isCircular = false,
-  isSameSize = false,
+  isIconOnly = false,
   ...props
 }) => (
   <StyledButton
@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
     onClick={onClick}
     disabled={disabled}
     isCircular={isCircular}
-    isSameSize={isSameSize}
+    isIconOnly={isIconOnly}
     {...props}
   >
     {children}
@@ -66,14 +66,14 @@ const StyledButton = styled.button<ButtonProps>`
   }
 
   /* Size styles */
-  ${({ size, isSameSize }) => {
+  ${({ size, isIconOnly }) => {
     switch (size) {
       case '32':
         return css`
           height: 32px;
           font-size: ${theme.caption13};
           border-radius: 6px;
-          ${isSameSize ? `width: 32px;` : `padding: 12px;`}
+          ${isIconOnly ? `width: 32px;` : `padding: 12px;`}
           & svg {
             width: 16px;
             height: 16px;
@@ -84,7 +84,7 @@ const StyledButton = styled.button<ButtonProps>`
           height: 40px;
           font-size: ${theme.body15};
           border-radius: 8px;
-          ${isSameSize ? `width: 40px;` : `padding: 12px 16px;`}
+          ${isIconOnly ? `width: 40px;` : `padding: 12px 16px;`}
           & svg {
             width: 20px;
             height: 20px;
@@ -95,7 +95,7 @@ const StyledButton = styled.button<ButtonProps>`
           height: 52px;
           font-size: ${theme.body17};
           border-radius: 12px;
-          ${isSameSize ? `width: 52px;` : `padding: 12px 20px;`}
+          ${isIconOnly ? `width: 52px;` : `padding: 12px 20px;`}
           & svg {
             width: 24px;
             height: 24px;
