@@ -24,21 +24,26 @@ export default function RootLayout({
     <html lang='en'>
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
-          <Layout className={inter.className}>{children}</Layout>
+          <LayoutWrapper className={inter.className} id='layoutWrapper'>
+            <Layout>{children}</Layout>
+          </LayoutWrapper>
         </ThemeProvider>
       </StyledComponentsRegistry>
     </html>
   );
 }
 
-const Layout = styled.body`
-  width: 100%;
-  height: 100vh;
+const Layout = styled.div`
   padding: 20px;
-  margin: auto;
-  position: relative;
   display: flex;
   flex-direction: column;
+`;
+
+const LayoutWrapper = styled.body`
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  margin: auto;
   background-color: ${theme.extraWhite};
   max-width: ${theme.maxWidth};
 `;
