@@ -1,5 +1,15 @@
 'use client';
 
+/**
+ * TODO
+ * 이메일, 비밀번호 칸 뒷부분에 체크 표시(인증 완료나 비밀번호 조건 충족 시 나타남)
+ * 유효성 검사 통과 못할 시 errorText 표시하는 것
+ * 인풋들 인터랙션, 체크박스 전체동의 클릭 시 모든 체크박스 체크되게끔
+ * 유효성 검사 미통과 시 회원가입 버튼 비활성화. 모두 통과했을 때 활성화
+ * 스크롤 시 헤더 영역 스크롤(컬러: G10)
+ * 인증번호 유효시간 만료 시 alert, 이미 계정 있을 때의 처리
+ */
+
 import Label from '@/components/common/Label';
 import styled from 'styled-components';
 import TextField from '@/components/common/TextField';
@@ -8,10 +18,12 @@ import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import React from 'react';
 import Link from 'next/link';
 import CTABottom from '@/components/layout/CTABottom';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
   const [isVerificated, setIsVerificated] = React.useState(false);
+  const router = useRouter();
 
   return (
     <StyledForm>
@@ -84,6 +96,7 @@ export default function Page() {
         <Button
           onClick={() => {
             console.log('회원가입');
+            router.push('/login');
           }}
           variant='primary'
           size='52'
