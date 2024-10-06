@@ -1,9 +1,15 @@
 'use client';
 
+import Progress from '@/components/common/Progress';
 import Header from '@/components/layout/Header';
+import React from 'react';
 import styled from 'styled-components';
+import { usePathname } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const phase = pathname.split('/').pop();
+
   return (
     <>
       <Header
@@ -13,7 +19,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         비밀번호 재설정
       </Header>
-      <Section>{children}</Section>
+      <Section>
+        <Progress phase={Number(phase)} />
+        {children}
+      </Section>
     </>
   );
 }
