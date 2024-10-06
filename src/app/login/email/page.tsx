@@ -27,7 +27,7 @@ const Login = () => {
       </Section>
       <Links>
         <Link href='/signup'>회원가입</Link>
-        <Link href='/login/find-password'>비밀번호 재설정</Link>
+        <Link href='/find-password'>비밀번호 재설정</Link>
       </Links>
     </>
   );
