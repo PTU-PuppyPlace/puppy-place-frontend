@@ -1,14 +1,32 @@
 'use client';
 
 // import type { Metadata } from "next";
-import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/reset.css';
 import StyledComponentsRegistry from './registry';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
+import localFont from 'next/font/local';
 
-const inter = Inter({ subsets: ['latin'] });
+const pretendard = localFont({
+  src: [
+    {
+      path: '../fonts/Pretendard-Bold.otf',
+      weight: '700',
+      style: 'bold',
+    },
+    {
+      path: '../fonts/Pretendard-Medium.otf',
+      weight: '400',
+      style: 'medium',
+    },
+    {
+      path: '../fonts/Pretendard-Regular.otf',
+      weight: '200',
+      style: 'regular',
+    },
+  ],
+});
 
 // const metadata: Metadata = {
 //   title: "Create Next App",
@@ -22,9 +40,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <style jsx global>{`
+        html {
+          font-family: ${pretendard.style.fontFamily};
+        }
+      `}</style>
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
-          <LayoutWrapper className={inter.className} id='layoutWrapper'>
+          <LayoutWrapper id='layoutWrapper'>
             <Layout>{children}</Layout>
           </LayoutWrapper>
         </ThemeProvider>
