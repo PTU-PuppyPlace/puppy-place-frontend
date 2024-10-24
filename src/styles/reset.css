@@ -116,17 +116,12 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-svg {
-  width: 24px;
-  height: 24px;
-  stroke: #333;
 }
 
 input,
