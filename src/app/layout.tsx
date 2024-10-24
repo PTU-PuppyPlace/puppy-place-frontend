@@ -57,7 +57,6 @@ export default function RootLayout({
 }
 
 const Layout = styled.div`
-  padding: 20px;
   display: flex;
   flex-direction: column;
 `;

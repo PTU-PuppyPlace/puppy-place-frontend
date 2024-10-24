@@ -30,6 +30,7 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 66px;
+  margin-top: 44px;
   width: 100%;
+  padding: 20px;
 `;

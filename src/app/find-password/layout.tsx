@@ -19,10 +19,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         비밀번호 재설정
       </Header>
-      <Section>
-        <Progress phase={Number(phase)} />
-        {children}
-      </Section>
+      <Progress phase={Number(phase)} />
+      <Section>{children}</Section>
     </>
   );
 }
@@ -35,4 +33,5 @@ const Section = styled.div`
   flex-direction: column;
   gap: 32px;
   width: 100%;
+  padding: 20px;
 `;

@@ -19,11 +19,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 
 const Section = styled.div`
-  margin-top: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 32px;
   width: 100%;
+  padding: 20px;
+  padding-top: 32px;
 `;
