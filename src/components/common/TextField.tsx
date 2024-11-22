@@ -6,8 +6,6 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorText?: string;
   disabled?: boolean;
   width?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
 }
 
