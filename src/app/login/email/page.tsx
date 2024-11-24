@@ -10,10 +10,6 @@ import { login } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 
 const Login = () => {
-  const [isChecked, handleCheck] = React.useReducer(
-    (checked) => !checked,
-    false
-  );
   const [state, formAction] = useFormState(login, null);
 
   return (
@@ -29,9 +25,7 @@ const Login = () => {
           placeholder='비밀번호'
           errorText={state?.errors?.password}
         />
-        <Checkbox checked={isChecked} onChange={handleCheck}>
-          자동로그인
-        </Checkbox>
+        <Checkbox name='auto'>자동로그인</Checkbox>
         <Button onClick={() => {}} variant='primary' size='52'>
           로그인
         </Button>
