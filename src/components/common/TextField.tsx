@@ -9,6 +9,7 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
   width?: string;
   children?: React.ReactNode;
+  name: string;
 }
 
 const TextField = (props: TextFieldProps) => {
