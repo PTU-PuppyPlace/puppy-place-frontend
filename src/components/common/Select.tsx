@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
-import NavigationDown from "@/components/icons/navigation-down.svg";
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+import NavigationDown from '@/components/icons/navigation-down.svg';
 
 interface Option {
   value: string;
@@ -19,7 +21,7 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({
   options,
-  placeholder = "선택",
+  placeholder = '선택',
   onChange,
   errorText,
   disabled,
@@ -47,10 +49,10 @@ const Select: React.FC<SelectProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
 
@@ -74,7 +76,7 @@ const Select: React.FC<SelectProps> = ({
         ) : (
           <Placeholder disabled={disabled}>{placeholder}</Placeholder>
         )}
-        <NavigationDown width="20" height="20" />
+        <NavigationDown width='20' height='20' />
       </SelectButton>
       <OptionsList $isOpen={isOpen}>
         {options.map((option) => (
@@ -144,7 +146,7 @@ const OptionsList = styled.ul<{ $isOpen: boolean }>`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   z-index: 10;
-  display: ${(props) => (props.$isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   max-height: 200px;
   overflow-y: auto;
 `;
