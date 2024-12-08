@@ -1,4 +1,6 @@
-import styled from "styled-components";
+'use client';
+
+import styled from 'styled-components';
 
 export default function Spacer({
   width,
@@ -11,6 +13,6 @@ export default function Spacer({
 }
 
 const StyledSpacer = styled.div<{ width?: string; height?: string }>`
-  width: ${({ width }) => (width ? width : "100%")};
-  height: ${({ height }) => (height ? height : "100%")};
+  width: ${({ width }) => (width ? width : '100%')};
+  height: ${({ height }) => (height ? height : '100%')};
 `;
