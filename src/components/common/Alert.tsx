@@ -13,6 +13,7 @@ interface AlertProps {
   cancelLabel?: string;
   actionLabel?: string;
   isOpen: boolean;
+  onClose: () => void;
   onAction?: () => void;
   onCancel?: () => void;
 }
@@ -34,28 +35,64 @@ const ButtonGroup: React.FC<AlertProps> = ({
   type,
   actionLabel = '확인',
   cancelLabel = '아니요',
-  onAction,
-  onCancel,
+  onAction = () => {},
+  onCancel = () => {},
+  onClose,
 }) => {
   switch (type) {
     case 'confirm':
       return (
         <ButtonSpace>
-          <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
-          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
+          <CancelButton
+            onClick={() => {
+              onCancel();
+              onClose();
+            }}
+          >
+            {cancelLabel}
+          </CancelButton>
+          <PositiveButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </PositiveButton>
         </ButtonSpace>
       );
     case 'destructive':
       return (
         <ButtonSpace>
-          <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
-          <NegativeButton onClick={onAction}>{actionLabel}</NegativeButton>
+          <CancelButton
+            onClick={() => {
+              onCancel();
+              onClose();
+            }}
+          >
+            {cancelLabel}
+          </CancelButton>
+          <NegativeButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </NegativeButton>
         </ButtonSpace>
       );
     default:
       return (
         <ButtonSpace>
-          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
+          <PositiveButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </PositiveButton>
         </ButtonSpace>
       );
   }
