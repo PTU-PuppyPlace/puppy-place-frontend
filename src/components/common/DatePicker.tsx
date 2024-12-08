@@ -1,7 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
-import CalendarIcon from "@/components/icons/calendar.svg";
+'use client';
+
+import React from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+import CalendarIcon from '@/components/icons/calendar.svg';
 
 interface DatePickerProps {
   value: string;
@@ -33,13 +35,13 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
       <DateInputSection>
         <Input
           {...rest}
-          type="text"
+          type='text'
           readOnly
           onClick={openCalendar}
           $isError={!!errorText}
         />
         <CalendarBtn disabled={props.disabled} onClick={openCalendar} />
-        <CalendarInput ref={ref} type="date" onChange={handleChange} />
+        <CalendarInput ref={ref} type='date' onChange={handleChange} />
       </DateInputSection>
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </DatePickerWrapper>

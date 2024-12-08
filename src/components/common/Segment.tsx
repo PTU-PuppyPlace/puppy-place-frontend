@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
-import CheckIcon from "../../../public/check.svg";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+import CheckIcon from '../../../public/check.svg';
 
 type Options = { options: { text: string; icon?: boolean }[] };
 

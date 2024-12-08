@@ -1,8 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
+'use client';
 
-type AlertType = "default" | "confirm" | "destructive";
+import React from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+
+type AlertType = 'default' | 'confirm' | 'destructive';
 
 interface AlertProps {
   type?: AlertType;
@@ -30,20 +32,20 @@ export const Alert: React.FC<AlertProps> = (props) => {
 
 const ButtonGroup: React.FC<AlertProps> = ({
   type,
-  actionLabel = "확인",
-  cancelLabel = "아니요",
+  actionLabel = '확인',
+  cancelLabel = '아니요',
   onAction,
   onCancel,
 }) => {
   switch (type) {
-    case "confirm":
+    case 'confirm':
       return (
         <ButtonSpace>
           <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
           <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
         </ButtonSpace>
       );
-    case "destructive":
+    case 'destructive':
       return (
         <ButtonSpace>
           <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
