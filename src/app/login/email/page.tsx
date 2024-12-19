@@ -6,25 +6,30 @@ import Link from 'next/link';
 import TextField from '@/components/common/TextField';
 import { Checkbox } from '@/components/common/CheckControl';
 import Button from '@/components/common/Button';
+import { login } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 
 const Login = () => {
-  const [isChecked, handleCheck] = React.useReducer(
-    (checked) => !checked,
-    false
-  );
+  const [state, formAction] = useFormState(login, null);
 
   return (
     <>
-      <Section>
-        <TextField placeholder='아이디(이메일)' onChange={() => {}} value='' />
-        <TextField placeholder='비밀번호' onChange={() => {}} value='' />
-        <Checkbox checked={isChecked} onChange={handleCheck}>
-          자동로그인
-        </Checkbox>
+      <Form action={formAction}>
+        <TextField
+          name='email'
+          placeholder='아이디(이메일)'
+          errorText={state?.errors?.email}
+        />
+        <TextField
+          name='password'
+          placeholder='비밀번호'
+          errorText={state?.errors?.password}
+        />
+        <Checkbox name='auto'>자동로그인</Checkbox>
         <Button onClick={() => {}} variant='primary' size='52'>
           로그인
         </Button>
-      </Section>
+      </Form>
       <Links>
         <Link href='/signup'>회원가입</Link>
         <Link href='/find-password'>비밀번호 재설정</Link>
@@ -35,7 +40,7 @@ const Login = () => {
 
 export default Login;
 
-const Section = styled.form`
+const Form = styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;

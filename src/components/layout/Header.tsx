@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import NavigationLeft from '@/components/icons/navigation-left.svg';
 import NavigationClose from '@/components/icons/navigation-close.svg';

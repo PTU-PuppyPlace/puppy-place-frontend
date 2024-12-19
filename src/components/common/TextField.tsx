@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
@@ -6,9 +8,8 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorText?: string;
   disabled?: boolean;
   width?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
+  name: string;
 }
 
 const TextField = (props: TextFieldProps) => {
