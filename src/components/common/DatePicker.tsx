@@ -6,28 +6,26 @@ import theme from '@/styles/theme';
 import CalendarIcon from '@/components/icons/calendar.svg';
 
 interface DatePickerProps {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
   disabled?: boolean;
   placeholder?: string;
-  min?: string;
-  max?: string;
   errorText?: string;
+  name: string;
 }
 
-// 달력 컴포넌트
 export const DatePicker: React.FC<DatePickerProps> = (props) => {
-  const { errorText, ...rest } = props;
-  const ref = React.useRef<HTMLInputElement>(null);
+  const { errorText, defaultValue, ...rest } = props;
+  const calendarRef = React.useRef<HTMLInputElement>(null);
+  const [displayValue, setDisplayValue] = React.useState(defaultValue || '');
 
   const openCalendar = () => {
-    if (ref.current) {
-      ref.current.showPicker();
+    if (calendarRef.current) {
+      calendarRef.current.showPicker();
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(event);
+  const handleCalendarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDisplayValue(event.target.value);
   };
 
   return (
@@ -39,9 +37,17 @@ export const DatePicker: React.FC<DatePickerProps> = (props) => {
           readOnly
           onClick={openCalendar}
           $isError={!!errorText}
+          value={displayValue}
+          placeholder={props.placeholder}
         />
         <CalendarBtn disabled={props.disabled} onClick={openCalendar} />
-        <CalendarInput ref={ref} type='date' onChange={handleChange} />
+        <CalendarInput
+          ref={calendarRef}
+          type='date'
+          name={props.name}
+          defaultValue={defaultValue}
+          onChange={handleCalendarChange}
+        />
       </DateInputSection>
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </DatePickerWrapper>
@@ -74,7 +80,7 @@ const Input = styled.input<{ $isError?: boolean }>`
 
 const CalendarBtn = styled(CalendarIcon)`
   position: absolute;
-  right: 16px;
+  right: 50px;
   top: 50%;
   transform: translateY(-50%);
   background: none;

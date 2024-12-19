@@ -3,7 +3,7 @@
 import { Alert } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import { Checkbox, CheckMark } from '@/components/common/CheckControl';
-// import { DatePicker } from '@/components/common/DatePicker';
+import { DatePicker } from '@/components/common/DatePicker';
 import Segment from '@/components/common/Segment';
 import Select from '@/components/common/Select';
 import Spacer from '@/components/common/Spacer';
@@ -46,6 +46,8 @@ export default function SamplePage() {
             { text: 'Option3' },
           ]}
         />
+        <DatePicker name='date' defaultValue='2022-10-12' />
+
         <Button type='submit'>Submit</Button>
       </form>
       <Button onClick={() => setIsOpen(true)}>Alert 여는 버튼</Button>
@@ -59,7 +61,6 @@ export default function SamplePage() {
       >
         Alert 테스트
       </Alert>
-      {/* <DatePicker /> */}
     </>
   );
 }
