@@ -8,6 +8,7 @@ type TextAreaProps = {
   disabled?: boolean;
   placeholder?: string;
   errorText?: string;
+  name: string;
 };
 
 const TextArea = (props: TextAreaProps) => {

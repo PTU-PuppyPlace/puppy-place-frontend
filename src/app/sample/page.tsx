@@ -37,7 +37,7 @@ export default function SamplePage() {
           name='Select'
         />
         <Spacer />
-        <TextArea />
+        <TextArea name='Textarea' />
         <Spacer />
         <Segment
           options={[
@@ -46,7 +46,7 @@ export default function SamplePage() {
             { text: 'Option3' },
           ]}
         />
-        <DatePicker name='date' defaultValue='2022-10-12' />
+        <DatePicker name='Date' />
 
         <Button type='submit'>Submit</Button>
       </form>
