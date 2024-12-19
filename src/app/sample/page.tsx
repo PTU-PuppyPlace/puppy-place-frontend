@@ -15,7 +15,7 @@ import { componentTestAction } from '../lib/actions';
 
 export default function SamplePage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, formAction] = useFormState(componentTestAction, null);
+  const [, formAction] = useFormState(componentTestAction, null);
 
   return (
     <>
