@@ -44,13 +44,8 @@ export async function login(currentState, formData: FormData) {
 }
 
 export async function componentTestAction(currentState, formData: FormData) {
-  console.log('sample action');
-  console.log('TextField value: ', formData.get('TextField'));
-  console.log('Checkbox value: ', formData.get('Checkbox'));
-  console.log('CheckMark value: ', formData.get('Checkmark'));
-  console.log('Select value: ', formData.get('Select'));
-  console.log('TextArea value: ', formData.get('TextArea'));
-  console.log('Segment value: ', formData.get('Segment'));
+  const data = Object.fromEntries(formData);
+  console.log('data', data);
   return {
     message: 'sample action success',
   };
