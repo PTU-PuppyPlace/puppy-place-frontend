@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 
 interface CheckControlProps {
-  name: string;
+  name?: string;
   defaultChecked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
