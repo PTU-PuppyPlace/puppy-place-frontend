@@ -34,7 +34,7 @@ export async function login(currentState, formData: FormData) {
     return {
       message: '로그인 성공',
     };
-  } catch (err) {
+  } catch {
     return {
       errors: {
         email: '로그인에 실패했습니다.',
