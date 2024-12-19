@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styled, { css } from 'styled-components';
 import theme from '@/styles/theme';
@@ -18,7 +20,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   isCircular?: boolean;
   isIconOnly?: boolean;

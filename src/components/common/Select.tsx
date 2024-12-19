@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
-import NavigationDown from "@/components/icons/navigation-down.svg";
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+import NavigationDown from '@/components/icons/navigation-down.svg';
 
 interface Option {
   value: string;
@@ -10,33 +12,45 @@ interface Option {
 
 interface SelectProps {
   options: Option[];
+  name: string;
   placeholder?: string;
-  onChange?: (value: string) => void;
   errorText?: string;
   disabled?: boolean;
-  selectedValue?: string;
+  defaultValue?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
   options,
-  placeholder = "선택",
-  onChange,
+  name,
+  placeholder = '선택',
   errorText,
   disabled,
-  selectedValue,
+  defaultValue,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(() => {
+    if (defaultValue) {
+      return options.find((option) => option.value === defaultValue) || null;
+    }
+    return null;
+  });
   const selectRef = useRef<HTMLDivElement>(null);
+  const hiddenInputRef = useRef<HTMLSelectElement>(null);
 
   const handleSelect = (option: Option) => {
     setSelectedOption(option);
     setIsOpen(false);
-    if (onChange) {
-      onChange(option.value);
+
+    // Hidden input에 선택된 option의 value를 설정하고 change 이벤트를 발생시킴.
+    // formData를 사용하므로 hidden input을 사용하여 값을 전달함.
+    if (hiddenInputRef.current) {
+      hiddenInputRef.current.value = option.value;
+      const event = new Event('change', { bubbles: true });
+      hiddenInputRef.current.dispatchEvent(event);
     }
   };
 
+  // Select 밖을 클릭하면 dropdown이 닫히게 하기 위한 로직
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
@@ -47,23 +61,31 @@ const Select: React.FC<SelectProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
 
-  useEffect(() => {
-    if (selectedValue) {
-      const option = options.find((option) => option.value === selectedValue);
-      setSelectedOption(option || null);
-    }
-  }, [selectedValue, options]);
-
   return (
     <SelectContainer ref={selectRef}>
+      <HiddenSelect
+        ref={hiddenInputRef}
+        name={name}
+        defaultValue={defaultValue}
+        disabled={disabled}
+      >
+        <option value=''>선택</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </HiddenSelect>
+
       <SelectButton
+        type='button'
         onClick={() => setIsOpen(!isOpen)}
         $isOpen={isOpen}
         $hasError={!!errorText}
@@ -74,7 +96,7 @@ const Select: React.FC<SelectProps> = ({
         ) : (
           <Placeholder disabled={disabled}>{placeholder}</Placeholder>
         )}
-        <NavigationDown width="20" height="20" />
+        <NavigationDown width='20' height='20' />
       </SelectButton>
       <OptionsList $isOpen={isOpen}>
         {options.map((option) => (
@@ -92,6 +114,14 @@ export default Select;
 
 const SelectContainer = styled.div`
   position: relative;
+`;
+
+const HiddenSelect = styled.select`
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 `;
 
 const SelectButton = styled.button<{
@@ -128,7 +158,6 @@ const SelectButton = styled.button<{
     `
     background-color: ${theme.background};
     cursor: not-allowed;
-
     `}
 `;
 
@@ -144,7 +173,7 @@ const OptionsList = styled.ul<{ $isOpen: boolean }>`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   z-index: 10;
-  display: ${(props) => (props.$isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   max-height: 200px;
   overflow-y: auto;
 `;

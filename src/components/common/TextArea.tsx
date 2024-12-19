@@ -1,13 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
+'use client';
+
+import React from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
 
 type TextAreaProps = {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   disabled?: boolean;
   placeholder?: string;
   errorText?: string;
+  name: string;
 };
 
 const TextArea = (props: TextAreaProps) => {

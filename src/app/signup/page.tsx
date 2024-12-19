@@ -30,9 +30,8 @@ export default function Page() {
       <StyledField>
         <Label>아이디(이메일)</Label>
         <TextField
+          name='username'
           placeholder='예) pupply@place.com'
-          onChange={() => {}}
-          value=''
           disabled={isVerificated}
         >
           <Button
@@ -48,7 +47,7 @@ export default function Page() {
           </Button>
         </TextField>
         {isEmailSent && (
-          <TextField onChange={() => {}} value='' disabled={isVerificated}>
+          <TextField name='authCode' disabled={isVerificated}>
             <Button
               onClick={() => {
                 setIsVerificated(true);
@@ -65,27 +64,25 @@ export default function Page() {
       <StyledField>
         <Label>비밀번호</Label>
         <TextField
+          type='password'
+          name='password'
           placeholder='8자 이상의 영문 또는 영문+숫자+특수문자'
-          onChange={() => {}}
-          value=''
         />
       </StyledField>
       <StyledField>
         <Label>비밀번호 확인</Label>
-        <TextField placeholder='비밀번호 재입력' onChange={() => {}} value='' />
+        <TextField
+          type='password'
+          name='passwordConfirm'
+          placeholder='비밀번호 재입력'
+        />
       </StyledField>
       <StyledField>
         <Label>닉네임</Label>
-        <TextField
-          placeholder='닉네임 입력 (10자 이내)'
-          onChange={() => {}}
-          value=''
-        />
+        <TextField name='nickname' placeholder='닉네임 입력 (10자 이내)' />
       </StyledField>
       <StyledField gap='12px'>
-        <Checkbox checked={false} onChange={() => {}}>
-          전체 동의
-        </Checkbox>
+        <Checkbox>전체 동의</Checkbox>
         <SmallCheckControl text='[필수] 만 14세 이상' link='' />
         <SmallCheckControl text='[필수] 서비스 이용약관' link='' />
         <SmallCheckControl text='[필수] 위치기반 서비스 이용약관' link='' />
@@ -139,9 +136,7 @@ const CheckLink = styled(Link)`
 const SmallCheckControl = ({ text, link }: { text: string; link: string }) => {
   return (
     <SmallCheckWrapper>
-      <CheckMark checked={false} onChange={() => {}}>
-        {text}
-      </CheckMark>
+      <CheckMark>{text}</CheckMark>
       <CheckLink href={link}>보기</CheckLink>
     </SmallCheckWrapper>
   );
