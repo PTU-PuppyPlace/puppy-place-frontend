@@ -14,11 +14,11 @@ import Label from '@/components/common/Label';
 import styled from 'styled-components';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
-import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import React from 'react';
 import Link from 'next/link';
 import CTABottom from '@/components/layout/CTABottom';
 import { useRouter } from 'next/navigation';
+import { AllCheckSet } from '@/components/common/AllCheckSet';
 
 export default function Page() {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
@@ -82,12 +82,24 @@ export default function Page() {
         <TextField name='nickname' placeholder='닉네임 입력 (10자 이내)' />
       </StyledField>
       <StyledField gap='12px'>
-        <Checkbox>전체 동의</Checkbox>
-        <SmallCheckControl text='[필수] 만 14세 이상' link='' />
-        <SmallCheckControl text='[필수] 서비스 이용약관' link='' />
-        <SmallCheckControl text='[필수] 위치기반 서비스 이용약관' link='' />
-        <SmallCheckControl text='[필수] 개인정보 수집 및 이용' link='' />
-        <SmallCheckControl text='[선택] 마케팅 및 광고 활용' link='' />
+        <AllCheckSet
+          checkItems={[
+            { text: '[필수] 만 14세 이상', sibling: <CustomLink link='' /> },
+            { text: '[필수] 서비스 이용약관', sibling: <CustomLink link='' /> },
+            {
+              text: '[필수] 위치기반 서비스 이용약관',
+              sibling: <CustomLink link='' />,
+            },
+            {
+              text: '[필수] 개인정보 수집 및 이용',
+              sibling: <CustomLink link='' />,
+            },
+            {
+              text: '[선택] 마케팅 및 광고 활용',
+              sibling: <CustomLink link='' />,
+            },
+          ]}
+        />
       </StyledField>
       <CTABottom>
         <Button
@@ -119,25 +131,11 @@ const StyledField = styled.div<{ gap?: string }>`
   width: 100%;
 `;
 
-const SmallCheckWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: ${({ theme }) => theme.gray.g60};
-  height: 20px;
-`;
-
 const CheckLink = styled(Link)`
   text-decoration: underline;
   color: ${({ theme }) => theme.gray.g60};
 `;
 
-const SmallCheckControl = ({ text, link }: { text: string; link: string }) => {
-  return (
-    <SmallCheckWrapper>
-      <CheckMark>{text}</CheckMark>
-      <CheckLink href={link}>보기</CheckLink>
-    </SmallCheckWrapper>
-  );
-};
+const CustomLink = ({ link }: { link: string }) => (
+  <CheckLink href={link}>보기</CheckLink>
+);
