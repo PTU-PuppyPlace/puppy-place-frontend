@@ -12,6 +12,7 @@ export const AllCheckSet = ({
     | {
         text: string;
         sibling?: ReactNode;
+        [key: string]: any;
       }[]
     | string[];
 }) => {

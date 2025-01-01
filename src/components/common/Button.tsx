@@ -20,7 +20,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   children: React.ReactNode;
-  onClick?: () => void;
   disabled?: boolean;
   isCircular?: boolean;
   isIconOnly?: boolean;
