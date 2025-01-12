@@ -11,7 +11,7 @@ import TextArea from '@/components/common/TextArea';
 import TextField from '@/components/common/TextField';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
-import { componentTestAction } from '../lib/actions';
+import { componentTestAction } from './actions';
 
 export default function SamplePage() {
   const [isOpen, setIsOpen] = useState(false);

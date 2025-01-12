@@ -6,7 +6,7 @@ import Link from 'next/link';
 import TextField from '@/components/common/TextField';
 import { Checkbox } from '@/components/common/CheckControl';
 import Button from '@/components/common/Button';
-import { login } from '@/app/lib/actions';
+import { login } from '@/app/login/email/actions';
 import { useFormState } from 'react-dom';
 
 const Login = () => {
