@@ -1,17 +1,10 @@
 'use server';
-
-interface LoginActionState {
-  errors?: {
-    email?: string;
-    password?: string;
-  };
-  message?: string;
-}
+import { ActionState } from '@/types/auth';
 
 export async function login(currentState, formData: FormData) {
   const email = formData.get('email');
   const password = formData.get('password');
-  const errors: LoginActionState['errors'] = {};
+  const errors: ActionState['errors'] = {};
 
   if (!email) {
     errors.email = '이메일을 입력해주세요';
@@ -41,12 +34,4 @@ export async function login(currentState, formData: FormData) {
       },
     };
   }
-}
-
-export async function componentTestAction(currentState, formData: FormData) {
-  const data = Object.fromEntries(formData);
-  console.log('data', data);
-  return {
-    message: 'sample action success',
-  };
 }
