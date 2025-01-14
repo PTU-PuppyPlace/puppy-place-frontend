@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import theme from '@/styles/theme';
+import { forwardRef } from 'react';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
@@ -12,18 +13,21 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const TextField = (props: TextFieldProps) => {
+const TextField = forwardRef(function TextField(
+  props: TextFieldProps,
+  ref?: React.Ref<HTMLInputElement>
+) {
   const { errorText, children, width, ...rest } = props;
   return (
     <TextFieldSection>
       <TextFieldWrapper $width={width}>
-        <StyledTextField {...rest} $isError={!!errorText} />
+        <StyledTextField {...rest} $isError={!!errorText} ref={ref} />
         {children}
       </TextFieldWrapper>
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </TextFieldSection>
   );
-};
+});
 
 export default TextField;
 
