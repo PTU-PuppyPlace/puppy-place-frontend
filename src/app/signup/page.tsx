@@ -14,106 +14,162 @@ import Label from '@/components/common/Label';
 import styled from 'styled-components';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import CTABottom from '@/components/layout/CTABottom';
 import { useRouter } from 'next/navigation';
-import { AllCheckSet } from '@/components/common/AllCheckSet';
+import { signup } from './actions';
+import { SignupSchemaType, signupSchema } from './schema';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Checkbox, CheckMark } from '@/components/common/CheckControl';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function Page() {
-  const [isEmailSent, setIsEmailSent] = React.useState(false);
-  const [isVerificated, setIsVerificated] = React.useState(false);
+  const hookForm = useForm<SignupSchemaType>({
+    resolver: zodResolver(signupSchema),
+    mode: 'onBlur',
+  });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+    trigger,
+    getValues,
+    getFieldState,
+  } = hookForm;
   const router = useRouter();
 
+  const handleAllCheck = () => {};
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   router.push('/signup/complete');
+  // };
+
+  const handleEmailSent = async () => {
+    await trigger('username');
+    const error = getFieldState('username').error;
+    if (error) {
+      return;
+    }
+    const emailValue = watch('username');
+
+    console.log('email sent', emailValue);
+    setValue('isEmailSent', true);
+    await trigger('isEmailSent');
+  };
+
+  console.log(watch());
   return (
-    <StyledForm>
-      <StyledField>
-        <Label>아이디(이메일)</Label>
-        <TextField
-          name='username'
-          placeholder='예) pupply@place.com'
-          disabled={isVerificated}
-        >
-          <Button
-            onClick={() => {
-              setIsEmailSent(true);
-            }}
-            variant='default'
-            size='32'
-            disabled={isVerificated}
-            type='button'
+    <>
+      <StyledForm id='signupForm' onSubmit={handleSubmit(signup)}>
+        <input type='hidden' {...register('isEmailSent')} />
+        <input type='hidden' {...register('isEmailVerified')} />
+        <StyledField>
+          <Label>아이디(이메일)</Label>
+          <TextField
+            placeholder='예) pupply@place.com'
+            disabled={getValues('isEmailVerified')}
+            errorText={errors?.username?.message}
+            {...register('username')}
           >
-            {isEmailSent ? '재요청' : '인증 요청'}
-          </Button>
-        </TextField>
-        {isEmailSent && (
-          <TextField name='authCode' disabled={isVerificated}>
             <Button
-              onClick={() => {
-                setIsVerificated(true);
-              }}
+              onClick={handleEmailSent}
               variant='default'
               size='32'
-              disabled={isVerificated}
+              disabled={getValues('isEmailVerified')}
+              type='button'
             >
-              인증 확인
+              {getValues('isEmailVerified') ? '재요청' : '인증 요청'}
             </Button>
           </TextField>
-        )}
-      </StyledField>
-      <StyledField>
-        <Label>비밀번호</Label>
-        <TextField
-          type='password'
-          name='password'
-          placeholder='8자 이상의 영문 또는 영문+숫자+특수문자'
-        />
-      </StyledField>
-      <StyledField>
-        <Label>비밀번호 확인</Label>
-        <TextField
-          type='password'
-          name='passwordConfirm'
-          placeholder='비밀번호 재입력'
-        />
-      </StyledField>
-      <StyledField>
-        <Label>닉네임</Label>
-        <TextField name='nickname' placeholder='닉네임 입력 (10자 이내)' />
-      </StyledField>
-      <StyledField gap='12px'>
-        <AllCheckSet
-          checkItems={[
-            { text: '[필수] 만 14세 이상', sibling: <CustomLink link='' /> },
-            { text: '[필수] 서비스 이용약관', sibling: <CustomLink link='' /> },
-            {
-              text: '[필수] 위치기반 서비스 이용약관',
-              sibling: <CustomLink link='' />,
-            },
-            {
-              text: '[필수] 개인정보 수집 및 이용',
-              sibling: <CustomLink link='' />,
-            },
-            {
-              text: '[선택] 마케팅 및 광고 활용',
-              sibling: <CustomLink link='' />,
-            },
-          ]}
-        />
-      </StyledField>
-      <CTABottom>
-        <Button
-          onClick={() => {
-            console.log('회원가입');
-            router.push('/login');
-          }}
-          variant='primary'
-          size='52'
-        >
-          회원가입
-        </Button>
-      </CTABottom>
-    </StyledForm>
+          {getValues('isEmailSent') && (
+            <TextField
+              disabled={getValues('isEmailVerified')}
+              errorText={errors?.authCode?.message}
+              {...register('authCode')}
+            >
+              <Button
+                type='button'
+                onClick={() => {
+                  setValue('isEmailVerified', true);
+                }}
+                variant='default'
+                size='32'
+                disabled={getValues('isEmailVerified')}
+              >
+                인증 확인
+              </Button>
+            </TextField>
+          )}
+        </StyledField>
+        <StyledField>
+          <Label>비밀번호</Label>
+          <TextField
+            type='password'
+            placeholder='8자 이상의 영문 또는 영문+숫자+특수문자'
+            errorText={errors?.password?.message}
+            {...register('password')}
+          />
+        </StyledField>
+        <StyledField>
+          <Label>비밀번호 확인</Label>
+          <TextField
+            type='password'
+            placeholder='비밀번호 재입력'
+            errorText={errors?.passwordConfirm?.message}
+            {...register('passwordConfirm')}
+          />
+        </StyledField>
+        <StyledField>
+          <Label>닉네임</Label>
+          <TextField
+            placeholder='닉네임 입력 (10자 이내)'
+            errorText={errors?.nickname?.message}
+            {...register('nickname')}
+          />
+        </StyledField>
+        <StyledField gap='12px'>
+          <Checkbox onChange={handleAllCheck}>전체 동의</Checkbox>
+          <SmallCheckControl
+            text='[필수] 만 14세 이상'
+            link=''
+            {...register('agreement')}
+          />
+          <SmallCheckControl
+            text='[필수] 서비스 이용약관'
+            link=''
+            {...register('agreement')}
+          />
+          <SmallCheckControl
+            text='[필수] 위치기반 서비스 이용약관'
+            link=''
+            {...register('agreement')}
+          />
+          <SmallCheckControl
+            text='[필수] 개인정보 수집 및 이용'
+            link=''
+            {...register('agreement')}
+          />
+          <SmallCheckControl
+            text='[선택] 마케팅 및 광고 활용'
+            link=''
+            {...register('isMarketingAgreed')}
+          />
+          {errors?.agreement?.message && (
+            <ErrorText>{errors?.agreement?.message}</ErrorText>
+          )}
+        </StyledField>
+        <CTABottom>
+          <Button type='submit' form='signupForm' variant='primary' size='52'>
+            회원가입
+          </Button>
+        </CTABottom>
+      </StyledForm>
+      {/* <div>{state?.message}</div> */}
+    </>
   );
 }
 
@@ -136,6 +192,27 @@ const CheckLink = styled(Link)`
   color: ${({ theme }) => theme.gray.g60};
 `;
 
-const CustomLink = ({ link }: { link: string }) => (
-  <CheckLink href={link}>보기</CheckLink>
-);
+const SmallCheckWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: ${({ theme }) => theme.gray.g60};
+  height: 20px;
+`;
+
+const SmallCheckControl = forwardRef(function SmallCheckControl(
+  props: {
+    text: string;
+    link: string;
+  },
+  ref?: React.Ref<HTMLInputElement>
+) {
+  const { text, link } = props;
+  return (
+    <SmallCheckWrapper>
+      <CheckMark ref={ref}>{text}</CheckMark>
+      <CheckLink href={link}>보기</CheckLink>
+    </SmallCheckWrapper>
+  );
+});
