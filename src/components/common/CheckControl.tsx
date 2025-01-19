@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
@@ -14,29 +14,35 @@ interface CheckControlProps {
 }
 
 // 체크 마크 컴포넌트
-export const CheckMark: React.FC<CheckControlProps> = ({
-  defaultChecked,
-  onChange,
-  disabled,
-  name,
-  value,
-  children,
-}) => (
-  <Label disabled={disabled}>
-    <HiddenCheck
-      type='checkbox'
-      name={name}
-      value={value}
-      defaultChecked={defaultChecked}
-      onChange={onChange}
-      disabled={disabled}
-    />
-    <MarkWrapper>
-      <CheckIcon />
-    </MarkWrapper>
-    {children}
-  </Label>
-);
+export const CheckMark = forwardRef(function CheckMark(
+  {
+    defaultChecked,
+    onChange,
+    disabled,
+    name,
+    value,
+    children,
+  }: CheckControlProps,
+  ref?: React.Ref<HTMLInputElement>
+) {
+  return (
+    <Label disabled={disabled}>
+      <HiddenCheck
+        type='checkbox'
+        name={name}
+        value={value}
+        defaultChecked={defaultChecked}
+        onChange={onChange}
+        disabled={disabled}
+        ref={ref}
+      />
+      <MarkWrapper>
+        <CheckIcon />
+      </MarkWrapper>
+      {children}
+    </Label>
+  );
+});
 
 // 체크 박스 컴포넌트
 export const Checkbox: React.FC<CheckControlProps> = ({
