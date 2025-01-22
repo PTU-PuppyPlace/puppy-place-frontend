@@ -35,4 +35,23 @@ export async function signup(data: SignupSchemaType): Promise<SignupState> {
   }
 }
 
+export async function verifyEmailCode(
+  code: string
+): Promise<EmailVerificationStatus> {
+  console.log('verifyEmailCode action');
+
+  try {
+    console.log(code);
+    return {
+      showVerification: false,
+      isVerified: true,
+    };
+  } catch {
+    return {
+      showVerification: true,
+      isVerified: false,
+    };
+  }
+}
+
 export async function sendEmailCode() {}
