@@ -3,9 +3,6 @@
 /**
  * TODO
  * 이메일, 비밀번호 칸 뒷부분에 체크 표시(인증 완료나 비밀번호 조건 충족 시 나타남)
- * 유효성 검사 통과 못할 시 errorText 표시하는 것
- * 인풋들 인터랙션, 체크박스 전체동의 클릭 시 모든 체크박스 체크되게끔
- * 유효성 검사 미통과 시 회원가입 버튼 비활성화. 모두 통과했을 때 활성화
  * 스크롤 시 헤더 영역 스크롤(컬러: G10)
  * 인증번호 유효시간 만료 시 alert, 이미 계정 있을 때의 처리
  */
@@ -29,6 +26,9 @@ export default function Page() {
   const hookForm = useForm<SignupSchemaType>({
     resolver: zodResolver(signupSchema),
     mode: 'onBlur',
+    defaultValues: {
+      agreement: [],
+    },
   });
   const {
     register,
@@ -42,11 +42,15 @@ export default function Page() {
   } = hookForm;
   const router = useRouter();
 
-  const handleAllCheck = () => {};
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   router.push('/signup/complete');
-  // };
+  const handleAllCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setValue('agreement', ['on', 'on', 'on', 'on']);
+      setValue('isMarketingAgreed', true);
+    } else {
+      setValue('agreement', []);
+      setValue('isMarketingAgreed', false);
+    }
+  };
 
   const handleEmailSent = async () => {
     await trigger('username');
@@ -61,10 +65,15 @@ export default function Page() {
     await trigger('isEmailSent');
   };
 
-  console.log(watch());
+  const onSubmit = async (data: SignupSchemaType) => {
+    const result = await signup(data);
+    if (result.isSuccess) {
+      router.push('/signup/complete');
+    }
+  };
   return (
     <>
-      <StyledForm id='signupForm' onSubmit={handleSubmit(signup)}>
+      <StyledForm id='signupForm' onSubmit={handleSubmit(onSubmit)}>
         <input type='hidden' {...register('isEmailSent')} />
         <input type='hidden' {...register('isEmailVerified')} />
         <StyledField>
@@ -208,10 +217,12 @@ const SmallCheckControl = forwardRef(function SmallCheckControl(
   },
   ref?: React.Ref<HTMLInputElement>
 ) {
-  const { text, link } = props;
+  const { text, link, ...rest } = props;
   return (
     <SmallCheckWrapper>
-      <CheckMark ref={ref}>{text}</CheckMark>
+      <CheckMark ref={ref} {...rest}>
+        {text}
+      </CheckMark>
       <CheckLink href={link}>보기</CheckLink>
     </SmallCheckWrapper>
   );
