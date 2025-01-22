@@ -22,6 +22,7 @@ export const CheckMark = forwardRef(function CheckMark(
     name,
     value,
     children,
+    ...rest
   }: CheckControlProps,
   ref?: React.Ref<HTMLInputElement>
 ) {
@@ -35,6 +36,7 @@ export const CheckMark = forwardRef(function CheckMark(
         onChange={onChange}
         disabled={disabled}
         ref={ref}
+        {...rest}
       />
       <MarkWrapper>
         <CheckIcon />
