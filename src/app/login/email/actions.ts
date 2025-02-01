@@ -1,7 +1,7 @@
 'use server';
 import { ActionState } from '@/types/auth';
 
-export async function login(currentState, formData: FormData) {
+export async function login(currentState: any, formData: FormData) {
   const email = formData.get('email');
   const password = formData.get('password');
   const errors: ActionState['errors'] = {};
