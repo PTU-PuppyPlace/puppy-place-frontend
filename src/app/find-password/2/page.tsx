@@ -17,7 +17,7 @@ export default function Page() {
       <StyledForm>
         <StyledField>
           <Label>인증번호</Label>
-          <TextField onChange={() => {}} value=''>
+          <TextField name='code'>
             <Button
               onClick={() => {}}
               variant='default'

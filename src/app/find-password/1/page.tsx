@@ -17,7 +17,7 @@ export default function Page() {
       <StyledForm>
         <StyledField>
           <Label>이메일 인증</Label>
-          <TextField onChange={() => {}} value='' />
+          <TextField name='email' />
         </StyledField>
         <CTABottom>
           <Button
