@@ -17,11 +17,11 @@ export default function Page() {
       <StyledForm>
         <StyledField>
           <Label>비밀번호</Label>
-          <TextField type='password' onChange={() => {}} value='' />
+          <TextField type='password' name='password' />
         </StyledField>
         <StyledField>
           <Label>비밀번호 확인</Label>
-          <TextField type='password' onChange={() => {}} value='' />
+          <TextField type='password' name='passwordConfirm' />
         </StyledField>
         <CTABottom>
           <Button
