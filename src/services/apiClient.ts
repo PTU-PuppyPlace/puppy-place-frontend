@@ -1,8 +1,8 @@
 class APIClient {
   private baseURL: string;
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL;
+  constructor(baseURL?: string) {
+    this.baseURL = baseURL || '/api';
   }
 
   async request(url: string, options: RequestInit) {
@@ -40,7 +40,7 @@ class APIClient {
   // You can add more methods (put, delete, etc.) here as needed
 }
 
-export const apiClient = new APIClient('/api');
+export const apiClient = new APIClient(process.env.BASE_API_URL);
 
 class HTTPError extends Error {
   status: number;

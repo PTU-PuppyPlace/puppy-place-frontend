@@ -7,6 +7,7 @@ import StyledComponentsRegistry from './registry';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import localFont from 'next/font/local';
+import { Toaster } from 'react-hot-toast';
 
 const pretendard = localFont({
   src: [
@@ -49,6 +50,7 @@ export default function RootLayout({
         <ThemeProvider theme={theme}>
           <LayoutWrapper id='layoutWrapper'>
             <Layout>{children}</Layout>
+            <Toaster />
           </LayoutWrapper>
         </ThemeProvider>
       </StyledComponentsRegistry>

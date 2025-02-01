@@ -1,3 +1,6 @@
+'use server';
+
+import { IErrorResponse } from '@/types/services';
 import { apiClient } from './apiClient';
 
 export async function signup(data: any) {
@@ -8,7 +11,9 @@ export async function signup(data: any) {
   return response;
 }
 
-export async function sendEmailCode(email: string) {
+export async function sendEmailCode(
+  email: string
+): Promise<ISendEmailCodeResponse> {
   const response = await apiClient.post('/account/verification/create', {
     email,
   });
@@ -41,4 +46,10 @@ export async function checkUser(username: string, authCode: string) {
     authCode,
   });
   return response;
+}
+
+interface ISendEmailCodeResponse extends IErrorResponse {
+  message: string;
+  createdAt: string;
+  expiresAt: string;
 }
