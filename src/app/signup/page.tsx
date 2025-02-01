@@ -15,12 +15,14 @@ import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import CTABottom from '@/components/layout/CTABottom';
 import { useRouter } from 'next/navigation';
-import { signup } from './actions';
 import { SignupSchemaType, signupSchema } from './schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import ErrorText from '@/components/common/ErrorText';
+import { sendEmailCode, signup } from '@/services/account';
+import { IErrorResponse } from '@/types/services';
+import toast from 'react-hot-toast';
 
 export default function Page() {
   const hookForm = useForm<SignupSchemaType>({
@@ -39,6 +41,7 @@ export default function Page() {
     trigger,
     getValues,
     getFieldState,
+    setError,
   } = hookForm;
   const router = useRouter();
 
@@ -54,15 +57,22 @@ export default function Page() {
 
   const handleEmailSent = async () => {
     await trigger('username');
-    const error = getFieldState('username').error;
-    if (error) {
+    if (getFieldState('username').error) {
       return;
     }
     const emailValue = watch('username');
 
-    console.log('email sent', emailValue);
-    setValue('isEmailSent', true);
-    await trigger('isEmailSent');
+    try {
+      await sendEmailCode(emailValue);
+      toast('이메일 인증번호를 확인해주세요.');
+      setValue('isEmailSent', true);
+      await trigger('isEmailSent');
+    } catch (err: unknown) {
+      setError('username', {
+        type: 'manual',
+        message: (err as IErrorResponse).message,
+      });
+    }
   };
 
   const onSubmit = async (data: SignupSchemaType) => {
