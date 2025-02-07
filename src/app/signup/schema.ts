@@ -27,10 +27,6 @@ export const signupSchema = z
   .refine((data) => data.password === data.passwordConfirm, {
     message: '비밀번호가 일치하지 않습니다',
     path: ['passwordConfirm'],
-  })
-  .refine((data) => data.agreement.length === 4, {
-    message: '필수 항목에 동의해주세요',
-    path: ['agreement'],
   });
 
 export type SignupSchemaType = z.infer<typeof signupSchema>;
