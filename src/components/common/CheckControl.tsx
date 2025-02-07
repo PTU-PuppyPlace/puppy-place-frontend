@@ -4,7 +4,8 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
-interface CheckControlProps {
+interface CheckControlProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   defaultChecked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -54,6 +55,7 @@ export const Checkbox: React.FC<CheckControlProps> = ({
   name,
   value,
   children,
+  ...rest
 }) => (
   <Label disabled={disabled}>
     <HiddenCheck
@@ -63,6 +65,7 @@ export const Checkbox: React.FC<CheckControlProps> = ({
       defaultChecked={defaultChecked}
       onChange={onChange}
       disabled={disabled}
+      {...rest}
     />
     <BoxWrapper>
       <CheckIcon />

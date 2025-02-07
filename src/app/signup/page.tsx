@@ -151,7 +151,15 @@ export default function Page() {
           />
         </StyledField>
         <StyledField gap='12px'>
-          <Checkbox onChange={handleAllCheck}>전체 동의</Checkbox>
+          <Checkbox
+            onChange={handleAllCheck}
+            checked={
+              watch('agreement').length === 4 &&
+              watch('isMarketingAgreed') === true
+            }
+          >
+            전체 동의
+          </Checkbox>
           <SmallCheckControl
             text='[필수] 만 14세 이상'
             link=''
