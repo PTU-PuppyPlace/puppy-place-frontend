@@ -3,25 +3,28 @@
 import { IErrorResponse } from '@/types/services';
 import { apiClient } from './apiClient';
 
+const registerUrl = '/account/member/register/process';
+const createVerificationUrl = '/account/verification/create';
+const confirmVerificationUrl = '/account/verification/confirm';
+const checkNicknameUrl = '/account/member/register/check/nickname';
+const registerCheckUrl = '/account/member/register/init';
+
 export async function signup(data: any) {
-  const response = await apiClient.post(
-    '/account/member/register/process',
-    data
-  );
+  const response = await apiClient.post(registerUrl, data);
   return response;
 }
 
 export async function sendEmailCode(
   email: string
 ): Promise<ISendEmailCodeResponse> {
-  const response = await apiClient.post('/account/verification/create', {
+  const response = await apiClient.post(createVerificationUrl, {
     email,
   });
   return response;
 }
 
 export async function checkEmailCode(email: string, authCode: string) {
-  const response = await apiClient.post('/account/verification/confirm', {
+  const response = await apiClient.post(confirmVerificationUrl, {
     email,
     authCode,
   });
@@ -30,18 +33,15 @@ export async function checkEmailCode(email: string, authCode: string) {
 
 // 닉네임 중복 확인
 export async function checkNickname(nickname: string) {
-  const response = await apiClient.post(
-    '/account/member/register/check/nickname',
-    {
-      nickname,
-    }
-  );
+  const response = await apiClient.post(checkNicknameUrl, {
+    nickname,
+  });
   return response;
 }
 
 // 회원가입 전 사용자의 이름, 전화번호를 확인하여 회원가입한 사용자인지 확인
 export async function checkUser(username: string, authCode: string) {
-  const response = await apiClient.post('/account/member/register/init', {
+  const response = await apiClient.post(registerCheckUrl, {
     username,
     authCode,
   });
