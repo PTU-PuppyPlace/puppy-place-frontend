@@ -18,6 +18,11 @@ const pretendard = localFont({
     },
     {
       path: '../fonts/Pretendard-Medium.otf',
+      weight: '500',
+      style: 'medium',
+    },
+    {
+      path: '../fonts/Pretendard-Medium.otf',
       weight: '400',
       style: 'medium',
     },
@@ -40,12 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <style jsx global>{`
-        html {
-          font-family: ${pretendard.style.fontFamily};
-        }
-      `}</style>
+    <html lang='en' className={pretendard.className}>
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
           <LayoutWrapper id='layoutWrapper'>
