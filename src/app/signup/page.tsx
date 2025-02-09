@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import ErrorText from '@/components/common/ErrorText';
-import { sendEmailCode, signup } from '@/services/account';
+import { checkEmailCode, sendEmailCode, signup } from '@/services/account';
 import { IErrorResponse } from '@/types/services';
 import toast from 'react-hot-toast';
 
@@ -75,9 +75,34 @@ export default function Page() {
     }
   };
 
+  const handleEmailVerified = async () => {
+    const emailValue = watch('username');
+    const authCodeValue = watch('authCode');
+
+    if (!authCodeValue) {
+      setError('authCode', {
+        type: 'manual',
+        message: '인증번호를 입력해주세요.',
+      });
+      return;
+    }
+
+    try {
+      await checkEmailCode(emailValue, authCodeValue);
+      setValue('isEmailVerified', true);
+      await trigger('isEmailVerified');
+    } catch (err: unknown) {
+      setError('authCode', {
+        type: 'manual',
+        message: (err as IErrorResponse).message,
+      });
+    }
+  };
+
   const onSubmit = async (data: SignupSchemaType) => {
     const result = await signup(data);
     if (result.isSuccess) {
+      toast('회원가입이 완료되었습니다.');
       router.push('/signup/complete');
     }
   };
@@ -112,8 +137,8 @@ export default function Page() {
             >
               <Button
                 type='button'
-                onClick={() => {
-                  setValue('isEmailVerified', true);
+                onClick={async () => {
+                  await handleEmailVerified();
                 }}
                 variant='default'
                 size='32'

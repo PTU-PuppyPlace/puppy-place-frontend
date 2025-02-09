@@ -14,6 +14,7 @@ export async function signup(data: any) {
   return response;
 }
 
+//이메일 인증코드 전송
 export async function sendEmailCode(
   email: string
 ): Promise<ISendEmailCodeResponse> {
@@ -23,6 +24,7 @@ export async function sendEmailCode(
   return response;
 }
 
+//이메일 인증코드 확인
 export async function checkEmailCode(email: string, authCode: string) {
   const response = await apiClient.post(confirmVerificationUrl, {
     email,

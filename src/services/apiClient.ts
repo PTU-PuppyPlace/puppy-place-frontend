@@ -6,7 +6,9 @@ class APIClient {
   }
 
   async request(url: string, options: RequestInit) {
-    const response = await fetch(`${this.baseURL}${url}`, options);
+    const sendingUrl = `${this.baseURL}${url}`;
+    console.log('request', sendingUrl, options);
+    const response = await fetch(sendingUrl, options);
     if (!response.ok) {
       const error = new HTTPError(
         'HTTP Error',
