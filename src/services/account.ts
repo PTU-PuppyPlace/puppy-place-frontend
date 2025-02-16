@@ -1,7 +1,7 @@
 'use server';
 
 import { IErrorResponse } from '@/types/services';
-import { apiClient, HTTPError } from './apiClient';
+import { apiClient } from './apiClient';
 
 const registerUrl = '/account/member/register/process';
 const createVerificationUrl = '/account/verification/create';
