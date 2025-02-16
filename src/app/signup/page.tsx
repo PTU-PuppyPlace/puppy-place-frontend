@@ -20,8 +20,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox, CheckMark } from '@/components/common/CheckControl';
 import ErrorText from '@/components/common/ErrorText';
-import { checkEmailCode, sendEmailCode, signup } from '@/services/account';
-import { IErrorResponse } from '@/types/services';
+import {
+  checkEmailCode,
+  checkNickname,
+  sendEmailCode,
+  signup,
+} from '@/services/account';
 import toast from 'react-hot-toast';
 
 export default function Page() {
@@ -62,15 +66,15 @@ export default function Page() {
     }
     const emailValue = watch('username');
 
-    try {
-      await sendEmailCode(emailValue);
+    const result = await sendEmailCode(emailValue);
+    if (result.isSuccess) {
       toast('이메일 인증번호를 확인해주세요.');
       setValue('isEmailSent', true);
       await trigger('isEmailSent');
-    } catch (err: unknown) {
+    } else {
       setError('username', {
         type: 'manual',
-        message: (err as IErrorResponse).message,
+        message: result.message,
       });
     }
   };
@@ -87,14 +91,16 @@ export default function Page() {
       return;
     }
 
-    try {
-      await checkEmailCode(emailValue, authCodeValue);
+    const result = await checkEmailCode(emailValue, authCodeValue);
+    if (result.isSuccess) {
       setValue('isEmailVerified', true);
+      toast('이메일 인증이 완료되었습니다.');
+
       await trigger('isEmailVerified');
-    } catch (err: unknown) {
+    } else {
       setError('authCode', {
         type: 'manual',
-        message: (err as IErrorResponse).message,
+        message: result.message,
       });
     }
   };
@@ -103,7 +109,9 @@ export default function Page() {
     const result = await signup(data);
     if (result.isSuccess) {
       toast('회원가입이 완료되었습니다.');
-      router.push('/signup/complete');
+      router.push('/login/email');
+    } else {
+      toast.error(result.message);
     }
   };
   return (
