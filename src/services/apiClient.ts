@@ -8,16 +8,19 @@ class APIClient {
   async request(url: string, options: RequestInit) {
     const sendingUrl = `${this.baseURL}${url}`;
     console.log('request', sendingUrl, options);
+
     const response = await fetch(sendingUrl, options);
-    if (!response.ok) {
-      const error = new HTTPError(
-        'HTTP Error',
-        response.status,
-        await response.json()
-      );
-      throw error;
+    const responseJson = await response.json();
+    console.log('response', responseJson);
+
+    if (response.ok) {
+      responseJson.isSuccess = true;
+      return responseJson;
+    } else {
+      console.error(responseJson);
+      responseJson.isSuccess = false;
+      return responseJson;
     }
-    return response.json();
   }
 
   get(url: string) {
@@ -44,7 +47,7 @@ class APIClient {
 
 export const apiClient = new APIClient(process.env.BASE_API_URL);
 
-class HTTPError extends Error {
+export class HTTPError extends Error {
   status: number;
   response: any;
 
