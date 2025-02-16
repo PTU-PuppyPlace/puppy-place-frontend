@@ -1,4 +1,3 @@
-import { checkNickname } from '@/services/account';
 import { z } from 'zod';
 
 export const signupSchema = z
@@ -28,23 +27,6 @@ export const signupSchema = z
   .refine((data) => data.password === data.passwordConfirm, {
     message: '비밀번호가 일치하지 않습니다',
     path: ['passwordConfirm'],
-  })
-  .refine(
-    async ({ nickname }) => {
-      try {
-        const response = await checkNickname(nickname);
-        if (response.isError) {
-          return false;
-        }
-        return true;
-      } catch (err) {
-        console.error(err);
-        return false;
-      }
-    },
-    {
-      message: '중복되는 닉네임이 있습니다.',
-    }
-  );
+  });
 
 export type SignupSchemaType = z.infer<typeof signupSchema>;

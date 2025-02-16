@@ -172,7 +172,17 @@ export default function Page() {
           <TextField
             placeholder='닉네임 입력 (10자 이내)'
             errorText={errors?.nickname?.message}
-            {...register('nickname')}
+            {...register('nickname', {
+              onBlur: async (event) => {
+                const checkResult = await checkNickname(event.target.value);
+                if (!checkResult.isSuccess) {
+                  setError('nickname', {
+                    type: 'custom',
+                    message: checkResult.message,
+                  });
+                }
+              },
+            })}
           />
         </StyledField>
         <StyledField gap='12px'>
