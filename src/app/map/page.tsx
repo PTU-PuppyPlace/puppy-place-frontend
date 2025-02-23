@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/common/Button';
-import BottomTabBar from '@/components/layout/Tabbar';
+import BottomTabBar from '@/components/layout/BottomTabbar';
 import { logout } from '@/services/account';
 
 export default function Map() {
