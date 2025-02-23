@@ -2,6 +2,7 @@
 
 import { IErrorResponse } from '@/types/services';
 import { apiClient } from './apiClient';
+import { signOut } from '@/auth';
 
 const registerUrl = '/account/member/register/process';
 const createVerificationUrl = '/account/verification/create';
@@ -9,6 +10,13 @@ const confirmVerificationUrl = '/account/verification/confirm';
 const checkNicknameUrl = '/account/member/register/check/nickname';
 const registerCheckUrl = '/account/member/register/init';
 const loginUrl = '/account/auth/credential';
+
+interface ISendEmailCodeResponse extends IErrorResponse {
+  isSuccess: boolean;
+  message: string;
+  createdAt: string;
+  expiresAt: string;
+}
 
 // 회원가입
 export async function signup(data: any) {
@@ -63,15 +71,17 @@ export async function login({
   username: string;
   password: string;
 }) {
-  return await apiClient.post(loginUrl, {
+  const result = await apiClient.post(loginUrl, {
     username,
     password,
   });
+  if (result.isSuccess) {
+    return { ...result, username };
+  } else {
+    return result;
+  }
 }
 
-interface ISendEmailCodeResponse extends IErrorResponse {
-  isSuccess: boolean;
-  message: string;
-  createdAt: string;
-  expiresAt: string;
+export async function logout() {
+  await signOut({ redirectTo: '/login', redirect: true });
 }

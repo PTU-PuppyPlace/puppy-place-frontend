@@ -1,6 +1,7 @@
 'use server';
 import { ActionState } from '@/types/auth';
 import { login as loginService } from '@/services/account';
+import { redirect } from 'next/navigation';
 
 export async function login(currentState: any, formData: FormData) {
   const email = formData.get('email');
@@ -19,18 +20,19 @@ export async function login(currentState: any, formData: FormData) {
     return { errors };
   }
 
-  try {
-    const rawFormData = {
-      username: formData.get('email') as string,
-      password: formData.get('password') as string,
-    };
+  const rawFormData = {
+    username: formData.get('email') as string,
+    password: formData.get('password') as string,
+  };
 
-    const response = await loginService(rawFormData);
-    return response;
-  } catch {
+  const response = await loginService(rawFormData);
+  if (response.isSuccess) {
+    return redirect('/map');
+  } else {
     return {
+      ...response,
       errors: {
-        email: '로그인에 실패했습니다.',
+        email: response.message,
       },
     };
   }
