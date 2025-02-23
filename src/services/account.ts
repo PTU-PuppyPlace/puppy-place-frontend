@@ -8,6 +8,7 @@ const createVerificationUrl = '/account/verification/create';
 const confirmVerificationUrl = '/account/verification/confirm';
 const checkNicknameUrl = '/account/member/register/check/nickname';
 const registerCheckUrl = '/account/member/register/init';
+const loginUrl = '/account/auth/credential';
 
 // 회원가입
 export async function signup(data: any) {
@@ -51,6 +52,20 @@ export async function checkUser(username: string, authCode: string) {
   return await apiClient.post(registerCheckUrl, {
     username,
     authCode,
+  });
+}
+
+// 로그인
+export async function login({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) {
+  return await apiClient.post(loginUrl, {
+    username,
+    password,
   });
 }
 
