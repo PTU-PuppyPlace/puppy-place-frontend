@@ -26,7 +26,7 @@ const Login = () => {
           errorText={state?.errors?.password}
         />
         <Checkbox name='auto'>자동로그인</Checkbox>
-        <Button onClick={() => {}} variant='primary' size='52'>
+        <Button variant='primary' size='52'>
           로그인
         </Button>
       </Form>

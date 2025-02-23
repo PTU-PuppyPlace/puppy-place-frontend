@@ -1,5 +1,6 @@
 'use server';
 import { ActionState } from '@/types/auth';
+import { login as loginService } from '@/services/account';
 
 export async function login(currentState: any, formData: FormData) {
   const email = formData.get('email');
@@ -20,13 +21,12 @@ export async function login(currentState: any, formData: FormData) {
 
   try {
     const rawFormData = {
-      email: formData.get('email'),
-      password: formData.get('password'),
+      username: formData.get('email') as string,
+      password: formData.get('password') as string,
     };
-    console.log(rawFormData);
-    return {
-      message: '로그인 성공',
-    };
+
+    const response = await loginService(rawFormData);
+    return response;
   } catch {
     return {
       errors: {
