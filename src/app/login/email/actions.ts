@@ -1,7 +1,7 @@
 'use server';
 import { ActionState } from '@/types/auth';
-import { login as loginService } from '@/services/account';
-import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 export async function login(currentState: any, formData: FormData) {
   const email = formData.get('email');
@@ -20,20 +20,22 @@ export async function login(currentState: any, formData: FormData) {
     return { errors };
   }
 
-  const rawFormData = {
-    username: formData.get('email') as string,
-    password: formData.get('password') as string,
-  };
-
-  const response = await loginService(rawFormData);
-  if (response.isSuccess) {
-    return redirect('/map');
-  } else {
-    return {
-      ...response,
-      errors: {
-        email: response.message,
-      },
-    };
+  try {
+    await signIn('credentials', {
+      username: email as string,
+      password: password as string,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return {
+            errors: { password: '이메일 또는 비밀번호가 올바르지 않습니다.' },
+          };
+        default:
+          return { errors: { password: '로그인 중 오류가 발생했습니다.' } };
+      }
+    }
+    throw error;
   }
 }
