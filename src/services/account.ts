@@ -83,5 +83,5 @@ export async function login({
 }
 
 export async function logout() {
-  await signOut({ redirectTo: '/login', redirect: true });
+  await signOut({ redirectTo: '/login' });
 }

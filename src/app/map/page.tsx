@@ -8,7 +8,7 @@ export default function Map() {
   return (
     <>
       맵 페이지
-      <Button onClick={logout}>로그아웃</Button>
+      <Button onClick={async () => await logout()}>로그아웃</Button>
       <BottomTabBar />
     </>
   );
