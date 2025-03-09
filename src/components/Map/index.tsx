@@ -38,6 +38,7 @@ const Map = ({
     };
 
     const map = new window.naver.maps.Map(mapId, mapOptions);
+    console.log('map create');
     mapRef.current = map;
 
     if (onLoad) {
@@ -47,6 +48,7 @@ const Map = ({
 
   useEffect(() => {
     return () => {
+      console.log('map destroy');
       mapRef.current?.destroy();
     };
   }, []);

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import MapIcon from '@/components/icons/navigation-maps-map.svg';
 import PersonIcon from '@/components/icons/pets-animals-animal-passport-card.svg';
 import theme from '@/styles/theme';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface TabItem {
   id: string;
@@ -21,8 +21,17 @@ interface TabBarProps {
 }
 
 const BottomTabBar = () => {
-  const [activeTab, setActiveTab] = React.useState('map');
+  const pathname = usePathname();
   const router = useRouter();
+
+  const [activeTab, setActiveTab] = React.useState(() =>
+    getActiveTab(pathname)
+  );
+
+  // pathname이 변경될 때마다 activeTab 업데이트
+  React.useEffect(() => {
+    setActiveTab(getActiveTab(pathname));
+  }, [pathname]);
 
   const handleTabChange = (tabId: string, path: string) => {
     setActiveTab(tabId);
@@ -30,12 +39,12 @@ const BottomTabBar = () => {
   };
 
   const tabs = [
-    { id: 'map', label: '지도맵', icon: <MapIcon />, path: '/map' },
+    { id: 'map', label: '지도맵', icon: <MapIcon />, path: '/main/map' },
     {
-      id: 'my-page',
+      id: 'mypage',
       label: '마이페이지',
       icon: <PersonIcon />,
-      path: '/my-page',
+      path: '/main/mypage',
     },
   ];
 
@@ -46,6 +55,13 @@ const BottomTabBar = () => {
       onTabChange={handleTabChange}
     />
   );
+};
+
+// 현재 경로에서 activeTab 결정
+const getActiveTab = (path: string) => {
+  if (path.includes('/main/map')) return 'map';
+  if (path.includes('/main/mypage')) return 'mypage';
+  return 'map'; // 기본값
 };
 
 const BottomTabBarComponent: React.FC<TabBarProps> = ({
