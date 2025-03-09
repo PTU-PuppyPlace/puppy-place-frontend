@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Map from '@/components/Map';
-import Marker from '@/components/Map/Marker';
+import Map from '@/components/temp';
+import Marker from '@/components/temp/Marker';
 import { NaverMap } from '@/types/map';
 
 // 샘플 위치 데이터
