@@ -56,7 +56,8 @@ const Container = styled.div`
 `;
 
 const MapContainer = styled.div`
-  flex: 1;
   width: 100%;
-  height: calc(100vh - 60px); /* BottomTabBar 높이 고려 */
+  height: calc(
+    100vh - ${({ theme }) => theme.bottomTabBarHeight}
+  ); /* BottomTabBar 높이 고려 */
 `;

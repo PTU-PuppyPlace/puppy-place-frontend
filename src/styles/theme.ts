@@ -54,7 +54,8 @@ const theme = {
   caption10: '10px',
 
   // Spacing
-  maxWidth: '375px'
+  maxWidth: '375px',
+  bottomTabBarHeight: '66px',
 };
 
 export default theme;
