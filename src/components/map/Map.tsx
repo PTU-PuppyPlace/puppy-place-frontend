@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Coordinates, NaverMap } from '@/types/map';
 
 // 초기 중심 좌표 (서울시청)
@@ -16,12 +16,11 @@ type MapProps = {
 };
 
 const Map = ({
-  mapId = 'map',
   initialCenter = INITIAL_CENTER,
   initialZoom = INITIAL_ZOOM,
   onLoad,
 }: MapProps) => {
-  const mapRef = useRef<NaverMap | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   const initializeMap = () => {
     if (!window.naver) return;
@@ -37,21 +36,12 @@ const Map = ({
       },
     };
 
-    const map = new window.naver.maps.Map(mapId, mapOptions);
-    console.log('map create');
-    mapRef.current = map;
+    const map = new window.naver.maps.Map(mapRef.current!, mapOptions);
 
     if (onLoad) {
       onLoad(map);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      console.log('map destroy');
-      mapRef.current?.destroy();
-    };
-  }, []);
 
   return (
     <>
@@ -61,7 +51,7 @@ const Map = ({
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
         onReady={initializeMap}
       />
-      <div id={mapId} style={{ width: '100%', height: '100%' }} />
+      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
     </>
   );
 };
