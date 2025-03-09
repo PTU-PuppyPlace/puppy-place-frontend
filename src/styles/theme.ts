@@ -56,6 +56,9 @@ const theme = {
   // Spacing
   maxWidth: '375px',
   bottomTabBarHeight: '66px',
+
+  // Shadow
+  shadow1: '2px 0px 7px 0px #00000033',
 };
 
 export default theme;

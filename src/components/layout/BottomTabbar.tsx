@@ -97,8 +97,8 @@ const TabBarContainer = styled.div`
   background-color: ${({ theme }) => theme.extraWhite};
   padding: 10px 0;
   border-top: 1px solid ${({ theme }) => theme.gray.g10};
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
   height: ${({ theme }) => theme.bottomTabBarHeight};
+  box-shadow: ${({ theme }) => theme.shadow1};
 `;
 
 const TabButton = styled.button<{ isActive: boolean }>`
