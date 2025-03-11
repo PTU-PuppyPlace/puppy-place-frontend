@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
+import SearchBar from '@/components/map/SearchBar';
 import { NaverMap } from '@/types/map';
 
 // 샘플 위치 데이터
@@ -27,8 +29,14 @@ export default function MapPage() {
     );
   };
 
+  const handleSearch = (query: string) => {
+    // 여기에 검색 로직을 추가할 수 있습니다
+    console.log('검색어:', query);
+  };
+
   return (
-    <>
+    <MapContainer>
+      <SearchBar onSearch={handleSearch} />
       <Map onLoad={handleMapLoad} />
       {map &&
         SAMPLE_LOCATIONS.map((location) => (
@@ -39,6 +47,12 @@ export default function MapPage() {
             onClick={() => handleMarkerClick(location.id)}
           />
         ))}
-    </>
+    </MapContainer>
   );
 }
+
+const MapContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+`;

@@ -2,6 +2,7 @@
 
 import Script from 'next/script';
 import { useRef } from 'react';
+import styled from 'styled-components';
 import { Coordinates, NaverMap } from '@/types/map';
 
 // 초기 중심 좌표 (서울시청)
@@ -51,9 +52,14 @@ const Map = ({
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
         onReady={initializeMap}
       />
-      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+      <MapContainer ref={mapRef} />
     </>
   );
 };
 
 export default Map;
+
+const MapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
