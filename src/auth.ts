@@ -2,7 +2,7 @@ import { login } from '@/services/account';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-const protectedRoutes = ['/mypage']; // 보호된 라우트 목록
+const protectedRoutes = ['/main/mypage']; // 보호된 라우트 목록
 const protectedWhenLoggedIn = ['/login', '/signup']; // 로그인된 사용자가 접근할 때 보호된 라우트 목록
 
 export const {
