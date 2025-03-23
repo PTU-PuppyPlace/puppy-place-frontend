@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
-import SearchBar from '@/components/map/SearchBar';
+import SearchBar from '@/app/main/map/_components/SearchBar';
 import { NaverMap, Coordinates } from '@/types/map';
 import LocationIcon from '@/components/icons/navigation-maps-arrow-location-map-direction.svg';
 import CloseIcon from '@/components/icons/navigation-close.svg';
@@ -80,11 +80,6 @@ export default function MapPage() {
     }
   };
 
-  const handleSearch = (query: string) => {
-    // 여기에 검색 로직을 추가할 수 있습니다
-    console.log('검색어:', query);
-  };
-
   const handleLocationSelect = (location: {
     id: string;
     name: string;
@@ -114,10 +109,7 @@ export default function MapPage() {
 
   return (
     <MapContainer>
-      <SearchBar
-        onSearch={handleSearch}
-        onLocationSelect={handleLocationSelect}
-      />
+      <SearchBar onLocationSelect={handleLocationSelect} />
       <Map onLoad={handleMapLoad} />
       {map &&
         SAMPLE_LOCATIONS.map((location) => (

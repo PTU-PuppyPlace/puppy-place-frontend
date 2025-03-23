@@ -8,7 +8,7 @@ import WarningSvg from '@/components/icons/interface-warning.svg';
 import LocationIcon from '@/components/icons/fill-marker.svg';
 import ArrowRightIcon from '@/components/icons/navigation-right.svg';
 import BackIcon from '@/components/icons/navigation-left.svg';
-import { Alert } from '../common/Alert';
+import { Alert } from '../../../../components/common/Alert';
 import {
   deleteAllSearchHistory,
   getSearchHistory,
@@ -82,7 +82,7 @@ const highlightText = (text: string, query: string) => {
   );
 };
 
-const SearchResults = ({
+const SearchModal = ({
   query,
   onQueryChange,
   onClose,
@@ -512,4 +512,4 @@ const HighlightedText = styled.span`
   color: ${({ theme }) => theme.pointBlue};
 `;
 
-export default SearchResults;
+export default SearchModal;
