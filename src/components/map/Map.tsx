@@ -4,9 +4,9 @@ import Script from 'next/script';
 import { useRef } from 'react';
 import styled from 'styled-components';
 import { Coordinates, NaverMap } from '@/types/map';
+import { INITIAL_COORDINATES } from '@/mocks/map';
 
 // 초기 중심 좌표 (서울시청)
-const INITIAL_CENTER: Coordinates = [37.5662952, 126.9779451];
 const INITIAL_ZOOM = 15;
 
 type MapProps = {
@@ -17,7 +17,7 @@ type MapProps = {
 };
 
 const Map = ({
-  initialCenter = INITIAL_CENTER,
+  initialCenter = INITIAL_COORDINATES,
   initialZoom = INITIAL_ZOOM,
   onLoad,
 }: MapProps) => {
