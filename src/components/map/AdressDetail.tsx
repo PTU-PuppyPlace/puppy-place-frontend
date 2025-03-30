@@ -5,10 +5,8 @@ import toast from 'react-hot-toast';
 
 export default function AddressDetail({
   selectedLocation,
-  closeAddressDetail,
 }: {
   selectedLocation: MapLocation;
-  closeAddressDetail: () => void;
 }) {
   const handleCopy = async (text: string) => {
     await navigator.clipboard.writeText(text);
@@ -16,10 +14,7 @@ export default function AddressDetail({
   };
 
   return (
-    <Modal>
-      <CloseButton onClick={closeAddressDetail}>
-        <CloseIcon style={{ width: '20px', height: '20px' }} />
-      </CloseButton>
+    <>
       <AddressSection>
         <AddressLabel>도로명: </AddressLabel>
         <AddressText>{selectedLocation.address}</AddressText>
@@ -34,9 +29,26 @@ export default function AddressDetail({
           복사
         </CopyButton>
       </AddressSection>
-    </Modal>
+    </>
   );
 }
+
+export const AddressDetailModal = ({
+  selectedLocation,
+  closeAddressDetail,
+}: {
+  selectedLocation: MapLocation;
+  closeAddressDetail: () => void;
+}) => {
+  return (
+    <Modal>
+      <CloseButton onClick={closeAddressDetail}>
+        <CloseIcon style={{ width: '20px', height: '20px' }} />
+      </CloseButton>
+      <AddressDetail selectedLocation={selectedLocation} />
+    </Modal>
+  );
+};
 
 const Modal = styled.div`
   position: absolute;
@@ -67,20 +79,15 @@ const AddressSection = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 const AddressLabel = styled.span`
-  font-size: ${({ theme }) => theme.body14};
+  font-size: ${({ theme }) => theme.body15};
   color: ${({ theme }) => theme.gray.g60};
 `;
 
 const AddressText = styled.span`
-  font-size: ${({ theme }) => theme.body14};
+  font-size: ${({ theme }) => theme.body15};
   color: ${({ theme }) => theme.gray.g100};
 `;
 

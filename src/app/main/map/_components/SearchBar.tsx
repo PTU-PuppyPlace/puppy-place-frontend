@@ -75,7 +75,7 @@ const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  z-index: 10;
+  z-index: 1;
   padding: 0 20px;
 `;
 
