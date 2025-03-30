@@ -8,19 +8,19 @@ import WarningSvg from '@/components/icons/interface-warning.svg';
 import LocationIcon from '@/components/icons/fill-marker.svg';
 import ArrowRightIcon from '@/components/icons/navigation-right.svg';
 import BackIcon from '@/components/icons/navigation-left.svg';
-import { Alert } from '../common/Alert';
+import { Alert } from '../../../../components/common/Alert';
 import {
   deleteAllSearchHistory,
   getSearchHistory,
   getSearchResult,
 } from '@/services/map';
-import { SearchLocation, SearchHistoryItem } from '@/types/map';
+import { MapLocation, SearchHistoryItem } from '@/types/map';
 
 interface SearchResultsProps {
   query: string;
   onQueryChange: (query: string) => void;
   onClose: () => void;
-  onLocationSelect: (location: SearchLocation) => void;
+  onLocationSelect: (location: MapLocation) => void;
 }
 
 // 텍스트 강조 표시를 위한 함수
@@ -82,14 +82,14 @@ const highlightText = (text: string, query: string) => {
   );
 };
 
-const SearchResults = ({
+const SearchModal = ({
   query,
   onQueryChange,
   onClose,
   onLocationSelect,
 }: SearchResultsProps) => {
   const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
-  const [searchResults, setSearchResults] = useState<SearchLocation[]>([]);
+  const [searchResults, setSearchResults] = useState<MapLocation[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // 검색 기록 가져오기
@@ -512,4 +512,4 @@ const HighlightedText = styled.span`
   color: ${({ theme }) => theme.pointBlue};
 `;
 
-export default SearchResults;
+export default SearchModal;

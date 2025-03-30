@@ -4,15 +4,14 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import FilterIcon from '@/components/icons/interface-settings-filter.svg';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
-import SearchResults from '@/components/map/SearchResults';
-import { SearchLocation } from '@/types/map';
+import SearchModal from '@/app/main/map/_components/SearchModal';
+import { MapLocation } from '@/types/map';
 
 interface SearchBarProps {
-  onSearch?: (query: string) => void;
-  onLocationSelect?: (location: SearchLocation) => void;
+  onLocationSelect?: (location: MapLocation) => void;
 }
 
-const SearchBar = ({ onSearch, onLocationSelect }: SearchBarProps) => {
+const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
   const [query, setQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -29,42 +28,35 @@ const SearchBar = ({ onSearch, onLocationSelect }: SearchBarProps) => {
     setQuery(newQuery);
   };
 
-  const handleLocationSelectInternal = (location: SearchLocation) => {
+  const handleLocationSelectInternal = (location: MapLocation) => {
     if (onLocationSelect) {
       onLocationSelect(location);
     }
     setIsSearchOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearch && query.trim()) {
-      onSearch(query);
-    }
-  };
-
   return (
     <>
       <SearchBarContainer ref={searchContainerRef}>
-        <SearchForm onSubmit={handleSubmit} onClick={handleInputFocus}>
+        <SearchBarContent>
           <SearchInputWrapper>
-            <SearchIcon width='16' height='16' />
+            <SearchIcon />
             <SearchInput
               type='text'
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onClick={handleInputFocus}
               placeholder='애견카페 검색'
               readOnly={!isSearchOpen}
             />
           </SearchInputWrapper>
-          <SearchButton type='submit'>
+          <FilterButton type='button'>
             <FilterIcon />
-          </SearchButton>
-        </SearchForm>
+          </FilterButton>
+        </SearchBarContent>
       </SearchBarContainer>
 
       {isSearchOpen && (
-        <SearchResults
+        <SearchModal
           query={query}
           onQueryChange={handleQueryChange}
           onClose={handleCloseSearch}
@@ -87,7 +79,7 @@ const SearchBarContainer = styled.div`
   padding: 0 20px;
 `;
 
-const SearchForm = styled.form`
+const SearchBarContent = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -120,7 +112,7 @@ const SearchInput = styled.input`
   }
 `;
 
-const SearchButton = styled.button`
+const FilterButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
