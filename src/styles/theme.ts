@@ -56,6 +56,7 @@ const theme = {
   // Spacing
   maxWidth: '500px',
   bottomTabBarHeight: '66px',
+  locationInfoHeight: 200,
 
   // Shadow
   shadow1: '2px 0px 7px 0px #00000033',

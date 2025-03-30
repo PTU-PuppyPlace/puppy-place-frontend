@@ -1,10 +1,14 @@
 import DownIcon from '@/components/icons/navigation-down.svg';
 import PhoneIcon from '@/components/icons/phones-phone-call.svg';
+import NavigationIcon from '@/components/icons/navigation-maps-arrow-location-map-direction.svg';
+import ShareIcon from '@/components/icons/interface-share.svg';
 import { MapLocation } from '@/types/map';
 import styled from 'styled-components';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { useState } from 'react';
 import AddressDetail from './AdressDetail';
+import theme from '@/styles/theme';
+
 export default function LocationInfo({
   selectedLocation,
   closeLocationInfo,
@@ -17,7 +21,11 @@ export default function LocationInfo({
     <BottomSheet
       open={!!selectedLocation}
       onDismiss={closeLocationInfo}
-      snapPoints={({ minHeight, maxHeight }) => [minHeight, 300, maxHeight]}
+      snapPoints={({ minHeight, maxHeight }) => [
+        minHeight,
+        theme.locationInfoHeight,
+        maxHeight,
+      ]}
       defaultSnap={({ snapPoints }) => snapPoints[1]}
       expandOnContentDrag
     >
@@ -43,23 +51,21 @@ export default function LocationInfo({
           )}
         </LocationInfoItem>
 
-        {selectedLocation.phone && (
-          <LocationInfoItem>
-            <PhoneIcon width='20' height='20' />
-            <LocationText>{selectedLocation.phone}</LocationText>
-          </LocationInfoItem>
-        )}
-
-        {selectedLocation.description && (
-          <LocationDescription>
-            {selectedLocation.description}
-          </LocationDescription>
-        )}
-
         <ActionButtons>
-          <ActionButton>전화하기</ActionButton>
-          <ActionButton>길찾기</ActionButton>
-          <ActionButton>공유하기</ActionButton>
+          <ActionButton>
+            <PhoneIcon width='24' height='24' />
+            <ActionText>전화</ActionText>
+          </ActionButton>
+          <Divider />
+          <ActionButton>
+            <NavigationIcon width='24' height='24' />
+            <ActionText>길찾기</ActionText>
+          </ActionButton>
+          <Divider />
+          <ActionButton>
+            <ShareIcon width='24' height='24' />
+            <ActionText>공유</ActionText>
+          </ActionButton>
         </ActionButtons>
       </LocationInfoContent>
     </BottomSheet>
@@ -68,13 +74,14 @@ export default function LocationInfo({
 
 const LocationInfoContent = styled.div`
   padding: 0 20px;
+  height: ${({ theme }) => theme.locationInfoHeight};
 `;
 
 const LocationInfoHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
   gap: 8px;
+  padding: 3px 0;
 `;
 
 const LocationName = styled.h2`
@@ -95,7 +102,6 @@ const LocationInfoItem = styled.div`
   align-items: center;
   gap: 12px;
   color: ${({ theme }) => theme.gray.g80};
-  margin-bottom: 12px;
   position: relative;
 `;
 
@@ -104,34 +110,39 @@ const LocationText = styled.span`
   line-height: 1.5;
 `;
 
-const LocationDescription = styled.p`
-  font-size: ${({ theme }) => theme.body14};
-  color: ${({ theme }) => theme.gray.g80};
-  line-height: 1.6;
-  margin: 16px 0;
-`;
-
 const ActionButtons = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid ${({ theme }) => theme.gray.g10};
+  align-items: center;
+  padding: 8px 0;
 `;
 
 const ActionButton = styled.button`
   flex: 1;
-  background-color: ${({ theme }) => theme.primary.p100};
-  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
   border: none;
-  border-radius: 8px;
-  padding: 14px;
-  font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.medium};
   cursor: pointer;
+  padding: 8px 0;
+  color: ${({ theme }) => theme.gray.g100};
 
-  &:hover {
-    background-color: ${({ theme }) => theme.primary.p80};
+  svg {
+    color: ${({ theme }) => theme.gray.g100};
+    fill: none;
   }
+`;
+
+const ActionText = styled.span`
+  font-size: ${({ theme }) => theme.body14};
+  font-weight: ${({ theme }) => theme.medium};
+`;
+
+const Divider = styled.div`
+  width: 1px;
+  height: 24px;
+  background-color: ${({ theme }) => theme.gray.g20};
+  margin: 0 4px;
 `;
