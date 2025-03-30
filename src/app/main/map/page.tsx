@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
@@ -15,7 +15,6 @@ export default function MapPage() {
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(
     null
   );
-  const locationInfoRef = useRef<HTMLDivElement>(null);
 
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
@@ -33,11 +32,6 @@ export default function MapPage() {
         const position = new window.naver.maps.LatLng(...location.coordinates);
         map.setCenter(position);
         map.setZoom(17); // 확대 레벨 조정
-      }
-
-      // 정보창으로 스크롤
-      if (locationInfoRef.current) {
-        locationInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     }
   };
@@ -74,7 +68,6 @@ export default function MapPage() {
       {/* 선택된 위치가 있을 때 하단에 정보창 표시 */}
       {selectedLocation && (
         <LocationInfo
-          locationInfoRef={locationInfoRef}
           selectedLocation={selectedLocation}
           closeLocationInfo={closeLocationInfo}
         />

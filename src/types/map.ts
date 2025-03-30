@@ -7,7 +7,9 @@ export type Coordinates = [Lat, Lng];
 export interface MapLocation {
   id: number;
   name: string;
+  type: string; //애견동반 카페, 애견카페 등
   address: string;
+  oldAddress: string; // 지번 주소
   coordinates: Coordinates; // 위도, 경도
   distance?: string;
   phone?: string;

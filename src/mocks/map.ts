@@ -9,7 +9,9 @@ export const SAMPLE_LOCATIONS: MapLocation[] = [
   {
     id: 1,
     name: '무무 애견카페',
+    type: '애견카페',
     address: '서울특별시 마포구 와우산로 100',
+    oldAddress: '서울특별시 마포구 상수동 86-1',
     distance: '1.2km',
     coordinates: [37.557527, 126.924191] as [number, number],
     phone: '02-123-4567',
@@ -18,8 +20,12 @@ export const SAMPLE_LOCATIONS: MapLocation[] = [
   {
     id: 2,
     name: '로콩순이 카페',
-    address: '서울특별시 마포구 와우산로 27번길 49',
+    type: '애견동반 카페',
+    address: '서울특별시 마포구 양화로 4',
+    oldAddress: '서울특별시 마포구 양화동 132-2',
     distance: '1.5km',
     coordinates: [37.556723, 126.923112] as [number, number],
+    phone: '02-987-6543',
+    description: '반려견과 함께 즐거운 시간을 보낼 수 있는 카페입니다.',
   },
 ];
