@@ -1,4 +1,5 @@
-import { SearchHistoryItem, SearchLocation } from '@/types/map';
+import { SAMPLE_LOCATIONS, SAMPLE_SEARCH_HISTORY } from '@/mocks/map';
+import { SearchHistoryItem, MapLocation } from '@/types/map';
 import { formatSearchDate } from '@/utils/date';
 
 export const deleteAllSearchHistory = () => {
@@ -6,12 +7,7 @@ export const deleteAllSearchHistory = () => {
 };
 
 export const getSearchHistory = () => {
-  const dummyData: SearchHistoryItem[] = [
-    { text: '무무 애견카페', date: '2024. 2. 2.' },
-    { text: '로공순이 카페', date: '2024. 1. 24.' },
-  ];
-
-  return dummyData;
+  return SAMPLE_SEARCH_HISTORY;
 };
 
 export const saveSearchHistory = (query: string) => {
@@ -28,26 +24,11 @@ export const saveSearchHistory = (query: string) => {
   }
 };
 
-export const getSearchResult = (query: string): SearchLocation[] => {
+export const getSearchResult = (query: string): MapLocation[] => {
   if (query.trim()) {
     // 최근 검색어 저장
     saveSearchHistory(query);
-    return [
-      {
-        id: '1',
-        name: '홍대입구 퍼피 카페',
-        address: '서울특별시 마포구 와우산로 100',
-        distance: '1.2km',
-        coordinates: [37.557527, 126.924191] as [number, number],
-      },
-      {
-        id: '2',
-        name: '홍대 강아지 카페',
-        address: '서울특별시 마포구 와우산로 27번길 49',
-        distance: '1.5km',
-        coordinates: [37.556723, 126.923112] as [number, number],
-      },
-    ].filter(
+    return SAMPLE_LOCATIONS.filter(
       (item) =>
         item.name.toLowerCase().includes(query.toLowerCase()) ||
         item.address.toLowerCase().includes(query.toLowerCase())

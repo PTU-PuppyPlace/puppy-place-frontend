@@ -14,13 +14,13 @@ import {
   getSearchHistory,
   getSearchResult,
 } from '@/services/map';
-import { SearchLocation, SearchHistoryItem } from '@/types/map';
+import { MapLocation, SearchHistoryItem } from '@/types/map';
 
 interface SearchResultsProps {
   query: string;
   onQueryChange: (query: string) => void;
   onClose: () => void;
-  onLocationSelect: (location: SearchLocation) => void;
+  onLocationSelect: (location: MapLocation) => void;
 }
 
 // 텍스트 강조 표시를 위한 함수
@@ -89,7 +89,7 @@ const SearchModal = ({
   onLocationSelect,
 }: SearchResultsProps) => {
   const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
-  const [searchResults, setSearchResults] = useState<SearchLocation[]>([]);
+  const [searchResults, setSearchResults] = useState<MapLocation[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // 검색 기록 가져오기

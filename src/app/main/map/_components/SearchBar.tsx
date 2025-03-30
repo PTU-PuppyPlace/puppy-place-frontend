@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import FilterIcon from '@/components/icons/interface-settings-filter.svg';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import SearchModal from '@/app/main/map/_components/SearchModal';
-import { SearchLocation } from '@/types/map';
+import { MapLocation } from '@/types/map';
 
 interface SearchBarProps {
-  onLocationSelect?: (location: SearchLocation) => void;
+  onLocationSelect?: (location: MapLocation) => void;
 }
 
 const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
@@ -28,7 +28,7 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
     setQuery(newQuery);
   };
 
-  const handleLocationSelectInternal = (location: SearchLocation) => {
+  const handleLocationSelectInternal = (location: MapLocation) => {
     if (onLocationSelect) {
       onLocationSelect(location);
     }

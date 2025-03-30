@@ -4,12 +4,14 @@ type Lat = number;
 type Lng = number;
 export type Coordinates = [Lat, Lng];
 
-export interface SearchLocation {
-  id: string;
+export interface MapLocation {
+  id: number;
   name: string;
   address: string;
+  coordinates: Coordinates; // 위도, 경도
   distance?: string;
-  coordinates: [number, number]; // 위도, 경도
+  phone?: string;
+  description?: string;
 }
 // 검색 기록 항목 타입 정의
 export interface SearchHistoryItem {
