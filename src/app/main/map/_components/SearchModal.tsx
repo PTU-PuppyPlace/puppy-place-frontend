@@ -186,11 +186,10 @@ const SearchModal = ({
             )}
           </>
         ) : (
-          // 최근 검색어
           <>
             <SearchResultsHeader>
               <HeaderWithClearButton>
-                <h3>최근 검색어</h3>
+                <h3>최근 검색</h3>
                 {recentSearches.length > 0 && (
                   <ClearAll setRecentSearches={setRecentSearches} />
                 )}
