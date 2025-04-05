@@ -28,14 +28,14 @@ export default function FilterModal({ onClose }: FilterModalProps) {
   const { setLocations, setSelectedLocation, locations } = useMapContext();
 
   const handleFilter = () => {
-    const filteredLocations = getLocation(region, district, options);
+    const filteredLocations = getLocation({ region, district, options });
     setLocations(filteredLocations);
     setSelectedLocation(filteredLocations[0]);
     onClose();
   };
 
   useEffect(() => {
-    const filteredLocations = getLocation(region, district, options);
+    const filteredLocations = getLocation({ region, district, options });
     setLocations(filteredLocations);
   }, [region, district, options]);
 

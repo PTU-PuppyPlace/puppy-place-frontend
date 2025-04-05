@@ -16,7 +16,7 @@ export default function MapPage() {
     useMapContext();
 
   useEffect(() => {
-    const locations = getLocation();
+    const locations = getLocation({});
     setLocations(locations);
   }, []);
 
