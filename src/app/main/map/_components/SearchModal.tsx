@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import CloseIcon from '@/components/icons/navigation-close.svg';
@@ -15,6 +15,7 @@ import {
   getSearchResult,
 } from '@/services/map';
 import { MapLocation, SearchHistoryItem } from '@/types/map';
+import { useMapContext } from '../_context/MapContext';
 
 interface SearchResultsProps {
   query: string;
@@ -22,6 +23,165 @@ interface SearchResultsProps {
   onClose: () => void;
   onLocationSelect: (location: MapLocation) => void;
 }
+
+const SearchModal = ({
+  query,
+  onQueryChange,
+  onClose,
+  onLocationSelect,
+}: SearchResultsProps) => {
+  const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
+  const [searchResults, setSearchResults] = useState<MapLocation[]>([]);
+  const { setLocations } = useMapContext();
+
+  // 검색 기록 가져오기
+  useEffect(() => {
+    const data = getSearchHistory();
+
+    setRecentSearches(data);
+  }, []);
+
+  // 검색어 변경 시 결과 업데이트
+  useEffect(() => {
+    const results = getSearchResult(query);
+    setSearchResults(results);
+  }, [query]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLocations(searchResults);
+    if (searchResults.length > 0) {
+      onLocationSelect(searchResults[0]);
+    }
+  };
+
+  return (
+    <FullScreenSearchContainer>
+      <SearchHeader>
+        <BackButton onClick={onClose}>
+          <BackIcon width='20' height='20' />
+        </BackButton>
+        <SearchForm onSubmit={handleSubmit}>
+          <SearchInputWrapper>
+            <SearchIcon width='16' height='16' />
+            <SearchInput
+              autoFocus
+              type='text'
+              value={query}
+              onChange={(e) => onQueryChange(e.target.value)}
+              placeholder='애견카페 검색'
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(
+                    e as unknown as React.FormEvent<HTMLFormElement>
+                  );
+                }
+              }}
+            />
+            {query && (
+              <ClearButton onClick={() => onQueryChange('')}>
+                <CloseIcon width='16' height='16' />
+              </ClearButton>
+            )}
+          </SearchInputWrapper>
+        </SearchForm>
+      </SearchHeader>
+
+      <SearchContent>
+        {query ? (
+          // 검색 결과
+          <>
+            <SearchResultsHeader>
+              <h3>{highlightText(query, query)}</h3>
+            </SearchResultsHeader>
+            {searchResults.length > 0 ? (
+              <ResultsList>
+                {searchResults.map((result) => (
+                  <ResultItem
+                    key={result.id}
+                    onClick={() => onLocationSelect(result)}
+                  >
+                    <LocationIconWrapper>
+                      <LocationIcon
+                        style={{
+                          width: '20',
+                          height: '22',
+                          stroke: 'none',
+                        }}
+                      />
+                    </LocationIconWrapper>
+                    <ResultInfo>
+                      <ResultName>
+                        {highlightText(result.name, query)}
+                      </ResultName>
+                      <ResultAddress>
+                        {highlightText(result.address, query)}
+                      </ResultAddress>
+                    </ResultInfo>
+                    {result.distance && (
+                      <ResultDistance>{result.distance}</ResultDistance>
+                    )}
+                    <ArrowRightIcon width='16' height='16' />
+                  </ResultItem>
+                ))}
+              </ResultsList>
+            ) : (
+              <NoResults>
+                <WarningIcon />
+                <p>검색 결과가 없습니다.</p>
+              </NoResults>
+            )}
+          </>
+        ) : (
+          <>
+            <SearchResultsHeader>
+              <HeaderWithClearButton>
+                <h3>최근 검색</h3>
+                {recentSearches.length > 0 && (
+                  <ClearAll setRecentSearches={setRecentSearches} />
+                )}
+              </HeaderWithClearButton>
+            </SearchResultsHeader>
+            {recentSearches.length > 0 ? (
+              <RecentSearchesList>
+                {recentSearches.map((item, index) => (
+                  <RecentSearchItem
+                    key={index}
+                    onClick={() => onQueryChange(item.text)}
+                  >
+                    <div className='search-icon'>
+                      <SearchIcon width='20' height='20' />
+                    </div>
+                    <RecentSearchText>{item.text}</RecentSearchText>
+                    <SearchItemRight>
+                      <SearchDate>{item.date}</SearchDate>
+                      <DeleteButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const newRecentSearches = recentSearches.filter(
+                            (_, i) => i !== index
+                          );
+                          setRecentSearches(newRecentSearches);
+                        }}
+                      >
+                        <CloseIcon width='16' height='16' />
+                      </DeleteButton>
+                    </SearchItemRight>
+                  </RecentSearchItem>
+                ))}
+              </RecentSearchesList>
+            ) : (
+              <NoResults>
+                <WarningIcon />
+                <p>최근 검색한 기록이 없습니다.</p>
+              </NoResults>
+            )}
+          </>
+        )}
+      </SearchContent>
+    </FullScreenSearchContainer>
+  );
+};
 
 // 텍스트 강조 표시를 위한 함수
 const highlightText = (text: string, query: string) => {
@@ -79,165 +239,6 @@ const highlightText = (text: string, query: string) => {
         )
       )}
     </>
-  );
-};
-
-const SearchModal = ({
-  query,
-  onQueryChange,
-  onClose,
-  onLocationSelect,
-}: SearchResultsProps) => {
-  const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
-  const [searchResults, setSearchResults] = useState<MapLocation[]>([]);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // 검색 기록 가져오기
-  useEffect(() => {
-    const data = getSearchHistory();
-
-    setRecentSearches(data);
-  }, []);
-
-  // 검색어 변경 시 결과 업데이트
-  useEffect(() => {
-    const results = getSearchResult(query);
-    setSearchResults(results);
-  }, [query]);
-
-  // 컴포넌트 마운트 시 input에 포커스
-  useEffect(() => {
-    setTimeout(() => {
-      if (searchInputRef.current) {
-        searchInputRef.current.focus();
-      }
-    }, 100);
-  }, []);
-
-  return (
-    <FullScreenSearchContainer>
-      <SearchHeader>
-        <BackButton onClick={onClose}>
-          <BackIcon width='20' height='20' />
-        </BackButton>
-        <SearchFormFullScreen>
-          <SearchInputWrapper>
-            <SearchIcon width='16' height='16' />
-            <SearchInput
-              ref={searchInputRef}
-              autoFocus
-              type='text'
-              value={query}
-              onChange={(e) => onQueryChange(e.target.value)}
-              placeholder='애견카페 검색'
-            />
-            {query && (
-              <ClearButton onClick={() => onQueryChange('')}>
-                <CloseIcon width='16' height='16' />
-              </ClearButton>
-            )}
-          </SearchInputWrapper>
-        </SearchFormFullScreen>
-      </SearchHeader>
-
-      <SearchContent>
-        {query ? (
-          // 검색 결과
-          <>
-            <SearchResultsHeader>
-              <h3>{highlightText(query, query)}</h3>
-            </SearchResultsHeader>
-            {searchResults.length > 0 ? (
-              <ResultsList>
-                {searchResults.map((result) => (
-                  <ResultItem
-                    key={result.id}
-                    onClick={() => onLocationSelect(result)}
-                  >
-                    <LocationIconWrapper>
-                      <LocationIcon
-                        style={{
-                          width: '20',
-                          height: '22',
-                          stroke: 'none',
-                        }}
-                      />
-                    </LocationIconWrapper>
-                    <ResultInfo>
-                      <ResultName>
-                        {highlightText(result.name, query)}
-                      </ResultName>
-                      <ResultAddress>
-                        {highlightText(result.address, query)}
-                      </ResultAddress>
-                    </ResultInfo>
-                    {result.distance && (
-                      <ResultDistance>{result.distance}</ResultDistance>
-                    )}
-                    <ArrowRightIcon width='16' height='16' />
-                  </ResultItem>
-                ))}
-              </ResultsList>
-            ) : (
-              <NoResults>
-                <WarningIcon />
-                <p>검색 결과가 없습니다.</p>
-              </NoResults>
-            )}
-          </>
-        ) : (
-          // 최근 검색어
-          <>
-            <SearchResultsHeader>
-              <HeaderWithClearButton>
-                <h3>최근 검색어</h3>
-                {recentSearches.length > 0 && (
-                  <ClearAll setRecentSearches={setRecentSearches} />
-                )}
-              </HeaderWithClearButton>
-            </SearchResultsHeader>
-            {recentSearches.length > 0 ? (
-              <RecentSearchesList>
-                {recentSearches.map((item, index) => (
-                  <RecentSearchItem
-                    key={index}
-                    onClick={() => onQueryChange(item.text)}
-                  >
-                    <div className='search-icon'>
-                      <SearchIcon width='20' height='20' />
-                    </div>
-                    <RecentSearchText>{item.text}</RecentSearchText>
-                    <SearchItemRight>
-                      <SearchDate>{item.date}</SearchDate>
-                      <DeleteButton
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const newRecentSearches = recentSearches.filter(
-                            (_, i) => i !== index
-                          );
-                          setRecentSearches(newRecentSearches);
-                          // localStorage.setItem(
-                          //   'recentSearches',
-                          //   JSON.stringify(newRecentSearches)
-                          // );
-                        }}
-                      >
-                        <CloseIcon width='16' height='16' />
-                      </DeleteButton>
-                    </SearchItemRight>
-                  </RecentSearchItem>
-                ))}
-              </RecentSearchesList>
-            ) : (
-              <NoResults>
-                <WarningIcon />
-                <p>최근 검색한 기록이 없습니다.</p>
-              </NoResults>
-            )}
-          </>
-        )}
-      </SearchContent>
-    </FullScreenSearchContainer>
   );
 };
 
@@ -315,7 +316,7 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-const SearchFormFullScreen = styled.form`
+const SearchForm = styled.form`
   flex: 1;
   display: flex;
   align-items: center;

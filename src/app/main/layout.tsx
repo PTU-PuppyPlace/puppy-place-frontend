@@ -2,6 +2,7 @@
 
 import { styled } from 'styled-components';
 import BottomTabBar from '@/components/layout/BottomTabbar';
+import { MapProvider } from './map/_context/MapContext';
 
 export default function MainLayout({
   children,
@@ -10,7 +11,9 @@ export default function MainLayout({
 }) {
   return (
     <Container>
-      <Content>{children}</Content>
+      <MapProvider>
+        <Content>{children}</Content>
+      </MapProvider>
       <BottomTabBar />
     </Container>
   );

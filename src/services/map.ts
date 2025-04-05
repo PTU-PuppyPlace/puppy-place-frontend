@@ -37,3 +37,20 @@ export const getSearchResult = (query: string): MapLocation[] => {
     return [];
   }
 };
+
+export const getLocation = ({
+  region,
+  district,
+}: {
+  region?: string;
+  district?: string;
+  options?: string[];
+}): MapLocation[] => {
+  if (region && district) {
+    return SAMPLE_LOCATIONS.filter(
+      (item) => item.address.includes(region) && item.address.includes(district)
+    );
+  } else {
+    return SAMPLE_LOCATIONS;
+  }
+};
