@@ -1,11 +1,12 @@
-import PhoneIcon from '@/components/icons/phones-phone-call.svg';
 import NavigationIcon from '@/components/icons/navigation-maps-arrow-location-map-direction.svg';
-import ShareIcon from '@/components/icons/interface-share.svg';
+import { ActionButton, ActionText } from './ActionButtons';
 import styled from 'styled-components';
 import Button from '@/components/common/Button';
 import { useState } from 'react';
+import { NAVER_DIRECTION_URL } from '@/constants/map';
+import { KAKAO_DIRECTION_URL } from '@/constants/map';
 
-export default function ActionButtons() {
+export default function DirectionButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleNavigationClick = () => {
@@ -16,76 +17,37 @@ export default function ActionButtons() {
     setIsModalOpen(false);
   };
 
+  const handleNaverMapClick = () => {
+    window.open(
+      NAVER_DIRECTION_URL(37.557527, 126.924191, '무무 애견카페', '1'),
+      '_blank'
+    );
+  };
+
+  const handleKakaoMapClick = () => {
+    window.open(KAKAO_DIRECTION_URL, '_blank');
+  };
   return (
-    <Wrapper>
-      <ActionButton>
-        <PhoneIcon width='24' height='24' />
-        <ActionText>전화</ActionText>
-      </ActionButton>
+    <>
       <ActionButton onClick={handleNavigationClick}>
         <NavigationIcon width='24' height='24' />
         <ActionText>길찾기</ActionText>
       </ActionButton>
-      <ActionButton>
-        <ShareIcon width='24' height='24' />
-        <ActionText>장소 공유</ActionText>
-      </ActionButton>
-
       {isModalOpen && (
         <ModalOverlay onClick={closeModal}>
           <Modal onClick={(e) => e.stopPropagation()}>
             <ModalTitle>길찾기</ModalTitle>
             <ModalContent>
-              <Button onClick={closeModal}>네이버 지도</Button>
-              <Button onClick={closeModal}>카카오맵 지도</Button>
+              <Button onClick={handleNaverMapClick}>네이버 지도</Button>
+              <Button onClick={handleKakaoMapClick}>카카오맵 지도</Button>
             </ModalContent>
             <CloseButton onClick={closeModal}>닫기</CloseButton>
           </Modal>
         </ModalOverlay>
       )}
-    </Wrapper>
+    </>
   );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: stretch; // 각 버튼이 공간 차지하도록
-  align-items: stretch;
-  padding: 12px 0;
-`;
-
-const ActionButton = styled.button`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: transparent;
-  border: none;
-  border-right: 1px solid ${({ theme }) => theme.gray.g10}; // 피그마 구분선
-  &:last-child {
-    border-right: none;
-  }
-  cursor: pointer;
-  padding: 12px 0;
-  color: ${({ theme }) => theme.gray.g100};
-
-  svg {
-    width: 24px;
-    height: 24px;
-    stroke: ${({ theme }) => theme.gray.g100}; // 피그마 아이콘 색상
-    stroke-width: 1.5;
-    fill: none;
-  }
-`;
-
-const ActionText = styled.span`
-  font-size: ${({ theme }) =>
-    theme.caption13}; // 피그마 caption13 (13px medium)
-  font-weight: ${({ theme }) => theme.medium};
-  color: ${({ theme }) => theme.gray.g100};
-`;
 
 const ModalOverlay = styled.div`
   position: fixed;

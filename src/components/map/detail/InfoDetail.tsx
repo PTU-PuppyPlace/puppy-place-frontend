@@ -11,7 +11,7 @@ import { MapLocation } from '@/types/map';
 import theme from '@/styles/theme';
 import Divider from '../../common/Divider';
 import AddressDetail, { AddressDetailModal } from '../AdressDetail';
-import ActionButtons from './ActionButtons';
+import ActionButtons from '../actionButtons/ActionButtons';
 
 export default function InfoDetail({
   selectedLocation,
