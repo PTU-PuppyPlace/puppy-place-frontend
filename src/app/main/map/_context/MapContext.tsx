@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  ReactNode,
-} from 'react';
+import { createContext, useState, useContext, ReactNode } from 'react';
 import { MapLocation } from '@/types/map';
-import { getLocation } from '@/services/map';
 
 interface MapContextProps {
   locations: MapLocation[];
@@ -24,11 +17,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(
     null
   );
-
-  useEffect(() => {
-    const locations = getLocation();
-    setLocations(locations);
-  }, []);
 
   return (
     <MapContext.Provider

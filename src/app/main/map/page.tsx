@@ -1,17 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
 import SearchBar from '@/app/main/map/_components/SearchBar';
-import { NaverMap, MapLocation } from '@/types/map';
+import { NaverMap } from '@/types/map';
 import InfoDetail from '@/components/map/detail/InfoDetail';
 import { useMapContext } from './_context/MapContext';
+import { getLocation } from '@/services/map';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
-  const { locations, selectedLocation, setSelectedLocation } = useMapContext();
+  const { locations, setLocations, selectedLocation, setSelectedLocation } =
+    useMapContext();
+
+  useEffect(() => {
+    const locations = getLocation();
+    setLocations(locations);
+  }, []);
+
+  useEffect(() => {
+    if (map && selectedLocation) {
+      const position = new window.naver.maps.LatLng(
+        ...selectedLocation.coordinates
+      );
+      map.setCenter(position);
+      map.setZoom(17); // 확대 레벨 조정
+    }
+  }, [selectedLocation]);
 
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
@@ -33,24 +50,13 @@ export default function MapPage() {
     }
   };
 
-  const handleLocationSelect = (location: MapLocation) => {
-    // 선택된 위치로 지도 이동
-    if (map) {
-      const position = new window.naver.maps.LatLng(...location.coordinates);
-      map.setCenter(position);
-      map.setZoom(17); // 확대 레벨 조정
-
-      setSelectedLocation(location);
-    }
-  };
-
   const closeLocationInfo = () => {
     setSelectedLocation(null);
   };
 
   return (
     <MapContainer>
-      <SearchBar onLocationSelect={handleLocationSelect} />
+      <SearchBar />
       <Map onLoad={handleMapLoad} />
       {map &&
         locations.map((location) => (

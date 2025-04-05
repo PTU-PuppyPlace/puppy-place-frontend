@@ -6,15 +6,13 @@ import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import SearchModal from '@/app/main/map/_components/SearchModal';
 import { MapLocation } from '@/types/map';
 import Filter from './Filter';
+import { useMapContext } from '../_context/MapContext';
 
-interface SearchBarProps {
-  onLocationSelect?: (location: MapLocation) => void;
-}
-
-const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
+const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const { setSelectedLocation } = useMapContext();
 
   const handleInputFocus = () => {
     setIsSearchOpen(true);
@@ -29,9 +27,7 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
   };
 
   const handleLocationSelectInternal = (location: MapLocation) => {
-    if (onLocationSelect) {
-      onLocationSelect(location);
-    }
+    setSelectedLocation(location);
     setIsSearchOpen(false);
   };
 
