@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         이메일로 시작하기
       </Header>
       <Section>
-        <Image src={loginLogo} alt='login logo' />
+        <Image src={loginLogo} alt='login logo' width={140} height={140} />
         <Spacer height={'60px'} />
         {children}
       </Section>
