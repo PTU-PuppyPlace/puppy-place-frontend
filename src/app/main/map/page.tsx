@@ -8,7 +8,7 @@ import SearchBar from '@/app/main/map/_components/SearchBar';
 import { NaverMap, MapLocation } from '@/types/map';
 
 import { SAMPLE_LOCATIONS } from '@/mocks/map';
-import LocationInfo from '@/components/map/LocationInfo';
+import InfoDetail from '@/components/map/detail/InfoDetail';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
@@ -67,7 +67,7 @@ export default function MapPage() {
 
       {/* 선택된 위치가 있을 때 하단에 정보창 표시 */}
       {selectedLocation && (
-        <LocationInfo
+        <InfoDetail
           selectedLocation={selectedLocation}
           closeLocationInfo={closeLocationInfo}
         />
