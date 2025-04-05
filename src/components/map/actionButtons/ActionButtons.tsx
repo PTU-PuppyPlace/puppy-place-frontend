@@ -2,8 +2,29 @@ import PhoneIcon from '@/components/icons/phones-phone-call.svg';
 import ShareIcon from '@/components/icons/interface-share.svg';
 import styled from 'styled-components';
 import DirectionButton from './DirectionButton';
+import toast from 'react-hot-toast';
 
 export default function ActionButtons() {
+  const shareURL = async () => {
+    const title = '무무 애견카페';
+    const url = window.location.href;
+    const text = '귀여운 강아지가 있는 무무 애견카페를 확인해보세요!';
+
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success('URL이 클립보드에 복사되었습니다.');
+      if (navigator.share) {
+        await navigator.share({
+          title,
+          text,
+          url,
+        });
+      }
+    } catch (error) {
+      console.error('공유 실패:', error);
+    }
+  };
+
   return (
     <Wrapper>
       <ActionButton>
@@ -11,7 +32,7 @@ export default function ActionButtons() {
         <ActionText>전화</ActionText>
       </ActionButton>
       <DirectionButton />
-      <ActionButton>
+      <ActionButton onClick={shareURL}>
         <ShareIcon width='24' height='24' />
         <ActionText>장소 공유</ActionText>
       </ActionButton>
