@@ -18,7 +18,7 @@ export const SAMPLE_LOCATIONS: MapLocation[] = [
     coordinates: [37.557527, 126.924191] as [number, number],
     phone: '02-123-4567',
     description:
-      '애견 카페입니다. 반려견과 함께 방문할 수 있어요.\n주차 가능합니다.',
+      '지하철 7호선 어린이대공원역 3번출구 바로 앞 우측건물 3층 입니다.\nx주차불가x\n주변 유료주차장 이용해 주세요.\n*광진광장공영 유료주차장\n(주차 후 사거리로 올라오시면 3번출구 앞이 카페 입니다)\n* ﻿AJ파크 어린이회관점 유료주차장 (주차 후 왼쪽 끝까지 가셔서 길 건너편 카페 입니다)\n* ﻿KCC파크타운 유료주차장\n(주차 후 건물밖으로',
     operatingStatus: '영업중',
     operatingHoursDetail: [
       { day: '월', time: '09:00 - 21:00' },

@@ -1,4 +1,4 @@
-import DownIcon from '@/components/icons/navigation-down.svg';
+import DownIcon from '@/components/icons/interface-down.svg';
 import PhoneIcon from '@/components/icons/phones-phone-call.svg';
 import NavigationIcon from '@/components/icons/navigation-maps-arrow-location-map-direction.svg';
 import ShareIcon from '@/components/icons/interface-share.svg';
@@ -324,20 +324,18 @@ const OperatingHoursSummary = styled.span`
   font-size: ${({ theme }) => theme.body15};
   font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
-  margin-left: 4px;
 `;
 
 const OperatingHoursDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-top: 8px; // 헤더와의 간격
-  margin-left: 28px; // 아이콘 너비만큼 들여쓰기 (선택 사항)
+  gap: 10px;
+  margin-top: 4px;
 `;
 
 const OperatingHoursLine = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 1px;
 `;
 
 const DayLabel = styled.span`
@@ -349,14 +347,14 @@ const DayLabel = styled.span`
 
 const TimeText = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
 `;
 
 // 요금 정보 관련 스타일
 const EntryRestrictionText = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
   flex: 1; // 텍스트가 남은 공간 차지
 `;
@@ -364,9 +362,8 @@ const EntryRestrictionText = styled.span`
 const EntryFeeDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-top: 8px;
-  margin-left: 28px; // 아이콘 너비만큼 들여쓰기
+  gap: 10px;
+  margin-top: 4px;
 `;
 
 const EntryFeeLine = styled.div`
@@ -376,7 +373,7 @@ const EntryFeeLine = styled.div`
 
 const FeeType = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
 `;
 
@@ -390,7 +387,7 @@ const FeePrice = styled.span`
 const DescriptionText = styled.p`
   // p 태그 사용
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
   line-height: 1.6;
   white-space: pre-wrap; // 줄바꿈 및 공백 유지
