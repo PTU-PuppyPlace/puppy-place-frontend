@@ -9,10 +9,9 @@ import Filter from './Filter';
 
 interface SearchBarProps {
   onLocationSelect?: (location: MapLocation) => void;
-  setLocations: (locations: MapLocation[]) => void;
 }
 
-const SearchBar = ({ onLocationSelect, setLocations }: SearchBarProps) => {
+const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
   const [query, setQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -50,7 +49,7 @@ const SearchBar = ({ onLocationSelect, setLocations }: SearchBarProps) => {
               readOnly={!isSearchOpen}
             />
           </SearchInputWrapper>
-          <Filter setLocations={setLocations} />
+          <Filter />
         </SearchBarContent>
       </SearchBarContainer>
 

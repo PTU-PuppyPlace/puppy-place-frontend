@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@/components/icons/navigation-close.svg';
 import TrashIcon from '@/components/icons/interface-trash-delete-bin-refresh.svg';
@@ -10,57 +10,50 @@ import Divider from '@/components/common/Divider';
 import Select from '@/components/common/Select';
 import { SAMPLE_DISTRICTS, SAMPLE_REGION } from '@/mocks/map';
 import { getLocation } from '@/services/map';
-import { MapLocation } from '@/types/map';
+import { FILTER_OPTIONS } from '@/constants/map';
+import { useMapContext } from '../_context/MapContext';
 
 interface FilterModalProps {
   onClose: () => void;
-  setLocations: (locations: MapLocation[]) => void;
 }
 
-interface FilterOption {
-  id: string;
-  label: string;
-  selected: boolean;
-}
-
-export default function FilterModal({
-  onClose,
-  setLocations,
-}: FilterModalProps) {
+export default function FilterModal({ onClose }: FilterModalProps) {
   // 지역 선택 상태
   const [region, setRegion] = useState<string>('seoul');
   const [district, setDistrict] = useState<string>(
     SAMPLE_DISTRICTS[region]?.[0]?.value || ''
   );
-
   // 속성 옵션 상태
-  const [properties, setProperties] = useState<FilterOption[]>([
-    { id: 'open', label: '영업중', selected: false },
-    { id: 'reservation', label: '예약', selected: false },
-    { id: '1km', label: '1km 반경', selected: false },
-    { id: 'new', label: '신규오픈', selected: false },
-    { id: 'trending', label: '요즘뜨는', selected: false },
-  ]);
+  const [options, setOptions] = useState<string[]>([]);
+  const { setLocations, setSelectedLocation, locations } = useMapContext();
 
   const handleFilter = () => {
-    const filteredLocations = getLocation(region, district);
+    const filteredLocations = getLocation(region, district, options);
     setLocations(filteredLocations);
+    setSelectedLocation(filteredLocations[0]);
     onClose();
   };
 
+  useEffect(() => {
+    const filteredLocations = getLocation(region, district, options);
+    setLocations(filteredLocations);
+  }, [region, district, options]);
+
   // 속성 옵션 토글 함수
   const toggleProperty = (id: string) => {
-    setProperties(
-      properties.map((prop) =>
-        prop.id === id ? { ...prop, selected: !prop.selected } : prop
-      )
-    );
+    setOptions((options) => {
+      if (options.includes(id)) {
+        return options.filter((option) => option !== id);
+      } else {
+        return [...options, id];
+      }
+    });
   };
 
   // 필터 초기화 함수
   const resetFilters = () => {
     setDistrict('');
-    setProperties(properties.map((prop) => ({ ...prop, selected: false })));
+    setOptions([]);
   };
 
   return (
@@ -116,10 +109,10 @@ export default function FilterModal({
           <FilterSection>
             <FilterLabel>속성</FilterLabel>
             <FilterChipsRow>
-              {properties.map((property) => (
+              {FILTER_OPTIONS.map((property) => (
                 <FilterChip
                   key={property.id}
-                  selected={property.selected}
+                  selected={options.includes(property.id)}
                   onClick={() => toggleProperty(property.id)}
                 >
                   {property.label}
@@ -135,7 +128,7 @@ export default function FilterModal({
               <span>재설정</span>
             </ResetButton>
             <ShowResultsButton onClick={handleFilter}>
-              결과보기
+              {locations.length}건 결과보기
             </ShowResultsButton>
           </ActionRow>
         </ModalBody>

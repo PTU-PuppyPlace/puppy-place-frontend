@@ -40,7 +40,8 @@ export const getSearchResult = (query: string): MapLocation[] => {
 
 export const getLocation = (
   region?: string,
-  district?: string
+  district?: string,
+  properties?: string[]
 ): MapLocation[] => {
   if (region && district) {
     return SAMPLE_LOCATIONS.filter(

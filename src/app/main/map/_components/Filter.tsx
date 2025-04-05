@@ -2,13 +2,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import FilterIcon from '@/components/icons/interface-settings-filter.svg';
 import FilterModal from '@/app/main/map/_components/FilterModal';
-import { MapLocation } from '@/types/map';
 
-export default function Filter({
-  setLocations,
-}: {
-  setLocations: (locations: MapLocation[]) => void;
-}) {
+export default function Filter() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFilterClick = () => {
@@ -24,9 +19,7 @@ export default function Filter({
       <FilterButton type='button' onClick={handleFilterClick}>
         <FilterIcon />
       </FilterButton>
-      {isFilterOpen && (
-        <FilterModal onClose={handleCloseFilter} setLocations={setLocations} />
-      )}
+      {isFilterOpen && <FilterModal onClose={handleCloseFilter} />}
     </>
   );
 }

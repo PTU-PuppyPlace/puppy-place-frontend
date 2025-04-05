@@ -9,3 +9,11 @@ export const NAVER_DIRECTION_URL = (
 
 export const KAKAO_DIRECTION_URL =
   'https://map.kakao.com/?nil_profile=title&nil_src=local';
+
+export const FILTER_OPTIONS = [
+  { id: 'open', label: '영업중' },
+  { id: 'reservation', label: '예약' },
+  { id: '1km', label: '1km 반경' },
+  { id: 'new', label: '신규오픈' },
+  { id: 'trending', label: '요즘뜨는' },
+];

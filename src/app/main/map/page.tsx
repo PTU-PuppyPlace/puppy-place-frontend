@@ -1,25 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
 import SearchBar from '@/app/main/map/_components/SearchBar';
 import { NaverMap, MapLocation } from '@/types/map';
 import InfoDetail from '@/components/map/detail/InfoDetail';
-import { getLocation } from '@/services/map';
+import { useMapContext } from './_context/MapContext';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
-  const [locations, setLocations] = useState<MapLocation[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(
-    null
-  );
-
-  useEffect(() => {
-    const locations = getLocation();
-    setLocations(locations);
-  }, []);
+  const { locations, selectedLocation, setSelectedLocation } = useMapContext();
 
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
@@ -58,10 +50,7 @@ export default function MapPage() {
 
   return (
     <MapContainer>
-      <SearchBar
-        onLocationSelect={handleLocationSelect}
-        setLocations={setLocations}
-      />
+      <SearchBar onLocationSelect={handleLocationSelect} />
       <Map onLoad={handleMapLoad} />
       {map &&
         locations.map((location) => (
