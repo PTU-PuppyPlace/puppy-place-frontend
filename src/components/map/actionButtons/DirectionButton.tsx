@@ -5,9 +5,10 @@ import Button from '@/components/common/Button';
 import { useState } from 'react';
 import { NAVER_DIRECTION_URL } from '@/constants/map';
 import { KAKAO_DIRECTION_URL } from '@/constants/map';
-
+import { useMapContext } from '@/app/main/map/_context/MapContext';
 export default function DirectionButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { selectedLocation } = useMapContext();
 
   const handleNavigationClick = () => {
     setIsModalOpen(true);
@@ -18,8 +19,14 @@ export default function DirectionButton() {
   };
 
   const handleNaverMapClick = () => {
+    if (!selectedLocation) return;
     window.open(
-      NAVER_DIRECTION_URL(37.557527, 126.924191, '무무 애견카페', '1'),
+      NAVER_DIRECTION_URL(
+        selectedLocation?.coordinates[0],
+        selectedLocation?.coordinates[1],
+        selectedLocation?.name,
+        selectedLocation?.id
+      ),
       '_blank'
     );
   };

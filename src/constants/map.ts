@@ -2,7 +2,7 @@ export const NAVER_DIRECTION_URL = (
   latitude: number,
   longitude: number,
   name: string,
-  placeId: string
+  placeId: number
 ) => {
   return `https://map.naver.com/p/directions/-/${latitude},${longitude},${name},${placeId},PLACE_POI/-/transit?c=15.00,0,0,0,dh`;
 };
