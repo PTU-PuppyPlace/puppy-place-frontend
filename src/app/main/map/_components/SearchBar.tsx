@@ -2,16 +2,17 @@
 
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import FilterIcon from '@/components/icons/interface-settings-filter.svg';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import SearchModal from '@/app/main/map/_components/SearchModal';
 import { MapLocation } from '@/types/map';
+import Filter from './Filter';
 
 interface SearchBarProps {
   onLocationSelect?: (location: MapLocation) => void;
+  setLocations: (locations: MapLocation[]) => void;
 }
 
-const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
+const SearchBar = ({ onLocationSelect, setLocations }: SearchBarProps) => {
   const [query, setQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -49,9 +50,7 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
               readOnly={!isSearchOpen}
             />
           </SearchInputWrapper>
-          <FilterButton type='button'>
-            <FilterIcon />
-          </FilterButton>
+          <Filter setLocations={setLocations} />
         </SearchBarContent>
       </SearchBarContainer>
 
@@ -110,17 +109,6 @@ const SearchInput = styled.input`
     color: ${({ theme }) => theme.gray.g40};
     font-weight: 400;
   }
-`;
-
-const FilterButton = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin-left: 8px;
 `;
 
 export default SearchBar;

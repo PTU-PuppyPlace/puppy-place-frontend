@@ -1,20 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
 import SearchBar from '@/app/main/map/_components/SearchBar';
 import { NaverMap, MapLocation } from '@/types/map';
-
-import { SAMPLE_LOCATIONS } from '@/mocks/map';
 import InfoDetail from '@/components/map/detail/InfoDetail';
+import { getLocation } from '@/services/map';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
+  const [locations, setLocations] = useState<MapLocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(
     null
   );
+
+  useEffect(() => {
+    const locations = getLocation();
+    setLocations(locations);
+  }, []);
 
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
@@ -22,7 +27,7 @@ export default function MapPage() {
 
   const handleMarkerClick = (locationId: number) => {
     // 샘플 데이터에서 클릭한 위치 찾기
-    const location = SAMPLE_LOCATIONS.find((loc) => loc.id === locationId);
+    const location = locations.find((loc) => loc.id === locationId);
     if (location) {
       // 선택된 위치 정보 설정
       setSelectedLocation(location);
@@ -53,10 +58,13 @@ export default function MapPage() {
 
   return (
     <MapContainer>
-      <SearchBar onLocationSelect={handleLocationSelect} />
+      <SearchBar
+        onLocationSelect={handleLocationSelect}
+        setLocations={setLocations}
+      />
       <Map onLoad={handleMapLoad} />
       {map &&
-        SAMPLE_LOCATIONS.map((location) => (
+        locations.map((location) => (
           <Marker
             key={location.id}
             map={map}

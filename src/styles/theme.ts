@@ -57,6 +57,8 @@ const theme = {
   maxWidth: '500px',
   bottomTabBarHeight: '66px',
   locationInfoHeight: 200,
+  filterModalHeight: 300,
+  dividerMargin: '16px',
 
   // Shadow
   shadow1: '2px 0px 7px 0px #00000033',

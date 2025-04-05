@@ -1,3 +1,4 @@
+import { Option } from '@/components/common/Select';
 import { Coordinates, MapLocation } from '@/types/map';
 
 export const SAMPLE_SEARCH_HISTORY = [
@@ -65,3 +66,31 @@ export const SAMPLE_LOCATIONS: MapLocation[] = [
     ],
   },
 ];
+
+export const SAMPLE_REGION = [
+  {
+    value: 'seoul',
+    label: '서울특별시',
+  },
+  {
+    value: 'incheon',
+    label: '인천광역시',
+  },
+  {
+    value: 'busan',
+    label: '부산광역시',
+  },
+];
+
+export const SAMPLE_DISTRICTS: Record<string, Option[]> = {
+  seoul: [
+    {
+      value: 'nowon',
+      label: '노원구',
+    },
+    {
+      value: 'gangnam',
+      label: '강남구',
+    },
+  ],
+};
