@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import NavigationDown from '@/components/icons/navigation-down.svg';
 
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }
@@ -17,6 +17,9 @@ interface SelectProps {
   errorText?: string;
   disabled?: boolean;
   defaultValue?: string;
+  width?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -26,9 +29,15 @@ const Select: React.FC<SelectProps> = ({
   errorText,
   disabled,
   defaultValue,
+  width = '335px',
+  onChange,
+  value,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(() => {
+    if (value) {
+      return options.find((option) => option.value === value) || null;
+    }
     if (defaultValue) {
       return options.find((option) => option.value === defaultValue) || null;
     }
@@ -75,6 +84,8 @@ const Select: React.FC<SelectProps> = ({
         name={name}
         defaultValue={defaultValue}
         disabled={disabled}
+        onChange={onChange}
+        value={value}
       >
         <option value=''>선택</option>
         {options.map((option) => (
@@ -90,6 +101,7 @@ const Select: React.FC<SelectProps> = ({
         $isOpen={isOpen}
         $hasError={!!errorText}
         disabled={disabled}
+        width={width}
       >
         {selectedOption ? (
           <SelectedLabel>{selectedOption.label}</SelectedLabel>
@@ -98,7 +110,7 @@ const Select: React.FC<SelectProps> = ({
         )}
         <NavigationDown width='20' height='20' />
       </SelectButton>
-      <OptionsList $isOpen={isOpen}>
+      <OptionsList $isOpen={isOpen} width={width}>
         {options.map((option) => (
           <Option key={option.value} onClick={() => handleSelect(option)}>
             <OptionText>{option.label}</OptionText>
@@ -114,6 +126,7 @@ export default Select;
 
 const SelectContainer = styled.div`
   position: relative;
+  flex: 1;
 `;
 
 const HiddenSelect = styled.select`
@@ -128,11 +141,12 @@ const SelectButton = styled.button<{
   $isOpen: boolean;
   $hasError: boolean;
   disabled?: boolean;
+  width?: string;
 }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 335px;
+  width: ${({ width }) => width};
   height: 40px;
   padding: 12px 12px 12px 16px;
   background-color: ${theme.extraWhite};
@@ -161,13 +175,13 @@ const SelectButton = styled.button<{
     `}
 `;
 
-const OptionsList = styled.ul<{ $isOpen: boolean }>`
+const OptionsList = styled.ul<{ $isOpen: boolean; width?: string }>`
   position: absolute;
   top: 40px;
   left: 0;
   right: 0;
   background-color: ${theme.extraWhite};
-  width: 335px;
+  width: ${({ width }) => width};
   border: 1px solid ${theme.gray.g03};
   border-top: none;
   border-bottom-left-radius: 8px;

@@ -1,7 +1,4 @@
-import DownIcon from '@/components/icons/navigation-down.svg';
-import PhoneIcon from '@/components/icons/phones-phone-call.svg';
-import NavigationIcon from '@/components/icons/navigation-maps-arrow-location-map-direction.svg';
-import ShareIcon from '@/components/icons/interface-share.svg';
+import DownIcon from '@/components/icons/interface-down.svg';
 import ClockIcon from '@/components/icons/fill-alarm-clock-time-timer.svg';
 import WonIcon from '@/components/icons/won.svg';
 import InfoIcon from '@/components/icons/info-information.svg';
@@ -12,10 +9,11 @@ import { BottomSheet } from 'react-spring-bottom-sheet';
 import { useState } from 'react';
 import { MapLocation } from '@/types/map';
 import theme from '@/styles/theme';
-import Divider from '../common/Divider';
-import AddressDetail, { AddressDetailModal } from './AdressDetail';
+import Divider from '../../common/Divider';
+import AddressDetail, { AddressDetailModal } from '../AdressDetail';
+import ActionButtons from '../actionButtons/ActionButtons';
 
-export default function LocationInfo({
+export default function InfoDetail({
   selectedLocation,
   closeLocationInfo,
 }: {
@@ -68,24 +66,8 @@ export default function LocationInfo({
             />
           )}
         </LocationInfoItem>
-
-        <ActionButtons>
-          <ActionButton>
-            <PhoneIcon width='24' height='24' />
-            <ActionText>전화</ActionText>
-          </ActionButton>
-          <ActionButton>
-            <NavigationIcon width='24' height='24' />
-            <ActionText>길찾기</ActionText>
-          </ActionButton>
-          <ActionButton>
-            <ShareIcon width='24' height='24' />
-            <ActionText>장소 공유</ActionText>
-          </ActionButton>
-        </ActionButtons>
-
+        <ActionButtons />
         <Divider />
-
         {/* 상세 정보 섹션 */}
         <DetailsSection>
           {/* 주소 정보 */}
@@ -228,46 +210,6 @@ const LocationText = styled.span`
   line-height: 1.5;
 `;
 
-const ActionButtons = styled.div`
-  display: flex;
-  justify-content: stretch; // 각 버튼이 공간 차지하도록
-  align-items: stretch;
-  padding: 12px 0;
-`;
-
-const ActionButton = styled.button`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: transparent;
-  border: none;
-  border-right: 1px solid ${({ theme }) => theme.gray.g10}; // 피그마 구분선
-  &:last-child {
-    border-right: none;
-  }
-  cursor: pointer;
-  padding: 12px 0;
-  color: ${({ theme }) => theme.gray.g100};
-
-  svg {
-    width: 24px;
-    height: 24px;
-    stroke: ${({ theme }) => theme.gray.g100}; // 피그마 아이콘 색상
-    stroke-width: 1.5;
-    fill: none;
-  }
-`;
-
-const ActionText = styled.span`
-  font-size: ${({ theme }) =>
-    theme.caption13}; // 피그마 caption13 (13px medium)
-  font-weight: ${({ theme }) => theme.medium};
-  color: ${({ theme }) => theme.gray.g100};
-`;
-
 const DetailsSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -324,20 +266,18 @@ const OperatingHoursSummary = styled.span`
   font-size: ${({ theme }) => theme.body15};
   font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
-  margin-left: 4px;
 `;
 
 const OperatingHoursDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-top: 8px; // 헤더와의 간격
-  margin-left: 28px; // 아이콘 너비만큼 들여쓰기 (선택 사항)
+  gap: 10px;
+  margin-top: 4px;
 `;
 
 const OperatingHoursLine = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 1px;
 `;
 
 const DayLabel = styled.span`
@@ -349,14 +289,14 @@ const DayLabel = styled.span`
 
 const TimeText = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
 `;
 
 // 요금 정보 관련 스타일
 const EntryRestrictionText = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
   flex: 1; // 텍스트가 남은 공간 차지
 `;
@@ -364,9 +304,8 @@ const EntryRestrictionText = styled.span`
 const EntryFeeDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-top: 8px;
-  margin-left: 28px; // 아이콘 너비만큼 들여쓰기
+  gap: 10px;
+  margin-top: 4px;
 `;
 
 const EntryFeeLine = styled.div`
@@ -376,7 +315,7 @@ const EntryFeeLine = styled.div`
 
 const FeeType = styled.span`
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
 `;
 
@@ -390,7 +329,7 @@ const FeePrice = styled.span`
 const DescriptionText = styled.p`
   // p 태그 사용
   font-size: ${({ theme }) => theme.body15};
-  font-weight: ${({ theme }) => theme.bold};
+  font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g100};
   line-height: 1.6;
   white-space: pre-wrap; // 줄바꿈 및 공백 유지

@@ -2,18 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface DividerProps {
-  className?: string;
+  type?: string;
 }
 
-const StyledDivider = styled.div`
-  width: 100%;
-  height: 8px;
-  background-color: ${({ theme }) => theme.gray.g4};
-  margin: 16px 0;
-`;
-
-const Divider: React.FC<DividerProps> = ({ className }) => {
-  return <StyledDivider className={className} />;
+const Divider: React.FC<DividerProps> = ({ type }) => {
+  return <StyledDivider type={type} />;
 };
+
+const StyledDivider = styled.div<{ type?: string }>`
+  width: 100%;
+  height: ${({ type }) => (type === 'thin' ? '1px' : '8px')};
+  background-color: ${({ theme, type }) =>
+    type === 'thin' ? theme.gray.g10 : theme.gray.g4};
+  margin: ${({ theme }) => theme.dividerMargin} 0;
+`;
 
 export default Divider;

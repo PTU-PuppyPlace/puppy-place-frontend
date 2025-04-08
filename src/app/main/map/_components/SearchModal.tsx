@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import CloseIcon from '@/components/icons/navigation-close.svg';
@@ -15,6 +15,7 @@ import {
   getSearchResult,
 } from '@/services/map';
 import { MapLocation, SearchHistoryItem } from '@/types/map';
+import { useMapContext } from '../_context/MapContext';
 
 interface SearchResultsProps {
   query: string;
@@ -22,65 +23,6 @@ interface SearchResultsProps {
   onClose: () => void;
   onLocationSelect: (location: MapLocation) => void;
 }
-
-// 텍스트 강조 표시를 위한 함수
-const highlightText = (text: string, query: string) => {
-  if (!query.trim()) return <span>{text}</span>;
-
-  // 정규 표현식 특수 문자 이스케이프 처리
-  const escapedQuery = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(${escapedQuery})`, 'gi');
-
-  // 문자열을 파트로 분리 (일치하는 부분과 일치하지 않는 부분으로 구분)
-  const parts = [];
-  let lastIndex = 0;
-  let match;
-
-  // text 내에서 모든 일치 항목 찾기
-  while ((match = regex.exec(text)) !== null) {
-    // 일치하는 부분 이전 텍스트 추가
-    if (match.index > lastIndex) {
-      parts.push({
-        text: text.substring(lastIndex, match.index),
-        highlight: false,
-      });
-    }
-
-    // 일치하는 부분 추가
-    parts.push({
-      text: match[0],
-      highlight: true,
-    });
-
-    lastIndex = regex.lastIndex;
-  }
-
-  // 마지막 일치 이후 남은 텍스트 추가
-  if (lastIndex < text.length) {
-    parts.push({
-      text: text.substring(lastIndex),
-      highlight: false,
-    });
-  }
-
-  // 일치하는 항목이 없으면 원본 텍스트 반환
-  if (parts.length === 0) {
-    return <span>{text}</span>;
-  }
-
-  // 강조 표시가 적용된 JSX 반환
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.highlight ? (
-          <HighlightedText key={i}>{part.text}</HighlightedText>
-        ) : (
-          <span key={i}>{part.text}</span>
-        )
-      )}
-    </>
-  );
-};
 
 const SearchModal = ({
   query,
@@ -90,7 +32,7 @@ const SearchModal = ({
 }: SearchResultsProps) => {
   const [recentSearches, setRecentSearches] = useState<SearchHistoryItem[]>([]);
   const [searchResults, setSearchResults] = useState<MapLocation[]>([]);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const { setLocations } = useMapContext();
 
   // 검색 기록 가져오기
   useEffect(() => {
@@ -105,14 +47,13 @@ const SearchModal = ({
     setSearchResults(results);
   }, [query]);
 
-  // 컴포넌트 마운트 시 input에 포커스
-  useEffect(() => {
-    setTimeout(() => {
-      if (searchInputRef.current) {
-        searchInputRef.current.focus();
-      }
-    }, 100);
-  }, []);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLocations(searchResults);
+    if (searchResults.length > 0) {
+      onLocationSelect(searchResults[0]);
+    }
+  };
 
   return (
     <FullScreenSearchContainer>
@@ -120,16 +61,22 @@ const SearchModal = ({
         <BackButton onClick={onClose}>
           <BackIcon width='20' height='20' />
         </BackButton>
-        <SearchFormFullScreen>
+        <SearchForm onSubmit={handleSubmit}>
           <SearchInputWrapper>
             <SearchIcon width='16' height='16' />
             <SearchInput
-              ref={searchInputRef}
               autoFocus
               type='text'
               value={query}
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder='애견카페 검색'
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(
+                    e as unknown as React.FormEvent<HTMLFormElement>
+                  );
+                }
+              }}
             />
             {query && (
               <ClearButton onClick={() => onQueryChange('')}>
@@ -137,7 +84,7 @@ const SearchModal = ({
               </ClearButton>
             )}
           </SearchInputWrapper>
-        </SearchFormFullScreen>
+        </SearchForm>
       </SearchHeader>
 
       <SearchContent>
@@ -215,10 +162,6 @@ const SearchModal = ({
                             (_, i) => i !== index
                           );
                           setRecentSearches(newRecentSearches);
-                          // localStorage.setItem(
-                          //   'recentSearches',
-                          //   JSON.stringify(newRecentSearches)
-                          // );
                         }}
                       >
                         <CloseIcon width='16' height='16' />
@@ -237,6 +180,65 @@ const SearchModal = ({
         )}
       </SearchContent>
     </FullScreenSearchContainer>
+  );
+};
+
+// 텍스트 강조 표시를 위한 함수
+const highlightText = (text: string, query: string) => {
+  if (!query.trim()) return <span>{text}</span>;
+
+  // 정규 표현식 특수 문자 이스케이프 처리
+  const escapedQuery = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escapedQuery})`, 'gi');
+
+  // 문자열을 파트로 분리 (일치하는 부분과 일치하지 않는 부분으로 구분)
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  // text 내에서 모든 일치 항목 찾기
+  while ((match = regex.exec(text)) !== null) {
+    // 일치하는 부분 이전 텍스트 추가
+    if (match.index > lastIndex) {
+      parts.push({
+        text: text.substring(lastIndex, match.index),
+        highlight: false,
+      });
+    }
+
+    // 일치하는 부분 추가
+    parts.push({
+      text: match[0],
+      highlight: true,
+    });
+
+    lastIndex = regex.lastIndex;
+  }
+
+  // 마지막 일치 이후 남은 텍스트 추가
+  if (lastIndex < text.length) {
+    parts.push({
+      text: text.substring(lastIndex),
+      highlight: false,
+    });
+  }
+
+  // 일치하는 항목이 없으면 원본 텍스트 반환
+  if (parts.length === 0) {
+    return <span>{text}</span>;
+  }
+
+  // 강조 표시가 적용된 JSX 반환
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.highlight ? (
+          <HighlightedText key={i}>{part.text}</HighlightedText>
+        ) : (
+          <span key={i}>{part.text}</span>
+        )
+      )}
+    </>
   );
 };
 
@@ -314,7 +316,7 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-const SearchFormFullScreen = styled.form`
+const SearchForm = styled.form`
   flex: 1;
   display: flex;
   align-items: center;

@@ -2,19 +2,17 @@
 
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import FilterIcon from '@/components/icons/interface-settings-filter.svg';
 import SearchIcon from '@/components/icons/interface-search-loupe.svg';
 import SearchModal from '@/app/main/map/_components/SearchModal';
 import { MapLocation } from '@/types/map';
+import Filter from './Filter';
+import { useMapContext } from '../_context/MapContext';
 
-interface SearchBarProps {
-  onLocationSelect?: (location: MapLocation) => void;
-}
-
-const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
+const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const { setSelectedLocation } = useMapContext();
 
   const handleInputFocus = () => {
     setIsSearchOpen(true);
@@ -29,9 +27,7 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
   };
 
   const handleLocationSelectInternal = (location: MapLocation) => {
-    if (onLocationSelect) {
-      onLocationSelect(location);
-    }
+    setSelectedLocation(location);
     setIsSearchOpen(false);
   };
 
@@ -48,9 +44,7 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
             readOnly={!isSearchOpen}
           />
         </SearchInputWrapper>
-        <FilterButton type='button'>
-          <FilterIcon />
-        </FilterButton>
+        <Filter />
       </SearchBarContainer>
 
       {isSearchOpen && (
@@ -101,15 +95,6 @@ const SearchInput = styled.input`
     color: ${({ theme }) => theme.gray.g40};
     font-weight: 400;
   }
-`;
-
-const FilterButton = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export default SearchBar;
