@@ -9,17 +9,20 @@ import { NaverMap } from '@/types/map';
 import InfoDetail from '@/components/map/detail/InfoDetail';
 import { useMapContext } from './_context/MapContext';
 import { getLocation } from '@/services/map';
+import { moveToCurrentLocation } from '@/utils/map';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
   const { locations, setLocations, selectedLocation, setSelectedLocation } =
     useMapContext();
 
+  //서버에서 데이터 가져오기
   useEffect(() => {
     const locations = getLocation({});
     setLocations(locations);
   }, []);
 
+  //선택된 위치가 바뀔 때마다 지도 이동
   useEffect(() => {
     if (map && selectedLocation) {
       const position = new window.naver.maps.LatLng(
@@ -30,8 +33,11 @@ export default function MapPage() {
     }
   }, [selectedLocation]);
 
+  //지도 최초 로드 시. map state를 저장하고 사용자 위치를 기본 위치로 설정
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
+
+    moveToCurrentLocation(map);
   };
 
   const handleMarkerClick = (locationId: number) => {
