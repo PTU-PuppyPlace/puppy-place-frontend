@@ -6,9 +6,9 @@ import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
 import SearchBar from '@/app/main/map/_components/SearchBar';
 import { NaverMap, MapLocation } from '@/types/map';
-
 import { SAMPLE_LOCATIONS } from '@/mocks/map';
 import LocationInfo from '@/components/map/LocationInfo';
+import { moveToCurrentLocation } from '@/utils/map';
 
 export default function MapPage() {
   const [map, setMap] = useState<NaverMap | null>(null);
@@ -18,6 +18,9 @@ export default function MapPage() {
 
   const handleMapLoad = (map: NaverMap) => {
     setMap(map);
+
+    // 사용자 위치를 기본 위치로 설정
+    moveToCurrentLocation(map);
   };
 
   const handleMarkerClick = (locationId: number) => {
