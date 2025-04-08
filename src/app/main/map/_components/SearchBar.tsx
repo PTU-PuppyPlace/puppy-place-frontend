@@ -38,21 +38,19 @@ const SearchBar = ({ onLocationSelect }: SearchBarProps) => {
   return (
     <>
       <SearchBarContainer ref={searchContainerRef}>
-        <SearchBarContent>
-          <SearchInputWrapper>
-            <SearchIcon />
-            <SearchInput
-              type='text'
-              value={query}
-              onClick={handleInputFocus}
-              placeholder='애견카페 검색'
-              readOnly={!isSearchOpen}
-            />
-          </SearchInputWrapper>
-          <FilterButton type='button'>
-            <FilterIcon />
-          </FilterButton>
-        </SearchBarContent>
+        <SearchInputWrapper>
+          <SearchIcon />
+          <SearchInput
+            type='text'
+            value={query}
+            onClick={handleInputFocus}
+            placeholder='애견카페 검색'
+            readOnly={!isSearchOpen}
+          />
+        </SearchInputWrapper>
+        <FilterButton type='button'>
+          <FilterIcon />
+        </FilterButton>
       </SearchBarContainer>
 
       {isSearchOpen && (
@@ -73,23 +71,15 @@ const SearchBarContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   z-index: 1;
-  padding: 0 20px;
-`;
-
-const SearchBarContent = styled.div`
-  display: flex;
+  margin: 0 20px;
   align-items: center;
-  width: 100%;
-  max-width: 400px;
   border-radius: 8px;
   background-color: white;
   padding: 12px 16px;
-  margin: 0 auto;
   border: 1px solid ${({ theme }) => theme.gray.g20};
   box-shadow: ${({ theme }) => theme.shadow1};
+  min-width: 100px;
 `;
 
 const SearchInputWrapper = styled.div`
@@ -106,6 +96,7 @@ const SearchInput = styled.input`
   font-size: ${({ theme }) => theme.body16};
   color: ${({ theme }) => theme.gray.g100};
   font-weight: ${({ theme }) => theme.medium};
+  width: 100%;
   &::placeholder {
     color: ${({ theme }) => theme.gray.g40};
     font-weight: 400;
@@ -119,8 +110,6 @@ const FilterButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  margin-left: 8px;
 `;
 
 export default SearchBar;
