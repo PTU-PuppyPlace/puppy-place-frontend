@@ -26,7 +26,6 @@ export const {
             password: credentials.password as string,
           });
 
-          console.log('user', user);
           if (user.isSuccess) {
             return user;
           } else {
