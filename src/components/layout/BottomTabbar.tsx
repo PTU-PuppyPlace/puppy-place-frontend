@@ -87,10 +87,10 @@ const BottomTabBarComponent: React.FC<TabBarProps> = ({
 };
 
 const TabBarContainer = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,6 +99,8 @@ const TabBarContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.gray.g10};
   height: ${({ theme }) => theme.bottomTabBarHeight};
   box-shadow: ${({ theme }) => theme.shadow1};
+  width: 100%;
+  max-width: ${({ theme }) => theme.maxWidth};
 `;
 
 const TabButton = styled.button<{ isActive: boolean }>`
