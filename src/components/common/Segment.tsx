@@ -4,29 +4,49 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CheckIcon from '../../../public/check.svg';
+import ErrorText from './ErrorText';
 
-type Options = { options: { text: string; icon?: boolean }[] };
+type SegmentProps = {
+  options: { text: string; value: string; icon?: boolean }[];
+  onClick?: (index: number) => void;
+  errorText?: string;
+  defaultIndex?: number;
+};
 
-const Segment = ({ options }: Options) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const Segment = ({
+  options,
+  onClick,
+  errorText,
+  defaultIndex,
+}: SegmentProps) => {
+  const [activeIndex, setActiveIndex] = useState(defaultIndex ?? -1);
 
   return (
-    <SegmentContainer>
-      {options.map((option, index: number) => (
-        <Button
-          key={option.text}
-          active={index === activeIndex}
-          onClick={() => setActiveIndex(index)}
-        >
-          {option.icon && (
-            <CheckIcon
-              fill={index === activeIndex ? theme.primary.p100 : theme.gray.g40}
-            />
-          )}
-          {option.text}
-        </Button>
-      ))}
-    </SegmentContainer>
+    <>
+      <SegmentContainer>
+        {options.map((option, index: number) => (
+          <Button
+            key={option.value}
+            active={index === activeIndex}
+            onClick={() => {
+              setActiveIndex(index);
+              onClick?.(index);
+            }}
+            type='button'
+          >
+            {option.icon && (
+              <CheckIcon
+                fill={
+                  index === activeIndex ? theme.primary.p100 : theme.gray.g40
+                }
+              />
+            )}
+            {option.text}
+          </Button>
+        ))}
+      </SegmentContainer>
+      {errorText && <ErrorText>{errorText}</ErrorText>}
+    </>
   );
 };
 
@@ -41,6 +61,7 @@ const SegmentContainer = styled.div`
 `;
 
 const Button = styled.button<{ active: boolean }>`
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;

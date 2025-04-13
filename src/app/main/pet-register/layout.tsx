@@ -9,9 +9,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <FormLayout
       onGoBack={() => {
-        router.push('/login/email');
+        router.push('/main/mypage');
       }}
-      headerText='회원가입'
+      headerText='반려동물 정보 입력'
     >
       {children}
     </FormLayout>

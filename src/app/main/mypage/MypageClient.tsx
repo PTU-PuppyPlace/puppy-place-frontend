@@ -8,6 +8,7 @@ import PetSection from './_components/PetSection';
 import VisitedCafesSection from './_components/VisitedCafesSection';
 import LinkSection from './_components/LinkSection';
 import LogoutButtonWrapper from './_components/LogoutButtonWrapper';
+import { useRouter } from 'next/navigation';
 
 interface UserProfileType {
   nickname: string;
@@ -19,13 +20,15 @@ interface MypageClientProps {
 }
 
 export default function MypageClient({ userProfile }: MypageClientProps) {
+  const router = useRouter();
+
   // 이벤트 핸들러 구현
   const handleSettingsClick = () => {
     console.log('설정 버튼 클릭');
   };
 
   const handleRegisterPet = () => {
-    console.log('반려동물 등록 버튼 클릭');
+    router.push('/main/pet-register');
   };
 
   const handleSeeAllCafes = () => {

@@ -41,9 +41,9 @@ export default function SamplePage() {
         <Spacer />
         <Segment
           options={[
-            { text: 'Option1' },
-            { text: 'Option2' },
-            { text: 'Option3' },
+            { text: 'Option1', value: '1' },
+            { text: 'Option2', value: '2' },
+            { text: 'Option3', value: '3' },
           ]}
         />
         <DatePicker name='Date' />
