@@ -7,6 +7,7 @@ export const FormSection = styled.form`
   flex-direction: column;
   gap: 32px;
   width: 100%;
+  align-items: center;
 `;
 
 export const FormGroup = styled.div<{ gap?: string }>`

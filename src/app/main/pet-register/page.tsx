@@ -147,7 +147,7 @@ export default function PetRegisterPage() {
           size='52'
           type='submit'
           form='petRegisterForm'
-          style={{ width: '335px', margin: '40px auto' }}
+          style={{ width: '335px' }}
         >
           등록하기
         </Button>
