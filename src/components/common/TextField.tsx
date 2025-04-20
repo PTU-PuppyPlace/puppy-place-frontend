@@ -35,6 +35,8 @@ const StyledTextField = styled.input<{ $isError?: boolean }>`
       $isError ? `${theme.danger.d100}` : `${theme.gray.g20}`};
   color: ${theme.gray.g100};
   flex: 1;
+  min-width: 0;
+
   &::placeholder {
     color: ${theme.gray.g40};
   }
@@ -58,7 +60,6 @@ const ErrorText = styled.div`
 const TextFieldWrapper = styled.div<{ $width?: string }>`
   width: ${({ $width }) => $width || '100%'};
   display: flex;
-  flex-direction: row;
   gap: 8px;
   width: 100%;
   align-items: center;
