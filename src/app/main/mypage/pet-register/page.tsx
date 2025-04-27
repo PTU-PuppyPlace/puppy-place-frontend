@@ -90,6 +90,7 @@ export default function PetRegisterPage() {
           <Label required>반려동물 생일</Label>
           <DatePicker
             errorText={errors?.birthdate?.message}
+            placeholder='생일 선택'
             {...register('birthdate')}
           />
         </FormGroup>
