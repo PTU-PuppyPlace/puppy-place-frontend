@@ -29,7 +29,7 @@ const Select: React.FC<SelectProps> = ({
   errorText,
   disabled,
   defaultValue,
-  width = '335px',
+  width = '100%',
   onChange,
   value,
 }) => {
