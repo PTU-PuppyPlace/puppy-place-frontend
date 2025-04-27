@@ -1,5 +1,5 @@
 import { getUserProfile } from './_components/UserProfile';
-import MypageClient from './MypageClient';
+import MypageUI from './MypageUI';
 import { redirect } from 'next/navigation';
 
 export default async function Mypage() {
@@ -11,5 +11,5 @@ export default async function Mypage() {
   }
 
   // 클라이언트 컴포넌트에 데이터 전달
-  return <MypageClient userProfile={userProfileData.profile} />;
+  return <MypageUI userProfile={userProfileData.profile} />;
 }

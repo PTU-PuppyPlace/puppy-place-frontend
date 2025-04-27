@@ -15,11 +15,11 @@ interface UserProfileType {
   loginMethod: string;
 }
 
-interface MypageClientProps {
+interface MypageUIProps {
   userProfile: UserProfileType;
 }
 
-export default function MypageClient({ userProfile }: MypageClientProps) {
+export default function MypageUI({ userProfile }: MypageUIProps) {
   const router = useRouter();
 
   // 이벤트 핸들러 구현
