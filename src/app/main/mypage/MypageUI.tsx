@@ -28,7 +28,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
   };
 
   const handleRegisterPet = () => {
-    router.push('/main/pet-register');
+    router.push('/main/mypage/pet-register');
   };
 
   const handleSeeAllCafes = () => {
