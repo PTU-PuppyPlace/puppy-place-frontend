@@ -60,7 +60,7 @@ const DateInputSection = styled.div`
 `;
 
 const Input = styled.input<{ $isError?: boolean }>`
-  width: 335px;
+  width: 100%;
   height: 40px;
   border-radius: 8px;
   padding: 12px 12px 12px 16px;
@@ -80,7 +80,7 @@ const Input = styled.input<{ $isError?: boolean }>`
 
 const CalendarBtn = styled(CalendarIcon)`
   position: absolute;
-  right: 50px;
+  right: 2%;
   top: 50%;
   transform: translateY(-50%);
   background: none;
