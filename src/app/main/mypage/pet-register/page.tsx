@@ -131,7 +131,10 @@ export default function PetRegisterPage() {
           <TextField
             placeholder='몸무게를 입력해주세요.'
             errorText={errors?.weight?.message}
-            {...register('weight')}
+            type='number'
+            {...register('weight', {
+              valueAsNumber: true,
+            })}
           />
         </FormGroup>
 
