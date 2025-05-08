@@ -5,12 +5,18 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CheckIcon from '../../../public/check.svg';
 import ErrorText from './ErrorText';
+import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 
 type SegmentProps = {
-  options: { text: string; value: string; icon?: boolean }[];
+  options: { text: string; value: any; icon?: boolean }[];
   onClick?: (index: number) => void;
   errorText?: string;
   defaultIndex?: number;
+  reactHookForm?: {
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
+    name: string;
+  };
 };
 
 const Segment = ({
@@ -18,6 +24,7 @@ const Segment = ({
   onClick,
   errorText,
   defaultIndex,
+  reactHookForm,
 }: SegmentProps) => {
   const [activeIndex, setActiveIndex] = useState(defaultIndex ?? -1);
 
@@ -31,6 +38,11 @@ const Segment = ({
             onClick={() => {
               setActiveIndex(index);
               onClick?.(index);
+              if (reactHookForm) {
+                const { setValue, trigger, name } = reactHookForm;
+                setValue(name, option.value);
+                trigger(name);
+              }
             }}
             type='button'
           >

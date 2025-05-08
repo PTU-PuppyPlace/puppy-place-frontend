@@ -21,10 +21,18 @@ export default function PetRegisterPage() {
     handleSubmit,
     formState: { errors },
     setValue,
+    trigger,
   } = useForm<PetRegisterSchemaType>({
     resolver: zodResolver(petRegisterSchema),
     mode: 'onBlur',
   });
+
+  const onSubmit = (data: PetRegisterSchemaType) => {
+    console.log('반려동물 등록:', data);
+
+    // 등록 완료 후 마이페이지로 이동
+    router.push('/main/mypage');
+  };
 
   // 품종 옵션 - 실제로는 API에서 가져올 데이터
   const breedOptions: Option[] = [
@@ -44,20 +52,10 @@ export default function PetRegisterPage() {
     { text: '여아', value: 'female' },
   ];
 
-  const handleNeuteredChange = (index: number) => {
-    setValue('isNeutered', index === 0);
-  };
-
-  const handleGenderChange = (index: number) => {
-    setValue('gender', genderOptions[index].value);
-  };
-
-  const onSubmit = (data: PetRegisterSchemaType) => {
-    console.log('반려동물 등록:', data);
-
-    // 등록 완료 후 마이페이지로 이동
-    router.push('/main/mypage');
-  };
+  const neuteredOptions = [
+    { text: '중성화 완료', value: true },
+    { text: '중성화 전', value: false },
+  ];
 
   return (
     <Container>
@@ -108,12 +106,13 @@ export default function PetRegisterPage() {
         <FormGroup>
           <Label required>중성화 여부</Label>
           <Segment
-            options={[
-              { text: '중성화 완료', value: 'true' },
-              { text: '중성화 전', value: 'false' },
-            ]}
-            onClick={handleNeuteredChange}
+            options={neuteredOptions}
             errorText={errors?.isNeutered?.message}
+            reactHookForm={{
+              setValue,
+              trigger,
+              name: 'isNeutered',
+            }}
           />
         </FormGroup>
 
@@ -121,8 +120,12 @@ export default function PetRegisterPage() {
           <Label required>성별</Label>
           <Segment
             options={genderOptions}
-            onClick={handleGenderChange}
             errorText={errors?.gender?.message}
+            reactHookForm={{
+              setValue,
+              trigger,
+              name: 'gender',
+            }}
           />
         </FormGroup>
 
