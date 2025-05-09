@@ -89,6 +89,11 @@ export default function PetRegisterPage() {
           <DatePicker
             errorText={errors?.birthdate?.message}
             placeholder='생일 선택'
+            reactHookForm={{
+              setValue,
+              trigger,
+              name: 'birthdate',
+            }}
             {...register('birthdate')}
           />
         </FormGroup>

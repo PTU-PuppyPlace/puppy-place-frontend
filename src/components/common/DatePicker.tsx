@@ -1,119 +1,95 @@
 'use client';
 
 import React from 'react';
-import styled from 'styled-components';
-import theme from '@/styles/theme';
 import CalendarIcon from '@/components/icons/calendar.svg';
+import { format } from 'date-fns';
+import { Calendar } from '@/components/ui/calendar';
+import styled from 'styled-components';
+import Button from './Button';
+import ErrorText from './ErrorText';
+import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
+import theme from '@/styles/theme';
 
 interface DatePickerProps {
-  defaultValue?: string;
-  disabled?: boolean;
+  defaultValue?: Date;
   placeholder?: string;
   errorText?: string;
   name: string;
+  reactHookForm?: {
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
+    name: string;
+  };
 }
 
 export const DatePicker: React.FC<DatePickerProps> = (props) => {
-  const { errorText, defaultValue, ...rest } = props;
-  const calendarRef = React.useRef<HTMLInputElement>(null);
-  const [displayValue, setDisplayValue] = React.useState(defaultValue || '');
-
-  const openCalendar = () => {
-    if (calendarRef.current) {
-      calendarRef.current.showPicker();
-    }
-  };
-
-  const handleCalendarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDisplayValue(event.target.value);
-  };
+  const { errorText, defaultValue, placeholder, reactHookForm } = props;
+  const [date, setDate] = React.useState<Date | undefined>(defaultValue);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <DatePickerWrapper>
-      <DateInputSection>
-        <Input
-          {...rest}
-          type='text'
-          readOnly
-          onClick={openCalendar}
-          $isError={!!errorText}
-          value={displayValue}
-          placeholder={props.placeholder}
-        />
-        <CalendarBtn disabled={props.disabled} onClick={openCalendar} />
-        <CalendarInput
-          ref={calendarRef}
-          type='date'
-          name={props.name}
-          defaultValue={defaultValue}
-          onChange={handleCalendarChange}
-        />
-      </DateInputSection>
+    <>
+      <DatePickerWrapper>
+        <Button
+          type='button'
+          variant={errorText ? 'danger-outline' : 'outline'}
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            width: '100%',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            fontSize: theme.body16,
+            borderRadius: '8px',
+            height: '40px',
+          }}
+        >
+          {date ? (
+            format(date, 'yyyy.M.d')
+          ) : (
+            <Placeholder>{placeholder}</Placeholder>
+          )}
+          <CalendarIcon style={{ width: '24px', height: '24px' }} />
+        </Button>
+        {isOpen && (
+          <CalendarWrapper>
+            <Calendar
+              mode='single'
+              selected={date}
+              onSelect={(day) => {
+                setDate(day);
+                setIsOpen(false);
+                if (reactHookForm) {
+                  const { setValue, trigger, name } = reactHookForm;
+                  setValue(name, day);
+                  trigger(name);
+                }
+              }}
+              initialFocus
+            />
+          </CalendarWrapper>
+        )}
+      </DatePickerWrapper>
       {errorText && <ErrorText>{errorText}</ErrorText>}
-    </DatePickerWrapper>
+    </>
   );
 };
 
-const DateInputSection = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const Input = styled.input<{ $isError?: boolean }>`
-  width: 100%;
-  height: 40px;
-  border-radius: 8px;
-  padding: 12px 12px 12px 16px;
-  border: 1px solid
-    ${({ $isError }) => ($isError ? theme.danger.d100 : theme.gray.g20)};
-  cursor: pointer;
-  color: ${theme.gray.g100};
-  &::placeholder {
-    color: ${theme.gray.g60};
-  }
-  &:disabled {
-    background-color: ${theme.background};
-    color: ${theme.gray.g40};
-    cursor: not-allowed;
-  }
-`;
-
-const CalendarBtn = styled(CalendarIcon)`
-  position: absolute;
-  right: 2%;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  &:disabled {
-    cursor: not-allowed;
-  }
-`;
-
-const CalendarInput = styled.input`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  opacity: 0.01;
-`;
-
-const ErrorText = styled.div`
-  color: ${theme.danger.d100};
-  font-size: ${theme.caption12};
-`;
-
 const DatePickerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  position: relative;
+`;
+
+const CalendarWrapper = styled.div`
+  width: auto;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  z-index: 10;
+`;
+
+const Placeholder = styled.span`
+  color: ${theme.gray.g40};
 `;
