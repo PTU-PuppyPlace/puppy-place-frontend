@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import NavigationDown from '@/components/icons/navigation-down.svg';
-
+import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 export interface Option {
   value: string;
   label: string;
@@ -20,6 +20,11 @@ interface SelectProps {
   width?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value?: string;
+  reactHookForm?: {
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
+    name: string;
+  };
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -32,6 +37,7 @@ const Select: React.FC<SelectProps> = ({
   width = '100%',
   onChange,
   value,
+  reactHookForm,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(() => {
@@ -56,6 +62,11 @@ const Select: React.FC<SelectProps> = ({
       hiddenInputRef.current.value = option.value;
       const event = new Event('change', { bubbles: true });
       hiddenInputRef.current.dispatchEvent(event);
+    }
+    if (reactHookForm) {
+      const { setValue, trigger, name } = reactHookForm;
+      setValue(name, option.value);
+      trigger(name);
     }
   };
 

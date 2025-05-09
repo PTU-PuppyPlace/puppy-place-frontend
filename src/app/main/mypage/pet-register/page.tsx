@@ -104,6 +104,11 @@ export default function PetRegisterPage() {
             options={breedOptions}
             placeholder='품종 선택'
             errorText={errors?.breed?.message}
+            reactHookForm={{
+              setValue,
+              trigger,
+              name: 'breed',
+            }}
             {...register('breed')}
           />
         </FormGroup>
