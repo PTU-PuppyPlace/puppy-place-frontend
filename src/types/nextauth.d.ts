@@ -5,6 +5,7 @@ export declare module 'next-auth' {
       token: User.refreshTokenInfo.token;
       expiresAt: User.refreshTokenInfo.expiresAt;
     };
+    username?: string;
   }
   interface Session {
     accessToken?: User.accessToken;
@@ -12,7 +13,9 @@ export declare module 'next-auth' {
       token: User.refreshTokenInfo.token;
       expiresAt: User.refreshTokenInfo.expiresAt;
     };
-    refreshTokenExpired?: boolean;
+    user?: {
+      username?: string;
+    } & DefaultSession['user'];
   }
 }
 export declare module '@auth/core/jwt' {
@@ -22,6 +25,7 @@ export declare module '@auth/core/jwt' {
       token: User.refreshTokenInfo.token;
       expiresAt: User.refreshTokenInfo.expiresAt;
     };
-    refreshTokenExpired?: boolean;
+    username?: string;
+    loginMethod?: string;
   }
 }

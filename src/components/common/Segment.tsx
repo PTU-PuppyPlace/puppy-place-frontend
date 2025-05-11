@@ -4,29 +4,61 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CheckIcon from '../../../public/check.svg';
+import ErrorText from './ErrorText';
+import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 
-type Options = { options: { text: string; icon?: boolean }[] };
+type SegmentProps = {
+  options: { text: string; value: any; icon?: boolean }[];
+  onClick?: (index: number) => void;
+  errorText?: string;
+  defaultIndex?: number;
+  reactHookForm?: {
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
+    name: string;
+  };
+};
 
-const Segment = ({ options }: Options) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const Segment = ({
+  options,
+  onClick,
+  errorText,
+  defaultIndex,
+  reactHookForm,
+}: SegmentProps) => {
+  const [activeIndex, setActiveIndex] = useState(defaultIndex ?? -1);
 
   return (
-    <SegmentContainer>
-      {options.map((option, index: number) => (
-        <Button
-          key={option.text}
-          active={index === activeIndex}
-          onClick={() => setActiveIndex(index)}
-        >
-          {option.icon && (
-            <CheckIcon
-              fill={index === activeIndex ? theme.primary.p100 : theme.gray.g40}
-            />
-          )}
-          {option.text}
-        </Button>
-      ))}
-    </SegmentContainer>
+    <>
+      <SegmentContainer>
+        {options.map((option, index: number) => (
+          <Button
+            key={option.value}
+            active={index === activeIndex}
+            onClick={() => {
+              setActiveIndex(index);
+              onClick?.(index);
+              if (reactHookForm) {
+                const { setValue, trigger, name } = reactHookForm;
+                setValue(name, option.value);
+                trigger(name);
+              }
+            }}
+            type='button'
+          >
+            {option.icon && (
+              <CheckIcon
+                fill={
+                  index === activeIndex ? theme.primary.p100 : theme.gray.g40
+                }
+              />
+            )}
+            {option.text}
+          </Button>
+        ))}
+      </SegmentContainer>
+      {errorText && <ErrorText>{errorText}</ErrorText>}
+    </>
   );
 };
 
@@ -41,6 +73,7 @@ const SegmentContainer = styled.div`
 `;
 
 const Button = styled.button<{ active: boolean }>`
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;

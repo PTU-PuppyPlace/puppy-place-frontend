@@ -1,0 +1,15 @@
+---
+description: React Hook Form 및 Zod 사용 패턴 안내
+globs: ["src/app/**/*.tsx"]
+alwaysApply: true
+---
+
+- 폼 상태 관리는 React Hook Form (`react-hook-form`)을 사용합니다.
+  - `useForm` 훅을 통해 `register`, `handleSubmit`, `formState: { errors }`, `setValue`, `trigger` 등을 적절히 활용합니다.
+  - `mode: 'onBlur'` 또는 `mode: 'onChange'` 등 폼 유효성 검사 시점을 명시적으로 설정하는 것을 권장합니다.
+- 데이터 유효성 검사는 Zod (`zod`) 스키마를 정의하여 `zodResolver` (`@hookform/resolvers/zod`)와 함께 사용합니다.
+  - 스키마는 관련된 폼 컴포넌트 근처 또는 별도의 `schema.ts` 파일에 정의합니다.
+  - `PetRegisterSchemaType`과 같이 Zod 스키마로부터 타입을 추론하여 사용합니다. (예: `type PetRegisterSchemaType = z.infer<typeof petRegisterSchema>;`)
+- 사용자에게 에러 메시지를 명확하게 전달해야 합니다.
+  - `errors` 객체를 사용하여 각 필드별 에러 메시지를 표시합니다.
+  - 공통 에러 처리 로직이 있다면 일관되게 적용합니다.

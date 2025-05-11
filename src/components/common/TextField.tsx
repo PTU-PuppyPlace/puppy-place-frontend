@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { forwardRef } from 'react';
+import ErrorText from './ErrorText';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
@@ -55,11 +56,6 @@ const StyledTextField = styled.input<{ $isError?: boolean }>`
       padding: 0 8px;
     }
   }
-`;
-
-const ErrorText = styled.div`
-  color: ${theme.danger.d100};
-  font-size: ${theme.caption12};
 `;
 
 const TextFieldWrapper = styled.div<{ $width?: string }>`
