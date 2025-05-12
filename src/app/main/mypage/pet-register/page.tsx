@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PetRegisterSchemaType, petRegisterSchema } from './schema';
 import Segment from '@/components/common/Segment';
+import FileAvatar from '@/components/common/FileAvatar';
 
 export default function PetRegisterPage() {
   const router = useRouter();
@@ -22,6 +23,8 @@ export default function PetRegisterPage() {
     formState: { errors },
     setValue,
     trigger,
+    control,
+    watch,
   } = useForm<PetRegisterSchemaType>({
     resolver: zodResolver(petRegisterSchema),
     mode: 'onBlur',
@@ -57,14 +60,13 @@ export default function PetRegisterPage() {
     { text: '중성화 전', value: false },
   ];
 
+  console.log(watch());
+
   return (
     <Container>
       <FormSection id='petRegisterForm' onSubmit={handleSubmit(onSubmit)}>
         <ProfileImageSection>
-          <ProfileImagePlaceholder>
-            <DogIcon />
-            <PlusIcon />
-          </ProfileImagePlaceholder>
+          <FileAvatar control={control} name='profileImage' size={105} />
         </ProfileImageSection>
 
         <FormGroup>
@@ -188,48 +190,6 @@ const ProfileImageSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const ProfileImagePlaceholder = styled.div`
-  width: 105px;
-  height: 105px;
-  border-radius: 105px;
-  background-color: #f6f6f6;
-  border: 1.4px solid #d6d6d6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const DogIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  opacity: 0.4;
-`;
-
-const PlusIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    background-color: #ffffff;
-    width: 12px;
-    height: 1.5px;
-  }
-  &:after {
-    transform: rotate(90deg);
-  }
 `;
 
 const StyledTextArea = styled.textarea`
