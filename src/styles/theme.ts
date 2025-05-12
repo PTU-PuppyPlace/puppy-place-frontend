@@ -49,6 +49,8 @@ const theme = {
   body16: '16px',
   body15: '15px',
   body14: '14px',
+  body13: '13px',
+  body12: '12px',
   caption13: '13px',
   caption12: '12px',
   caption10: '10px',

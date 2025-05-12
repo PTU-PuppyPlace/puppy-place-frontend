@@ -9,6 +9,7 @@ import VisitedCafesSection from './_components/VisitedCafesSection';
 import LinkSection from './_components/LinkSection';
 import LogoutButtonWrapper from './_components/LogoutButtonWrapper';
 import { useRouter } from 'next/navigation';
+import { SAMPLE_PETS } from '@/mocks/pet';
 
 interface UserProfileType {
   nickname: string;
@@ -56,7 +57,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
         loginMethod={userProfile.loginMethod}
       />
 
-      <PetSection hasPets={false} onRegisterPet={handleRegisterPet} />
+      <PetSection pets={SAMPLE_PETS} onRegisterPet={handleRegisterPet} />
 
       <Divider type='thin' />
 
