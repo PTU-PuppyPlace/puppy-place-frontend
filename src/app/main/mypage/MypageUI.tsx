@@ -40,8 +40,8 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
     console.log('친구 관리 클릭');
   };
 
-  const handleInquiriesClick = () => {
-    console.log('문의 내역 클릭');
+  const handleInquiryClick = () => {
+    router.push('/main/mypage/inquiry');
   };
 
   const handleRegisterPlaceClick = () => {
@@ -67,7 +67,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
 
       <LinkSection title='친구 관리' onClick={handleFriendsClick} />
 
-      <LinkSection title='문의 내역' onClick={handleInquiriesClick} />
+      <LinkSection title='문의 내역' onClick={handleInquiryClick} />
 
       <LinkSection title='장소 등록' onClick={handleRegisterPlaceClick} />
 
