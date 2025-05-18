@@ -16,4 +16,19 @@ export const MOCK_INQUIRIES: Inquiry[] = [
     date: '2024.07.20',
     question: '새로운 애견 카페를 등록하고 싶어요. 어떻게 하나요?',
   },
+  {
+    id: 3,
+    title: '기타 문의',
+    date: '2024.01.05',
+    question:
+      '이런 기능이 있었으면 좋겠어요. 어딜 찾아도 없네요. 아직 없는 거 맞져? 너무 불편해요. 언제쯤 반영이 될까요?',
+    images: [
+      'https://picsum.photos/id/237/800/600',
+      'https://picsum.photos/id/238/800/600',
+      'https://picsum.photos/id/239/800/600',
+    ],
+    answer:
+      '안녕하세요. 퍼피플레이스 CS담당자 어쩌구입니다. 좋은 의견 감사합니다. 아직은 그런 기능이 없습니다. 로콩, 수지님한테 말해둘게요 ㅠㅠ..ㅠㅠ',
+    answerDate: '2024.04.09',
+  },
 ];

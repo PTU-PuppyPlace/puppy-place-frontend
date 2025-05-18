@@ -4,6 +4,7 @@ import { Inquiry } from '@/types/inquiry';
 import ArrowDownIcon from '@/components/icons/interface-down.svg';
 import ArrowUpIcon from '@/components/icons/interface-up.svg';
 import Button from '@/components/common/Button';
+import ImageCarousel from './ImageCarousel';
 
 interface InquiryItemProps {
   inquiry: Inquiry;
@@ -12,14 +13,21 @@ interface InquiryItemProps {
 export default function InquiryItem({ inquiry }: InquiryItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleOpen = () => setIsOpen(!isOpen);
   const status = inquiry.answer ? '답변 완료' : '미답변';
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     console.log('삭제');
   };
+
+  const handleToggle = (e: React.MouseEvent<HTMLLIElement>) => {
+    if (e.target instanceof HTMLImageElement) {
+      return;
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <ItemContainer onClick={toggleOpen} isOpen={isOpen}>
+    <ItemContainer onClick={handleToggle} isOpen={isOpen}>
       <Summary>
         <LeftArea>
           <MetaArea>
@@ -30,7 +38,7 @@ export default function InquiryItem({ inquiry }: InquiryItemProps) {
           <Title>{inquiry.title}</Title>
         </LeftArea>
         <RightArea>
-          <Button variant='outline' size='32' onClick={handleClick}>
+          <Button variant='outline' size='32' onClick={handleDelete}>
             삭제
           </Button>
           {isOpen ? (
@@ -44,6 +52,9 @@ export default function InquiryItem({ inquiry }: InquiryItemProps) {
       {isOpen && (
         <>
           <Section>{inquiry.question}</Section>
+          {inquiry.images && inquiry.images.length > 0 && (
+            <ImageCarousel images={inquiry.images} />
+          )}
           {inquiry.answer && (
             <AnswerText>
               <MetaArea>
