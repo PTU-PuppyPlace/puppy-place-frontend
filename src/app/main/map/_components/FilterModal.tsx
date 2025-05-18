@@ -89,7 +89,6 @@ export default function FilterModal({ onClose }: FilterModalProps) {
             <SelectRow>
               <Select
                 options={SAMPLE_REGION}
-                name='region'
                 placeholder='서울특별시'
                 width='100%'
                 onChange={(e) => setRegion(e.target.value)}
@@ -97,7 +96,6 @@ export default function FilterModal({ onClose }: FilterModalProps) {
               />
               <Select
                 options={SAMPLE_DISTRICTS[region] || []}
-                name='district'
                 placeholder='선택'
                 width='100%'
                 onChange={(e) => setDistrict(e.target.value)}
