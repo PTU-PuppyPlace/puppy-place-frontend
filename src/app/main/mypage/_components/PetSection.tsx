@@ -72,9 +72,9 @@ export default function PetSection({ pets, onRegisterPet }: PetSectionProps) {
             <PetListItem key={pet.id} pet={pet} />
           ))}
           <AddPetButton onClick={onRegisterPet}>
-            <AddPetIconWrapper>
-              <PlusIcon width={24} height={24} color={theme.gray.g40} />
-            </AddPetIconWrapper>
+            <PlusIcon
+              style={{ width: '40px', height: '40px', stroke: 'white' }}
+            />
             <AddPetText>반려동물 등록하기</AddPetText>
           </AddPetButton>
         </PetListContainer>
@@ -167,16 +167,6 @@ const AddPetButton = styled.button`
   &:hover {
     background-color: ${theme.gray.g4};
   }
-`;
-
-const AddPetIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: ${theme.gray.g10};
 `;
 
 const AddPetText = styled.span`
