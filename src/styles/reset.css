@@ -141,3 +141,7 @@ textarea {
 
   resize: none; /*remove the resize handle on the bottom right*/
 }
+
+img {
+  height: inherit;
+}

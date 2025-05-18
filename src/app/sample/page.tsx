@@ -34,7 +34,6 @@ export default function SamplePage() {
             { value: '2', label: 'Option 2' },
             { value: '3', label: 'Option 3' },
           ]}
-          name='Select'
         />
         <Spacer />
         <TextArea name='Textarea' />

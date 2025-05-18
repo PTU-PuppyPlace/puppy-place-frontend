@@ -9,6 +9,7 @@ import VisitedCafesSection from './_components/VisitedCafesSection';
 import LinkSection from './_components/LinkSection';
 import LogoutButtonWrapper from './_components/LogoutButtonWrapper';
 import { useRouter } from 'next/navigation';
+import { SAMPLE_PETS } from '@/mocks/pet';
 
 interface UserProfileType {
   nickname: string;
@@ -39,8 +40,8 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
     console.log('친구 관리 클릭');
   };
 
-  const handleInquiriesClick = () => {
-    console.log('문의 내역 클릭');
+  const handleInquiryClick = () => {
+    router.push('/main/mypage/inquiry');
   };
 
   const handleRegisterPlaceClick = () => {
@@ -56,7 +57,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
         loginMethod={userProfile.loginMethod}
       />
 
-      <PetSection hasPets={false} onRegisterPet={handleRegisterPet} />
+      <PetSection pets={SAMPLE_PETS} onRegisterPet={handleRegisterPet} />
 
       <Divider type='thin' />
 
@@ -66,7 +67,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
 
       <LinkSection title='친구 관리' onClick={handleFriendsClick} />
 
-      <LinkSection title='문의 내역' onClick={handleInquiriesClick} />
+      <LinkSection title='문의 내역' onClick={handleInquiryClick} />
 
       <LinkSection title='장소 등록' onClick={handleRegisterPlaceClick} />
 

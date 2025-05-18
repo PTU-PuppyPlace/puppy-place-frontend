@@ -27,6 +27,7 @@ const theme = {
     g10: '#EBEBEB',
     g4: '#F6F6F6',
     g03: '#DEE1E6',
+    g00: '#F9FAFB',
   },
 
   defaultButton: '#EBEBEB',
@@ -49,6 +50,8 @@ const theme = {
   body16: '16px',
   body15: '15px',
   body14: '14px',
+  body13: '13px',
+  body12: '12px',
   caption13: '13px',
   caption12: '12px',
   caption10: '10px',

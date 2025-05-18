@@ -29,27 +29,23 @@ const ArrowRightIcon = () => (
 export default function LinkSection({ title, onClick }: LinkSectionProps) {
   return (
     <LinkSectionContainer onClick={onClick}>
-      <SectionHeader>
-        <SectionTitle>{title}</SectionTitle>
-        <ArrowRightIcon />
-      </SectionHeader>
+      <SectionTitle>{title}</SectionTitle>
+      <ArrowRightIcon />
     </LinkSectionContainer>
   );
 }
 
 const LinkSectionContainer = styled.div`
   padding: 12px 20px;
+  height: 64px;
   cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.gray.g4};
-  }
-`;
-
-const SectionHeader = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.gray.g10};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  &:hover {
+    background-color: ${({ theme }) => theme.gray.g4};
+  }
 `;
 
 const SectionTitle = styled.h2`

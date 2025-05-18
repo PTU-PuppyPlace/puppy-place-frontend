@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
@@ -9,22 +9,34 @@ type TextAreaProps = {
   placeholder?: string;
   errorText?: string;
   name: string;
+  minHeight?: string;
 };
 
-const TextArea = (props: TextAreaProps) => {
-  const { errorText, ...rest } = props;
+const TextArea = forwardRef(function TextArea(
+  props: TextAreaProps,
+  ref?: React.Ref<HTMLTextAreaElement>
+) {
+  const { errorText, minHeight, ...rest } = props;
   return (
     <TextAreaWrapper>
-      <StyledTextArea {...rest} $isError={!!errorText} />
+      <StyledTextArea
+        {...rest}
+        $isError={!!errorText}
+        ref={ref}
+        $minHeight={minHeight}
+      />
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </TextAreaWrapper>
   );
-};
+});
 
 export default TextArea;
 
-const StyledTextArea = styled.textarea<{ $isError?: boolean }>`
-  width: 335px;
+const StyledTextArea = styled.textarea<{
+  $isError?: boolean;
+  $minHeight?: string;
+}>`
+  width: 100%;
   height: 124px;
   border-radius: 8px;
   background-color: ${theme.extraWhite};
@@ -43,6 +55,7 @@ const StyledTextArea = styled.textarea<{ $isError?: boolean }>`
     border: 1px solid ${theme.gray.g20};
     background-color: ${theme.background};
   }
+  ${({ $minHeight }) => $minHeight && `min-height: ${$minHeight};`}
 `;
 
 const ErrorText = styled.div`

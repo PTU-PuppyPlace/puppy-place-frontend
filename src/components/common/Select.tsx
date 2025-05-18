@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import NavigationDown from '@/components/icons/navigation-down.svg';
 import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
+
 export interface Option {
   value: string;
   label: string;
@@ -12,7 +13,6 @@ export interface Option {
 
 interface SelectProps {
   options: Option[];
-  name: string;
   placeholder?: string;
   errorText?: string;
   disabled?: boolean;
@@ -29,7 +29,6 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({
   options,
-  name,
   placeholder = '선택',
   errorText,
   disabled,
@@ -92,7 +91,7 @@ const Select: React.FC<SelectProps> = ({
     <SelectContainer ref={selectRef}>
       <HiddenSelect
         ref={hiddenInputRef}
-        name={name}
+        name={reactHookForm?.name}
         defaultValue={defaultValue}
         disabled={disabled}
         onChange={onChange}
