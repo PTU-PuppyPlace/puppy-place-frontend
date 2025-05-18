@@ -1,6 +1,6 @@
 'use client'; // Add 'use client' directive
 
-import React, { useState } from 'react'; // Add React and useState imports
+import React, { useEffect, useState } from 'react'; // Add React and useState imports
 import styled from 'styled-components'; // Add styled-components import
 import { useRouter } from 'next/navigation';
 import NavigationLeft from '@/components/icons/navigation-left.svg';
@@ -8,10 +8,17 @@ import InquiryList from './_components/InquiryList';
 import { Inquiry } from '@/types/inquiry';
 import { MOCK_INQUIRIES } from '@/mocks/inquiry';
 import Button from '@/components/common/Button';
+import { getInquiry } from '@/services/inquiry';
 
 export default function InquiryPage() {
   const router = useRouter();
   const [inquiries, setInquiries] = useState<Inquiry[]>(MOCK_INQUIRIES);
+
+  //서버에서 데이터 가져오기
+  useEffect(() => {
+    const data = getInquiry();
+    setInquiries(data);
+  }, []);
 
   const handleGoBack = () => {
     router.push('/main/mypage');
