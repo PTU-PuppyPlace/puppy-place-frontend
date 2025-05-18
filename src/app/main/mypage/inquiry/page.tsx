@@ -14,11 +14,11 @@ export default function InquiryPage() {
   const [inquiries, setInquiries] = useState<Inquiry[]>(MOCK_INQUIRIES);
 
   const handleGoBack = () => {
-    router.back();
+    router.push('/main/mypage');
   };
 
   const handleRegisterInquiry = () => {
-    router.push('/main/mypage/inquiry/register');
+    router.push('/inquiry-register');
   };
 
   return (

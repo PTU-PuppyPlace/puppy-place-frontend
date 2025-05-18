@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import Select from '@/components/common/Select';
 import Label from '@/components/common/Label';
 import { InquiryRegisterSchemaType, inquiryRegisterSchema } from './schema';
 import TextArea from '@/components/common/TextArea';
+import DeleteIcon from '@/components/icons/fill-delete.svg';
 
 // 문의 유형 정의
 const inquiryTypes = [
@@ -22,9 +23,16 @@ const inquiryTypes = [
   { value: 'other', label: '기타 문의' },
 ];
 
+interface ImageFile {
+  file: File;
+  preview: string;
+}
+
 export default function InquiryRegisterPage() {
   const router = useRouter();
-  const [images, setImages] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<ImageFile[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
@@ -42,33 +50,79 @@ export default function InquiryRegisterPage() {
   });
 
   const handleGoBack = () => {
-    router.back();
+    router.push('/main/mypage/inquiry');
   };
 
-  const handleImageUpload = () => {
-    // 실제 구현에서는 파일 업로드 로직이 필요합니다
-    // 여기서는 더미 이미지 URL을 추가합니다
-    if (images.length < 5) {
-      const newImages = [
-        ...images,
-        `https://picsum.photos/200/200?random=${images.length}`,
-      ];
-      setImages(newImages);
-      setValue('images', newImages);
-      trigger('images');
-    }
+  const handleImageUploadClick = () => {
+    // 파일 선택 다이얼로그 열기
+    fileInputRef.current?.click();
+  };
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    // 최대 5개까지만 추가 가능
+    const remainingSlots = 5 - imageFiles.length;
+    if (remainingSlots <= 0) return;
+
+    // 선택한 파일들을 처리
+    const newFiles = Array.from(files).slice(0, remainingSlots);
+
+    const newImageFiles = newFiles.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    const updatedImageFiles = [...imageFiles, ...newImageFiles];
+    setImageFiles(updatedImageFiles);
+
+    // React Hook Form에 이미지 파일들 설정
+    setValue(
+      'images',
+      updatedImageFiles.map((img) => img.file.name),
+      { shouldValidate: true }
+    );
+
+    // 파일 input 초기화 (같은 파일 다시 선택 가능하게)
+    e.target.value = '';
   };
 
   const handleRemoveImage = (index: number) => {
-    const newImages = images.filter((_, i) => i !== index);
-    setImages(newImages);
-    setValue('images', newImages);
-    trigger('images');
+    // 브라우저 메모리 누수 방지를 위해 URL 해제
+    URL.revokeObjectURL(imageFiles[index].preview);
+
+    const newImageFiles = imageFiles.filter((_, i) => i !== index);
+    setImageFiles(newImageFiles);
+
+    // React Hook Form에 업데이트
+    setValue(
+      'images',
+      newImageFiles.map((img) => img.file.name),
+      { shouldValidate: true }
+    );
   };
 
   const onSubmit = (data: InquiryRegisterSchemaType) => {
+    // FormData 생성하여 파일과 함께 서버로 전송할 준비
+    const formData = new FormData();
+    formData.append('type', data.type);
+    formData.append('content', data.content);
+
+    // 파일 추가
+    imageFiles.forEach((imgFile) => {
+      formData.append('images', imgFile.file);
+    });
+
     console.log('제출된 데이터:', data);
+    console.log(
+      '제출될 파일:',
+      imageFiles.map((img) => img.file.name)
+    );
+
     // 여기에서 API 호출 등의 로직을 추가할 수 있습니다
+    // 예: await fetch('/api/inquiry', { method: 'POST', body: formData });
+
     router.push('/main/mypage/inquiry');
   };
 
@@ -102,31 +156,46 @@ export default function InquiryRegisterPage() {
               {...register('content')}
               placeholder='문의하고자 하는 내용을 작성해주세요.'
               errorText={errors.content?.message}
+              minHeight='206px'
             />
           </FormSection>
 
           <FormSection>
             <Label>사진 첨부</Label>
             <ImageSection>
-              <ImageUploadButton onClick={handleImageUpload} type='button'>
+              <ImageUploadButton
+                onClick={handleImageUploadClick}
+                type='button'
+                disabled={imageFiles.length >= 5}
+              >
                 <CameraIcon />
-                <ImageCount>{images.length}/5</ImageCount>
+                <ImageCount>{imageFiles.length}/5</ImageCount>
               </ImageUploadButton>
-              {images.length > 0 && (
-                <ImageContainer>
-                  {images.map((image, index) => (
-                    <ImageWrapper key={index}>
-                      <Image src={image} alt={`첨부 이미지 ${index + 1}`} />
-                      <DeleteButton
-                        type='button'
-                        onClick={() => handleRemoveImage(index)}
-                      >
-                        ×
-                      </DeleteButton>
-                    </ImageWrapper>
-                  ))}
-                </ImageContainer>
-              )}
+
+              {/* 숨겨진 파일 입력 필드 */}
+              <HiddenFileInput
+                ref={fileInputRef}
+                type='file'
+                accept='image/*'
+                multiple
+                onChange={handleImageSelect}
+              />
+
+              {imageFiles.length > 0 &&
+                imageFiles.map((imageFile, index) => (
+                  <ImageWrapper key={index}>
+                    <Image
+                      src={imageFile.preview}
+                      alt={`첨부 이미지 ${index + 1}`}
+                    />
+                    <DeleteButton
+                      type='button'
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <DeleteIcon />
+                    </DeleteButton>
+                  </ImageWrapper>
+                ))}
             </ImageSection>
             <ImageCaption>*최대 5개 등록 가능</ImageCaption>
           </FormSection>
@@ -210,6 +279,15 @@ const ImageUploadButton = styled.button`
   justify-content: center;
   gap: 4px;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const HiddenFileInput = styled.input`
+  display: none;
 `;
 
 const ImageCount = styled.span`
@@ -217,41 +295,35 @@ const ImageCount = styled.span`
   color: ${({ theme }) => theme.gray.g100};
 `;
 
-const ImageContainer = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-`;
-
 const ImageWrapper = styled.div`
   position: relative;
   width: 72px;
   height: 72px;
   border-radius: 8px;
-  overflow: hidden;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const DeleteButton = styled.button`
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
+  top: -6px;
+  right: -6px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
   cursor: pointer;
   border: none;
+  width: 24px;
+  height: 24px;
+  svg {
+    stroke: white;
+  }
 `;
 
 const ImageCaption = styled.span`
@@ -260,7 +332,12 @@ const ImageCaption = styled.span`
 `;
 
 const SubmitButton = styled(Button)`
-  margin-top: auto;
   background-color: ${({ theme }) => theme.primary.p100};
   color: white;
+  position: fixed;
+  bottom: 20px;
+  width: calc(${({ theme }) => theme.maxWidth} - 40px);
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
 `;

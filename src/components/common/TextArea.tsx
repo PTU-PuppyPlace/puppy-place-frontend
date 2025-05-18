@@ -9,16 +9,22 @@ type TextAreaProps = {
   placeholder?: string;
   errorText?: string;
   name: string;
+  minHeight?: string;
 };
 
 const TextArea = forwardRef(function TextArea(
   props: TextAreaProps,
   ref?: React.Ref<HTMLTextAreaElement>
 ) {
-  const { errorText, ...rest } = props;
+  const { errorText, minHeight, ...rest } = props;
   return (
     <TextAreaWrapper>
-      <StyledTextArea {...rest} $isError={!!errorText} ref={ref} />
+      <StyledTextArea
+        {...rest}
+        $isError={!!errorText}
+        ref={ref}
+        $minHeight={minHeight}
+      />
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </TextAreaWrapper>
   );
@@ -26,7 +32,10 @@ const TextArea = forwardRef(function TextArea(
 
 export default TextArea;
 
-const StyledTextArea = styled.textarea<{ $isError?: boolean }>`
+const StyledTextArea = styled.textarea<{
+  $isError?: boolean;
+  $minHeight?: string;
+}>`
   width: 100%;
   height: 124px;
   border-radius: 8px;
@@ -46,6 +55,7 @@ const StyledTextArea = styled.textarea<{ $isError?: boolean }>`
     border: 1px solid ${theme.gray.g20};
     background-color: ${theme.background};
   }
+  ${({ $minHeight }) => $minHeight && `min-height: ${$minHeight};`}
 `;
 
 const ErrorText = styled.div`
