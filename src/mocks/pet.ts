@@ -3,7 +3,7 @@ import { Pet } from '@/types/pet';
 export const SAMPLE_PETS: Pet[] = [
   {
     id: 1,
-    profileImage: '/images/pet/pet1.png',
+    profileImage: 'https://picsum.photos/id/237/800/600',
     petName: '무무',
     birthdate: new Date('2020-01-01'),
     breed: '포메라니안',
@@ -13,7 +13,7 @@ export const SAMPLE_PETS: Pet[] = [
   },
   {
     id: 2,
-    profileImage: '/images/pet/pet2.png',
+    profileImage: 'https://picsum.photos/id/239/800/600',
     petName: '미미',
     birthdate: new Date('2020-01-01'),
     breed: '포메라니안',
