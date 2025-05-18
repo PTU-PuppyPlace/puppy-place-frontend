@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
@@ -11,20 +11,23 @@ type TextAreaProps = {
   name: string;
 };
 
-const TextArea = (props: TextAreaProps) => {
+const TextArea = forwardRef(function TextArea(
+  props: TextAreaProps,
+  ref?: React.Ref<HTMLTextAreaElement>
+) {
   const { errorText, ...rest } = props;
   return (
     <TextAreaWrapper>
-      <StyledTextArea {...rest} $isError={!!errorText} />
+      <StyledTextArea {...rest} $isError={!!errorText} ref={ref} />
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </TextAreaWrapper>
   );
-};
+});
 
 export default TextArea;
 
 const StyledTextArea = styled.textarea<{ $isError?: boolean }>`
-  width: 335px;
+  width: 100%;
   height: 124px;
   border-radius: 8px;
   background-color: ${theme.extraWhite};
