@@ -83,7 +83,6 @@ textarea {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
   font: inherit;
   vertical-align: baseline;
 }
@@ -141,4 +140,8 @@ textarea {
   box-shadow: none;
 
   resize: none; /*remove the resize handle on the bottom right*/
+}
+
+img {
+  height: inherit;
 }

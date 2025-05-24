@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
-import NavigationDown from "@/components/icons/navigation-down.svg";
+'use client';
 
-interface Option {
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+import NavigationDown from '@/components/icons/navigation-down.svg';
+import { UseFormSetValue, UseFormTrigger } from 'react-hook-form';
+
+export interface Option {
   value: string;
   label: string;
 }
@@ -11,32 +14,62 @@ interface Option {
 interface SelectProps {
   options: Option[];
   placeholder?: string;
-  onChange?: (value: string) => void;
   errorText?: string;
   disabled?: boolean;
-  selectedValue?: string;
+  defaultValue?: string;
+  width?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
+  reactHookForm?: {
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
+    name: string;
+  };
 }
 
 const Select: React.FC<SelectProps> = ({
   options,
-  placeholder = "선택",
-  onChange,
+  placeholder = '선택',
   errorText,
   disabled,
-  selectedValue,
+  defaultValue,
+  width = '100%',
+  onChange,
+  value,
+  reactHookForm,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(() => {
+    if (value) {
+      return options.find((option) => option.value === value) || null;
+    }
+    if (defaultValue) {
+      return options.find((option) => option.value === defaultValue) || null;
+    }
+    return null;
+  });
   const selectRef = useRef<HTMLDivElement>(null);
+  const hiddenInputRef = useRef<HTMLSelectElement>(null);
 
   const handleSelect = (option: Option) => {
     setSelectedOption(option);
     setIsOpen(false);
-    if (onChange) {
-      onChange(option.value);
+
+    // Hidden input에 선택된 option의 value를 설정하고 change 이벤트를 발생시킴.
+    // formData를 사용하므로 hidden input을 사용하여 값을 전달함.
+    if (hiddenInputRef.current) {
+      hiddenInputRef.current.value = option.value;
+      const event = new Event('change', { bubbles: true });
+      hiddenInputRef.current.dispatchEvent(event);
+    }
+    if (reactHookForm) {
+      const { setValue, trigger, name } = reactHookForm;
+      setValue(name, option.value);
+      trigger(name);
     }
   };
 
+  // Select 밖을 클릭하면 dropdown이 닫히게 하기 위한 로직
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
@@ -47,36 +80,47 @@ const Select: React.FC<SelectProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
 
-  useEffect(() => {
-    if (selectedValue) {
-      const option = options.find((option) => option.value === selectedValue);
-      setSelectedOption(option || null);
-    }
-  }, [selectedValue, options]);
-
   return (
     <SelectContainer ref={selectRef}>
+      <HiddenSelect
+        ref={hiddenInputRef}
+        name={reactHookForm?.name}
+        defaultValue={defaultValue}
+        disabled={disabled}
+        onChange={onChange}
+        value={value}
+      >
+        <option value=''>선택</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </HiddenSelect>
+
       <SelectButton
+        type='button'
         onClick={() => setIsOpen(!isOpen)}
         $isOpen={isOpen}
         $hasError={!!errorText}
         disabled={disabled}
+        width={width}
       >
         {selectedOption ? (
           <SelectedLabel>{selectedOption.label}</SelectedLabel>
         ) : (
           <Placeholder disabled={disabled}>{placeholder}</Placeholder>
         )}
-        <NavigationDown width="20" height="20" />
+        <NavigationDown width='20' height='20' />
       </SelectButton>
-      <OptionsList $isOpen={isOpen}>
+      <OptionsList $isOpen={isOpen} width={width}>
         {options.map((option) => (
           <Option key={option.value} onClick={() => handleSelect(option)}>
             <OptionText>{option.label}</OptionText>
@@ -92,17 +136,27 @@ export default Select;
 
 const SelectContainer = styled.div`
   position: relative;
+  flex: 1;
+`;
+
+const HiddenSelect = styled.select`
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 `;
 
 const SelectButton = styled.button<{
   $isOpen: boolean;
   $hasError: boolean;
   disabled?: boolean;
+  width?: string;
 }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 335px;
+  width: ${({ width }) => width};
   height: 40px;
   padding: 12px 12px 12px 16px;
   background-color: ${theme.extraWhite};
@@ -128,23 +182,22 @@ const SelectButton = styled.button<{
     `
     background-color: ${theme.background};
     cursor: not-allowed;
-
     `}
 `;
 
-const OptionsList = styled.ul<{ $isOpen: boolean }>`
+const OptionsList = styled.ul<{ $isOpen: boolean; width?: string }>`
   position: absolute;
   top: 40px;
   left: 0;
   right: 0;
   background-color: ${theme.extraWhite};
-  width: 335px;
+  width: ${({ width }) => width};
   border: 1px solid ${theme.gray.g03};
   border-top: none;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   z-index: 10;
-  display: ${(props) => (props.$isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   max-height: 200px;
   overflow-y: auto;
 `;

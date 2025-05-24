@@ -1,28 +1,34 @@
+'use client';
+
 import styled from 'styled-components';
 import theme from '@/styles/theme';
+import { forwardRef } from 'react';
+import ErrorText from './ErrorText';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   errorText?: string;
   disabled?: boolean;
   width?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
+  name: string;
 }
 
-const TextField = (props: TextFieldProps) => {
+const TextField = forwardRef(function TextField(
+  props: TextFieldProps,
+  ref?: React.Ref<HTMLInputElement>
+) {
   const { errorText, children, width, ...rest } = props;
   return (
     <TextFieldSection>
       <TextFieldWrapper $width={width}>
-        <StyledTextField {...rest} $isError={!!errorText} />
+        <StyledTextField {...rest} $isError={!!errorText} ref={ref} />
         {children}
       </TextFieldWrapper>
       {errorText && <ErrorText>{errorText}</ErrorText>}
     </TextFieldSection>
   );
-};
+});
 
 export default TextField;
 
@@ -35,6 +41,8 @@ const StyledTextField = styled.input<{ $isError?: boolean }>`
       $isError ? `${theme.danger.d100}` : `${theme.gray.g20}`};
   color: ${theme.gray.g100};
   flex: 1;
+  min-width: 0;
+
   &::placeholder {
     color: ${theme.gray.g40};
   }
@@ -50,15 +58,9 @@ const StyledTextField = styled.input<{ $isError?: boolean }>`
   }
 `;
 
-const ErrorText = styled.div`
-  color: ${theme.danger.d100};
-  font-size: ${theme.caption12};
-`;
-
 const TextFieldWrapper = styled.div<{ $width?: string }>`
   width: ${({ $width }) => $width || '100%'};
   display: flex;
-  flex-direction: row;
   gap: 8px;
   width: 100%;
   align-items: center;

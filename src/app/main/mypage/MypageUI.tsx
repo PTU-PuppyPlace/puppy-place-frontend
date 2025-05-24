@@ -1,0 +1,84 @@
+'use client';
+
+import styled from 'styled-components';
+import Divider from '@/components/common/Divider';
+import Header from './_components/Header';
+import UserInfo from './_components/UserInfo';
+import PetSection from './_components/PetSection';
+import VisitedCafesSection from './_components/VisitedCafesSection';
+import LinkSection from './_components/LinkSection';
+import LogoutButtonWrapper from './_components/LogoutButtonWrapper';
+import { useRouter } from 'next/navigation';
+import { SAMPLE_PETS } from '@/mocks/pet';
+
+interface UserProfileType {
+  nickname: string;
+  loginMethod: string;
+}
+
+interface MypageUIProps {
+  userProfile: UserProfileType;
+}
+
+export default function MypageUI({ userProfile }: MypageUIProps) {
+  const router = useRouter();
+
+  // 이벤트 핸들러 구현
+  const handleSettingsClick = () => {
+    router.push('/main/mypage/setting');
+  };
+
+  const handleRegisterPet = () => {
+    router.push('/main/mypage/pet-register');
+  };
+
+  const handleSeeAllCafes = () => {
+    console.log('방문 카페 전체보기 클릭');
+  };
+
+  const handleFriendsClick = () => {
+    console.log('친구 관리 클릭');
+  };
+
+  const handleInquiryClick = () => {
+    router.push('/main/mypage/inquiry');
+  };
+
+  const handleRegisterPlaceClick = () => {
+    console.log('장소 등록 클릭');
+  };
+
+  return (
+    <Container>
+      <Header onSettingsClick={handleSettingsClick} />
+
+      <UserInfo
+        userName={`${userProfile.nickname} 님`}
+        loginMethod={userProfile.loginMethod}
+      />
+
+      <PetSection pets={SAMPLE_PETS} onRegisterPet={handleRegisterPet} />
+
+      <Divider type='thin' />
+
+      <VisitedCafesSection cafes={[]} onSeeAll={handleSeeAllCafes} />
+
+      <Divider type='thin' />
+
+      <LinkSection title='친구 관리' onClick={handleFriendsClick} />
+
+      <LinkSection title='문의 내역' onClick={handleInquiryClick} />
+
+      <LinkSection title='장소 등록' onClick={handleRegisterPlaceClick} />
+
+      <LogoutButtonWrapper />
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  width: 100%;
+  min-height: 100%;
+  background-color: ${({ theme }) => theme.extraWhite};
+  padding-bottom: 80px;
+`;

@@ -7,6 +7,7 @@ import StyledComponentsRegistry from './registry';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import localFont from 'next/font/local';
+import { Toaster } from 'react-hot-toast';
 
 const pretendard = localFont({
   src: [
@@ -14,6 +15,11 @@ const pretendard = localFont({
       path: '../fonts/Pretendard-Bold.otf',
       weight: '700',
       style: 'bold',
+    },
+    {
+      path: '../fonts/Pretendard-Medium.otf',
+      weight: '500',
+      style: 'medium',
     },
     {
       path: '../fonts/Pretendard-Medium.otf',
@@ -39,16 +45,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <style jsx global>{`
-        html {
-          font-family: ${pretendard.style.fontFamily};
-        }
-      `}</style>
+    <html lang='en' className={pretendard.className}>
       <StyledComponentsRegistry>
         <ThemeProvider theme={theme}>
           <LayoutWrapper id='layoutWrapper'>
             <Layout>{children}</Layout>
+            <Toaster />
           </LayoutWrapper>
         </ThemeProvider>
       </StyledComponentsRegistry>

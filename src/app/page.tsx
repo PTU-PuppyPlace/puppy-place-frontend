@@ -1,14 +1,5 @@
-"use client";
-
-import Link from "next/link";
-import styled from "styled-components";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <StyleLink href="/login">로그인 페이지로 이동</StyleLink>;
+  redirect('/main/map');
 }
-
-const StyleLink = styled(Link)`
-  background-color: ${({ theme }) => theme.gray.g10};
-  padding: 10px;
-  border-radius: 10px;
-`;

@@ -1,8 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import theme from "@/styles/theme";
+'use client';
 
-type AlertType = "default" | "confirm" | "destructive";
+import React from 'react';
+import styled from 'styled-components';
+import theme from '@/styles/theme';
+
+type AlertType = 'default' | 'confirm' | 'destructive';
 
 interface AlertProps {
   type?: AlertType;
@@ -11,6 +13,7 @@ interface AlertProps {
   cancelLabel?: string;
   actionLabel?: string;
   isOpen: boolean;
+  onClose: () => void;
   onAction?: () => void;
   onCancel?: () => void;
 }
@@ -30,30 +33,66 @@ export const Alert: React.FC<AlertProps> = (props) => {
 
 const ButtonGroup: React.FC<AlertProps> = ({
   type,
-  actionLabel = "확인",
-  cancelLabel = "아니요",
-  onAction,
-  onCancel,
+  actionLabel = '확인',
+  cancelLabel = '아니요',
+  onAction = () => {},
+  onCancel = () => {},
+  onClose,
 }) => {
   switch (type) {
-    case "confirm":
+    case 'confirm':
       return (
         <ButtonSpace>
-          <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
-          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
+          <CancelButton
+            onClick={() => {
+              onCancel();
+              onClose();
+            }}
+          >
+            {cancelLabel}
+          </CancelButton>
+          <PositiveButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </PositiveButton>
         </ButtonSpace>
       );
-    case "destructive":
+    case 'destructive':
       return (
         <ButtonSpace>
-          <CancelButton onClick={onCancel}>{cancelLabel}</CancelButton>
-          <NegativeButton onClick={onAction}>{actionLabel}</NegativeButton>
+          <CancelButton
+            onClick={() => {
+              onCancel();
+              onClose();
+            }}
+          >
+            {cancelLabel}
+          </CancelButton>
+          <NegativeButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </NegativeButton>
         </ButtonSpace>
       );
     default:
       return (
         <ButtonSpace>
-          <PositiveButton onClick={onAction}>{actionLabel}</PositiveButton>
+          <PositiveButton
+            onClick={() => {
+              onAction();
+              onClose();
+            }}
+          >
+            {actionLabel}
+          </PositiveButton>
         </ButtonSpace>
       );
   }

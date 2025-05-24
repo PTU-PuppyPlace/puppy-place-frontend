@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styled, { css } from 'styled-components';
 import theme from '@/styles/theme';
@@ -8,17 +10,17 @@ export type ButtonVariant =
   | 'default'
   | 'outline'
   | 'danger-primary'
-  | 'danger-secondary';
+  | 'danger-secondary'
+  | 'danger-outline';
 
 // Button sizes
-export type ButtonSize = '32' | '40' | '52';
+export type ButtonSize = '32' | '40' | '52' | 'none';
 
 // Button props
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   children: React.ReactNode;
-  onClick: () => void;
   disabled?: boolean;
   isCircular?: boolean;
   isIconOnly?: boolean;
@@ -168,6 +170,22 @@ const StyledButton = styled.button<ButtonProps>`
           background-color: ${theme.extraWhite};
           color: ${theme.danger.d100};
           border: 1px solid ${theme.gray.g20};
+          & svg {
+            stroke: ${theme.danger.d100};
+          }
+          &:disabled {
+            border: 1px solid ${theme.gray.g10};
+            color: ${theme.danger.d40};
+            & svg {
+              stroke: ${theme.danger.d40};
+            }
+          }
+        `;
+      case 'danger-outline':
+        return css`
+          background-color: ${theme.extraWhite};
+          color: ${theme.gray.g100};
+          border: 1px solid ${theme.danger.d100};
           & svg {
             stroke: ${theme.danger.d100};
           }
