@@ -25,7 +25,7 @@ export default function MypageUI({ userProfile }: MypageUIProps) {
 
   // 이벤트 핸들러 구현
   const handleSettingsClick = () => {
-    console.log('설정 버튼 클릭');
+    router.push('/main/mypage/setting');
   };
 
   const handleRegisterPet = () => {

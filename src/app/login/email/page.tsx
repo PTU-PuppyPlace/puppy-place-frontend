@@ -33,7 +33,7 @@ const Login = () => {
       </Form>
       <Links>
         <Link href='/signup'>회원가입</Link>
-        <Link href='/find-password'>비밀번호 재설정</Link>
+        <Link href='/change-password'>비밀번호 재설정</Link>
       </Links>
     </>
   );

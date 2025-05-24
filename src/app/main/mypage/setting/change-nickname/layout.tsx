@@ -5,8 +5,10 @@ import Header from '@/components/layout/Header';
 import React from 'react';
 import styled from 'styled-components';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const pathname = usePathname();
   const phase = pathname.split('/').pop();
 
@@ -14,10 +16,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <Header
         onGoBack={() => {
-          console.log('뒤로가기');
+          router.push('/main/mypage/setting/account-info');
         }}
       >
-        비밀번호 재설정
+        닉네임 변경
       </Header>
       <Progress phase={Number(phase)} />
       <Section>{children}</Section>
