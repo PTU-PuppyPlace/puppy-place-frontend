@@ -4,17 +4,18 @@ import Progress from '@/components/common/Progress';
 import Header from '@/components/layout/Header';
 import React from 'react';
 import styled from 'styled-components';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const phase = pathname.split('/').pop();
+  const router = useRouter();
 
   return (
     <>
       <Header
         onGoBack={() => {
-          console.log('뒤로가기');
+          router.push('/main/mypage/setting/account-info');
         }}
       >
         비밀번호 재설정
