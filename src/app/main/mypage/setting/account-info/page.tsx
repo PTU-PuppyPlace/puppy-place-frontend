@@ -28,7 +28,7 @@ export default function AccountInfoPage() {
   };
 
   const handleChangePassword = () => {
-    router.push('/find-password');
+    router.push('/change-password');
   };
 
   return (

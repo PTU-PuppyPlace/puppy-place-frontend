@@ -13,30 +13,21 @@ export default function Page() {
 
   return (
     <>
-      <StyledTitle>{`인증번호가 전송되었습니다.\n6자리 인증번호를 입력해 주세요.`}</StyledTitle>
+      <StyledTitle>{`인증받을 아이디(이메일)를\n입력해 주세요.`}</StyledTitle>
       <StyledForm>
         <StyledField>
-          <Label>인증번호</Label>
-          <TextField name='code'>
-            <Button
-              onClick={() => {}}
-              variant='default'
-              size='32'
-              type='button'
-            >
-              재전송
-            </Button>
-          </TextField>
+          <Label>이메일 인증</Label>
+          <TextField name='email' />
         </StyledField>
         <CTABottom>
           <Button
             onClick={() => {
-              router.push('/find-password/3');
+              router.push('/change-password/2');
             }}
             variant='primary'
             size='52'
           >
-            인증번호 확인
+            인증번호 요청
           </Button>
         </CTABottom>
       </StyledForm>
