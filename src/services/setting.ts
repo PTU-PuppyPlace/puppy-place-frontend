@@ -4,3 +4,10 @@ export const getVersion = () => {
     latestVersion: '1.0.1',
   };
 };
+
+export const getAccountInfo = () => {
+  return {
+    nickname: '몽글어멈',
+    email: 'asdf***as@puppyplace.com',
+  };
+};

@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import NavigationLeft from '@/components/icons/navigation-left.svg';
-import { LinkSection } from '../_components';
+import { LinkSection, SectionTitle } from '../_components';
 import Divider from '@/components/common/Divider';
 import Button from '@/components/common/Button';
 import { getVersion } from '@/services/setting';
@@ -84,27 +84,6 @@ const HeaderTitle = styled.h1`
   margin: 0; // Remove default margin
 `;
 
-const SectionTitle = styled.h2`
-  font-size: ${({ theme }) => theme.body13};
-  color: ${({ theme }) => theme.gray.g100};
-  padding: 24px 20px 0 20px;
-`;
-
-const SectionContainer = styled.div`
-  padding: 12px 20px;
-  height: 64px;
-  border-bottom: 1px solid ${({ theme }) => theme.gray.g10};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const SectionText = styled.h2`
-  font-size: ${({ theme }) => theme.body17};
-  font-weight: ${({ theme }) => theme.bold};
-  color: ${({ theme }) => theme.gray.g100};
-`;
-
 const Flex = styled.div`
   display: flex;
   align-items: center;
@@ -115,4 +94,19 @@ const VersionText = styled.span`
   font-size: ${({ theme }) => theme.caption13};
   font-weight: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.gray.g60};
+`;
+
+const SectionText = styled.h2`
+  font-size: ${({ theme }) => theme.body17};
+  font-weight: ${({ theme }) => theme.bold};
+  color: ${({ theme }) => theme.gray.g100};
+`;
+
+const SectionContainer = styled.div`
+  padding: 12px 20px;
+  height: 64px;
+  border-bottom: 1px solid ${({ theme }) => theme.gray.g10};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
