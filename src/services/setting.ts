@@ -11,3 +11,11 @@ export const getAccountInfo = () => {
     email: 'asdf***as@puppyplace.com',
   };
 };
+
+export const changeNickname = async (nickname: string) => {
+  console.log(nickname);
+  return {
+    isSuccess: true,
+    message: '닉네임이 변경되었습니다.',
+  };
+};

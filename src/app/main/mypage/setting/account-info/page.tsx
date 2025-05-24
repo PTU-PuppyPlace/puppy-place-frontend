@@ -24,7 +24,7 @@ export default function AccountInfoPage() {
   };
 
   const handleChangeNickname = () => {
-    router.push('/main/mypage/setting/account-info/change-nickname');
+    router.push('/main/mypage/setting/change-nickname');
   };
 
   const handleChangePassword = () => {
